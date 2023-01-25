@@ -1,3 +1,8 @@
 {
-
+  "verified": {
+    "body": "Your account has been verified!",
+    "button": "Start"
+  },
+  "unverified": "Your account has not been verified, please check you email",
+  "button": "Resend email"
 }

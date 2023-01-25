@@ -5,8 +5,10 @@ import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import {CardActionArea, Grid, Button, CardActions} from '@mui/material';
 import '../App.css';
+import {useTranslation} from "react-i18next";
 
 export default function Unverified() {
+    const {t} = useTranslation()
     return (
         <Grid item xs={3} className="cardUnverified">
             <Card sx={{ maxWidth: 345 }}>
@@ -14,7 +16,7 @@ export default function Unverified() {
                     <CardMedia
                         component="img"
                         height="140"
-                        image="./images/random.jpeg"
+                        image="../images/random.jpeg"
                         alt="profile"
                     />
                     <CardContent>
@@ -22,12 +24,12 @@ export default function Unverified() {
                             John Lennon
                         </Typography>
                         <Typography variant="body2" color="text.secondary">
-                            Your account has not been verified, please check our email.
+                            {t('unverified.body')}
                         </Typography>
                     </CardContent>
                     <CardActions>
                         <Button size="small" color="primary">
-                            Resend email
+                            {t('unverified.button')}
                         </Button>
                     </CardActions>
                 </CardActionArea>

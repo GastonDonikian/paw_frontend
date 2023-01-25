@@ -3,6 +3,7 @@ import {BrowserRouter as Router, Route, Routes} from "react-router-dom";
 import Login from './Pages/Authentication/Login'
 import Navbar from'./Navbar'
 import './App.css';
+import Unverified from "./components/unverified";
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
             <Route path="/login" element={<Login/>}/>
           </Routes>
       </Router>
+          <Unverified></Unverified>
       </div>
   );
 }
