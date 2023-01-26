@@ -12,7 +12,10 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { login } from '../../Services/Auth'
+import { useNavigate } from "react-router-dom";
+import { login, getUserById } from './AuthHelper'
+import {useState} from "react";
+import {Alert} from "@mui/material";
 function Copyright(props: any) {
     return (
         <Typography variant="body2" color="text.secondary" align="center" {...props}>
@@ -29,25 +32,31 @@ function Copyright(props: any) {
 const theme = createTheme();
 
 export default function SignIn() {
+    const [rememberMe, setRememberMe] = React.useState(false);
+    const [userNotVerified, setUserNotVerified] = useState(false);
+    const [badCredentials, setBadCredentials] = useState(false);
+    const navigate = useNavigate();
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
         let authenticationData;
         try {
-            authenticationData = await login(data.get('email') as string, data.get('password') as string);
-            let token;
-            if(authenticationData.headers.authorization !== undefined)
-                token = authenticationData.headers.authorization.substring("Bearer ".length);
-            let user_url: string = authenticationData.data["user_url"];
-            if(token !== undefined){
-                if(data.get('rememberme')) localStorage.setItem('token', token);
-                else sessionStorage.setItem('token', token);
-
+            await login(data.get('email') as string, data.get('password') as string, rememberMe as boolean);
+            navigate('/');
+        } catch(error: any) {
+            if(error.response){
+                if(error.response.status === 401){
+                    setBadCredentials(true);
+                    setUserNotVerified(false);
+                } else if(error.response.status ===  403){
+                    setUserNotVerified(true);
+                    setBadCredentials(false);
+                    navigate("/verify");
+                }
+            } else {
+                console.log('Should have casual server is down...');
             }
-        } catch (error: any){
-
         }
-
     };
 
     return (
@@ -69,6 +78,8 @@ export default function SignIn() {
                         Sign in
                     </Typography>
                     <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+                        {badCredentials ? (<Alert severity="error">User or password is invalid!</Alert>) : userNotVerified ? (
+                            <Alert severity="error">User not verified!</Alert>) : (<></>)}
                         <TextField
                             margin="normal"
                             required
@@ -90,6 +101,7 @@ export default function SignIn() {
                             autoComplete="current-password"
                         />
                         <FormControlLabel
+                            onChange={() => setRememberMe(!rememberMe)}
                             control={<Checkbox value="remember" color="primary" />}
                             label="Remember me"
                         />
