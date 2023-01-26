@@ -13,7 +13,7 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useNavigate } from "react-router-dom";
-import { login, getUserById } from './AuthHelper'
+import isVerified, { login, getUserById } from './AuthHelper'
 import {useState} from "react";
 import {Alert} from "@mui/material";
 function Copyright(props: any) {
@@ -42,7 +42,9 @@ export default function SignIn() {
         let authenticationData;
         try {
             await login(data.get('email') as string, data.get('password') as string, rememberMe as boolean);
-            navigate('/');
+            if(isVerified())
+                navigate('/');
+            else navigate('/verify');
         } catch(error: any) {
             if(error.response){
                 if(error.response.status === 401){

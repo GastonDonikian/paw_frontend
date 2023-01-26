@@ -1,6 +1,6 @@
 import { apiLogin } from '../../Services/Auth'
 import { apiGetUserById } from "../../Services/UserService";
-
+import jwt from "jwt-decode";
 export async function login(username: string,password: string,rememberMe: boolean){
     console.log(username + " " + password + " " + rememberMe);
     let authenticationData;
@@ -19,8 +19,23 @@ export async function login(username: string,password: string,rememberMe: boolea
             localStorage.removeItem('token');
         }
     }
+    token && await getUserFromToken(token);
+}
+
+export async function getUserFromToken(token: string){
+    // @ts-ignore
+    console.log(await getUserById(jwt(token)['id']));
+}
+
+export default function isVerified() {
+    let token = localStorage.getItem('token') === null ? sessionStorage.getItem('token') : localStorage.getItem('token');
+    if(token) {
+        // @ts-ignore
+        return jwt(token)['verified']
+    }
+    return false;
 }
 
 export async function getUserById(id: number) {
-    return apiGetUserById(1);
+    return apiGetUserById(id);
 }
