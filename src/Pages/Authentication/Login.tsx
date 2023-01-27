@@ -71,9 +71,15 @@ export default function SignIn() {
                         display: 'flex',
                         flexDirection: 'column',
                         alignItems: 'center',
+                        bgcolor: 'white',
+                        paddingTop: 2,
+                        paddingLeft: 3,
+                        paddingRight: 3,
+                        paddingBottom: 3,
+                        borderRadius: '5px'
                     }}
                 >
-                    <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
+                    <Avatar sx={{ m: 1, bgcolor: '#349AC2' }}>
                         <LockOutlinedIcon />
                     </Avatar>
                     <Typography component="h1" variant="h5">
@@ -111,7 +117,8 @@ export default function SignIn() {
                             type="submit"
                             fullWidth
                             variant="contained"
-                            sx={{ mt: 3, mb: 2 }}
+                            sx={{ mt: 3, mb: 2, bgcolor: '#349AC2' }}
+                            
                         >
                             Sign In
                         </Button>

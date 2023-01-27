@@ -4,7 +4,8 @@ import Login from './Pages/Authentication/Login'
 import Navbar from'./Navbar'
 import './App.css';
 import Verify from "./Pages/Authentication/verify";
-import Home from "./Pages/home";
+import Home from "./Pages/Home";
+import MainBackground from './components/mainBackground';
 
 function App() {
   return (
@@ -20,7 +21,8 @@ function App() {
             <Routes>
                 <Route path="/verify" element={<Verify/>}/>
             </Routes>
-        </Router>
+      </Router>
+      <MainBackground />
       </div>
   );
 }
