@@ -11,6 +11,7 @@ import MainBackground from './components/mainBackground';
 import RegisterStudent from "./Pages/Authentication/RegisterStudent";
 import RegisterProfessor from "./Pages/Authentication/RegisterProfessor";
 import Logout from "./Pages/Authentication/Logout";
+import ProfessorProfile from './Pages/Profiles/ProfessorProfile';
 
 function App() {
   return (
@@ -41,7 +42,9 @@ function App() {
             <Routes>
                 <Route path="/studentProfile" element={<StudentProfile/>}/>
             </Routes>
-
+            <Routes>
+                <Route path="/professorProfile" element={<ProfessorProfile/>}/>
+            </Routes>
             
       </Router>
       <MainBackground />
