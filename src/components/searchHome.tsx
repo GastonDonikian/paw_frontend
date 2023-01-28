@@ -81,11 +81,6 @@ export default function SearchHome() {
                             </Grid>
                         </Grid>
                     </Box>
-
-
-            
-            
-            
         </Container>
     );
 }

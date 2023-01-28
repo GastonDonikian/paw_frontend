@@ -6,6 +6,7 @@ import './App.css';
 import Verify from "./Pages/Authentication/verify";
 import Home from "./Pages/Home";
 import MainBackground from './components/mainBackground';
+import RegisterStudent from "./Pages/Authentication/RegisterStudent";
 
 function App() {
   return (
@@ -17,6 +18,9 @@ function App() {
             </Routes>
             <Routes>
                 <Route path="/login" element={<Login/>}/>
+            </Routes>
+            <Routes>
+                <Route path="/registerStudent" element={<RegisterStudent/>}/>
             </Routes>
             <Routes>
                 <Route path="/verify" element={<Verify/>}/>

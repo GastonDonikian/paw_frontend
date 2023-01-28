@@ -9,11 +9,11 @@ import '../App.css';
 
 export default function RegisterHome() {
     return (
-            <Card >
+        <Card >
                 <CardActionArea sx={{ p:2, textAlign: 'center',display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
-                <Avatar sx={{ m: 1, bgcolor: '#349AC2' }}>
+                    <Avatar sx={{ m: 1, bgcolor: '#349AC2' }}>
                     <LibraryBooksOutlinedIcon />
-                </Avatar>
+                    </Avatar>
                     <CardContent>
                         <Typography gutterBottom variant="h5" component="div">
                             Want to be a proffessor or a student?
@@ -22,8 +22,7 @@ export default function RegisterHome() {
                             Register and start right away!
                         </Typography>
                     </CardContent>
-                
                 </CardActionArea>
-            </Card>
+        </Card>
     );
 }

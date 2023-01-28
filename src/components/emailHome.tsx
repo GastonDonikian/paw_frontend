@@ -9,20 +9,19 @@ import '../App.css';
 
 export default function EmailHome() {
     return (
-        <Card sx={{height: '100%'}} >
-            <CardActionArea sx={{p:2, textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
+        <Card>
+            <CardActionArea sx={{ p:2, textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
                 <Avatar sx={{ m: 1, bgcolor: '#349AC2' }}>
                     <EmailOutlinedIcon />
                 </Avatar>
                 <CardContent>
                     <Typography gutterBottom variant="h5" component="div">
-                        Give us your opinion
+                        Want to improve the page or give us feedback?
                     </Typography>
                     <Typography variant="body2" color="text.secondary">
                         Send us an email
                     </Typography>
                 </CardContent>
-            
             </CardActionArea>
         </Card>
     );
