@@ -36,6 +36,11 @@ export function isVerified() {
     return false;
 }
 
+export function logout() {
+    localStorage.clear();
+    sessionStorage.clear();
+}
+
 export function isAuthenticated(){
     let token = localStorage.getItem('token') === null ? sessionStorage.getItem('token') : localStorage.getItem('token');
     // @ts-ignore

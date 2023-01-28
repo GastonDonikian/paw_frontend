@@ -11,18 +11,19 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
-import AdbIcon from '@mui/icons-material/Adb';
-import {Link} from "react-router-dom";
-import { bgcolor } from '@mui/system';
+import {isAuthenticated} from "./Services/AuthHelper";
 import "./App.css"
 
-const pages = ['Professors', 'Classes'];
-const settings = ['Profile', 'Login'];
+const pagesLoggedIn = ['Professors', 'Classes'];
+const pagesLoggedOut =  ['Professors'];
+const settingsLoggedIn = ['My Profile', 'Logout'];
+const settingsLoggedOut = ['Register', 'Login'];
 
 function Navbar() {
     const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
     const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
-
+    let settings = isAuthenticated() ? settingsLoggedIn : settingsLoggedOut;
+    let pages = isAuthenticated() ? pagesLoggedIn : pagesLoggedOut;
     const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorElNav(event.currentTarget);
     };
@@ -120,7 +121,8 @@ function Navbar() {
                             open={Boolean(anchorElUser)}
                             onClose={handleCloseUserMenu}
                         >
-                            {settings.map((setting) => (
+                            {
+                                settings.map((setting) => (
                                 <MenuItem component="a" href={setting.toLowerCase()} key={setting}>
                                     <Typography textAlign="center">{setting}</Typography>
                                 </MenuItem>

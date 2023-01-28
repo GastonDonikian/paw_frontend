@@ -1,26 +1,23 @@
 import * as React from 'react';
+import {useState} from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
 import Link from '@mui/material/Link';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { useNavigate } from "react-router-dom";
-import  {isVerified, login, getUserById } from '../../Services/AuthHelper'
-import {useState} from "react";
+import {createTheme, ThemeProvider} from '@mui/material/styles';
+import {useNavigate} from "react-router-dom";
 import {Alert} from "@mui/material";
-import {RegisterStudentModel } from '../../Models/RegisterStudentModel'
 import * as Yup from 'yup';
-import {Form, Formik, Field, ErrorMessage} from "formik";
-import {apiRegisterStudent} from "../../Services/UserService";
+import {Field, Form, Formik} from "formik";
+import {apiRegisterProfessor} from "../../Services/UserService";
 import {apiLogin} from "../../Services/Auth";
+import {RegisterProfessorModel} from "../../Models/RegisterProfessorModel";
 
 
 function Copyright(props: any) {
@@ -38,18 +35,22 @@ function Copyright(props: any) {
 
 const theme = createTheme();
 
-export default function RegisterStudent() {
+export default function RegisterProfessor() {
     const navigate = useNavigate();
     const [badCredentials, setBadCredentials] = useState(false);
     const phoneRegExp = /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/
-    const registerStudentFormik = {
+    const registerProfessorFormik = {
         initialValues: {
             email: "",
             password: "",
             repeatPassword: "",
             name: "",
             surname: "",
-            phoneNumber: ""
+            phoneNumber: "",
+            schedule: "",
+            studies: "",
+            description: "",
+            location: "",
         },
         validationSchema: Yup.object().shape({
             email: Yup.string().email("Not an email"),
@@ -66,12 +67,20 @@ export default function RegisterStudent() {
                 .min(3, "Surname should be longer")
                 .max(40, "Surname should be shorter")
                 .required("Surname is required!"),
-            phoneNumber: Yup.string().matches(phoneRegExp, 'Phone number is not valid')
+            phoneNumber: Yup.string().matches(phoneRegExp, 'Phone number is not valid'),
+            schedule: Yup.string()
+                .max(30, "Schedule shouls be shorter"),
+            studies: Yup.string()
+                .min(4, "Studies should be longer")
+                .max(40, "Studies should be shorter")
+                .required(),
+            description: Yup.string()
+                .max(200, "Description should be shorter")
         })
     }
-    const handleSubmit = async (values: RegisterStudentModel) => {
+    const handleSubmit = async (values: RegisterProfessorModel) => {
         try {
-            await apiRegisterStudent(values);
+            await apiRegisterProfessor(values);
             await apiLogin(values.email,values.password);
             navigate('/verify');
         } catch (error: any) {
@@ -109,7 +118,7 @@ export default function RegisterStudent() {
                     <Typography component="h1" variant="h5">
                         Register
                     </Typography>
-                    <Formik {...registerStudentFormik} onSubmit={handleSubmit}>
+                    <Formik {...registerProfessorFormik} onSubmit={handleSubmit}>
                         {({values, errors}) => (
                             <Form>
                                 {badCredentials ? <Alert severity="error">Something went wrong!</Alert> :
@@ -171,6 +180,42 @@ export default function RegisterStudent() {
                                     label="Phone number"
                                     name="phoneNumber"
                                 />
+                                <Field
+                                    as={TextField}
+                                    margin="normal"
+                                    fullWidth
+                                    id="schedule"
+                                    helperText={onError(errors['schedule'] || '')}
+                                    label="Schedule"
+                                    name="schedule"
+                                />
+                                <Field
+                                    as={TextField}
+                                    margin="normal"
+                                    fullWidth
+                                    id="studies"
+                                    helperText={onError(errors['studies'] || '')}
+                                    label="Studies"
+                                    name="studies"
+                                />
+                                <Field
+                                    as={TextField}
+                                    margin="normal"
+                                    fullWidth
+                                    id="description"
+                                    helperText={onError(errors['description'] || '')}
+                                    label="Description"
+                                    name="description"
+                                />
+                                <Field
+                                    as={TextField}
+                                    margin="normal"
+                                    fullWidth
+                                    id="location"
+                                    helperText={onError(errors['location'] || '')}
+                                    label="Location"
+                                    name="location"
+                                />
                                 <Button
                                     type="submit"
                                     fullWidth
@@ -181,8 +226,8 @@ export default function RegisterStudent() {
                                 </Button>
                                 <Grid container>
                                     <Grid item>
-                                        <Link href="/registerProfessor" variant="body2">
-                                            {"Want to teach? Click here"}
+                                        <Link href="/registerStudent" variant="body2">
+                                            {"Want to learn only? Click here"}
                                         </Link>
                                     </Grid>
                                 </Grid>
