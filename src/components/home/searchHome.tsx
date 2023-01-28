@@ -14,6 +14,8 @@ import { Category } from '../../Models/Category';
 
 
 export default function SearchHome() {
+
+    const categories = ['All', 'Language', 'Science', 'Social', 'Arts'];
     // const navigate = useNavigate();
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -21,20 +23,6 @@ export default function SearchHome() {
         //let authenticationData;
         console.log(data.get('search') as string);
     }
-/*
-    const category: Category = {name: 'All'}
-
-    const FilterButton = (category as Category) => { (
-        <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            sx={{ mt: 3, mb: 2, bgcolor: '#349AC2' }}
-            
-        >
-            {{category.name as string}}
-        </Button>
-    )} */
 
     return (
         <Container  maxWidth="md" sx={{background: 'white', flexDirection: 'column',
@@ -81,6 +69,18 @@ export default function SearchHome() {
                             </Grid>
                         </Grid>
                     </Box>
+
+                    <Container sx={{ flexDirection: 'row', textAlign:'center', alignItems: 'center', alignContent: 'center', display: { xs: 'none', md: 'flex' } }}>
+                        {categories.map((category) => (
+                            <Button
+                                key={category}
+                                disableFocusRipple
+                                sx={{ mr: 1, color: 'white', display: 'block', bgcolor: '#349AC2'}}
+                            >
+                                {category}
+                            </Button>
+                        ))}
+                    </Container>
 
 
             

@@ -11,7 +11,7 @@ import "../App.css"
 
 export default function Home() {
     return(
-        <Container component="main" maxWidth="xl" sx={{mt: 2,}} >
+        <Container component="main" maxWidth="xl" sx={{mt: 2, pb: 2}} >
             <Grid
                 container
                 justifyContent="center"

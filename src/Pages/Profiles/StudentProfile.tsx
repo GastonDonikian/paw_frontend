@@ -1,10 +1,13 @@
 import Container from '@mui/material/Container';
 import Card from '@mui/material/Card';
+import List from '@mui/material/List';
+import Divider from '@mui/material/Divider';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
-import {CardActionArea, Grid, Button, CardActions} from '@mui/material';
+import {CardActionArea, Grid, Button, CardActions, CardHeader} from '@mui/material';
 import '../../App.css'
+import DisplayListItem from '../../components/DisplayListItem';
 
 
 export default function StudentProfile() {
@@ -19,8 +22,8 @@ export default function StudentProfile() {
                     spacing={5} 
                     >
             <Grid item xs={4}>
-                <Card>
-                <CardActionArea sx={{ p:2, display: 'flex', alignItems: 'flex-start'}}>
+                
+                <Container sx={{boxShadow: '0 3px 10px rgb(0 0 0 / 0.2)', bgcolor: 'white', borderRadius: '5px', p:2, display: 'flex', alignItems: 'flex-start'}}>
                 
                     <Grid
                     container
@@ -47,30 +50,35 @@ export default function StudentProfile() {
                     </Grid>
                 
                    
-                </CardActionArea>
-            </Card>
+                </Container>
+            
 
             
-                        </Grid>
-                        <Grid item xs={8}>
-                        <Card>
-                <CardActionArea sx={{ p:2, textAlign: 'center',display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
-                    <img src="./book.png" height={80} />
-                    <CardContent>
+                </Grid>
+                <Grid item xs={8}>
+                    <Container sx={{boxShadow: '0 3px 10px rgb(0 0 0 / 0.2)', 
+                       bgcolor: 'white', 
+                       borderRadius: '5px', 
+                       flexDirection: 'column',
+                       display: 'flex', 
+                       alignItems: 'flex-start', pl:0}}>
+
+                        <Container component="div" sx={{p: '0.75rem 1.25rem', mb:0, backgroundColor: 'rgba(0,0,0,.03)', borderBottom: '1px solid rgba(0,0,0,.125)' }}>
+                            <Typography variant="h5" gutterBottom component="div" >
+                            Contact information
+                        </Typography>
+                        </Container>
+                        <List sx={{ width: '100%', bgcolor: 'background.paper' }}>
+                            <DisplayListItem title="Mail" description="hola@gmail"/>
+                            <Divider variant="inset" component="li" sx={{ml:0}} />
+                        </List>
                         
-                    <Typography variant="body2" color="white" sx={{p: '4px 10px', mb: 2, background: '#00579E', borderRadius: '30px', display: 'inline-block'}}>
-                            Student
-                        </Typography>
 
+                                       
+                    </Container>
+                </Grid>
 
-                        <Typography variant="body2" color="text.secondary">
-                            Want to find professors and learn from them?
-                        </Typography>
-                    </CardContent>
-                </CardActionArea>
-            </Card>
-                        </Grid>
-                    </Grid>
+            </Grid>
         </Grid>
        
         
