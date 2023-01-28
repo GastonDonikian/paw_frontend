@@ -17,7 +17,7 @@ import * as Yup from 'yup';
 import {Field, Form, Formik} from "formik";
 import {apiRegisterProfessor} from "../../Services/UserService";
 import {apiLogin} from "../../Services/Auth";
-import {RegisterProfessorModel} from "../../Models/RegisterProfessorModel";
+import {RegisterProfessorModel} from "../../Models/Users/RegisterProfessorModel";
 
 
 function Copyright(props: any) {

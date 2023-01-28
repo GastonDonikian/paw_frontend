@@ -16,7 +16,7 @@ import "./App.css"
 
 const pagesLoggedIn = ['Professors', 'Classes'];
 const pagesLoggedOut =  ['Professors'];
-const settingsLoggedIn = ['My Profile', 'Logout'];
+const settingsLoggedIn = ['Profile', 'Logout'];
 const settingsLoggedOut = ['Register', 'Login'];
 
 function Navbar() {

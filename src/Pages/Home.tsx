@@ -1,4 +1,4 @@
-import {UserModel} from "../Models/User";
+import {UserModel} from "../Models/Users/User";
 import RegisterHome from "../components/home/registerHome";
 import EmailHome from "../components/home/emailHome";
 import Container from '@mui/material/Container';
@@ -38,10 +38,7 @@ export default function Home() {
                         </Grid>
                     </Grid>
                 </Grid>
-
             </Grid>
-            
-            
         </Container>
    
     );

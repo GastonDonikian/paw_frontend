@@ -39,7 +39,7 @@ function App() {
                 <Route path="/verify" element={<Verify/>}/>
             </Routes>
             <Routes>
-                <Route path="/studentProfile" element={<StudentProfile/>}/>
+                <Route path="/profile" element={<StudentProfile/>}/>
             </Routes>
 
             

@@ -1,11 +1,11 @@
 import {apiPrivate, apiPublic} from "./ServiceUtils";
-import {RegisterStudentModel} from "../Models/RegisterStudentModel";
-import {RegisterProfessorModel} from "../Models/RegisterProfessorModel";
+import {RegisterStudentModel} from "../Models/Users/RegisterStudentModel";
+import {RegisterProfessorModel} from "../Models/Users/RegisterProfessorModel";
 
 export async function apiGetUserById(id: number){
-    let userById = "users/" + id;
-    console.log(userById)
-    return await apiPrivate.get(userById);
+    let userById = "/users/" + id;
+    const response = await apiPrivate.get(userById)
+    return response.data;
 }
 
 export async function apiRegisterStudent(registerStudent: RegisterStudentModel){

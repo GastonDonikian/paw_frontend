@@ -16,7 +16,7 @@ import { useNavigate } from "react-router-dom";
 import  {isVerified, login, getUserById } from '../../Services/AuthHelper'
 import {useState} from "react";
 import {Alert} from "@mui/material";
-import {RegisterStudentModel } from '../../Models/RegisterStudentModel'
+import {RegisterStudentModel } from '../../Models/Users/RegisterStudentModel'
 import * as Yup from 'yup';
 import {Form, Formik, Field, ErrorMessage} from "formik";
 import {apiRegisterStudent} from "../../Services/UserService";

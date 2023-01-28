@@ -6,17 +6,24 @@ import Avatar from '@mui/material/Avatar';
 import CardContent from '@mui/material/CardContent';
 import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
 import Typography from '@mui/material/Typography';
-import {useState} from "react";
-import {CardActionArea, Grid, Button, CardActions} from '@mui/material';
+import {useEffect, useState} from "react";
+import {CardActionArea, Grid, Button, CardActions, CircularProgress} from '@mui/material';
 import '../../App.css';
 import { Container } from '@mui/system';
 import { Category } from '../../Models/Category';
+import {getCategories} from "../../Services/EnumService";
+
+
 
 
 export default function SearchHome() {
-
-    const categories = ['All', 'Language', 'Science', 'Social', 'Arts'];
     // const navigate = useNavigate();
+    const [categories, setCategories] = useState([]);
+    const load = async () => {
+        setCategories(await getCategories())
+    }
+    useEffect( () => {load()},
+        [])
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
@@ -31,8 +38,6 @@ export default function SearchHome() {
                 <Avatar sx={{ m: 1, bgcolor: '#349AC2', alignItems: 'center'}}>
                     <SearchOutlinedIcon/>
                 </Avatar>
-                
-                    
                     <Typography gutterBottom variant="h5" component="div">
                         Find specific professors for what you need
                     </Typography>
@@ -71,21 +76,16 @@ export default function SearchHome() {
                     </Box>
 
                     <Container sx={{ flexDirection: 'row', textAlign:'center', alignItems: 'center', alignContent: 'center', display: { xs: 'none', md: 'flex' } }}>
-                        {categories.map((category) => (
+                        {categories.length > 0 ?categories.map((category: any) => (
                             <Button
                                 key={category}
                                 disableFocusRipple
                                 sx={{ mr: 1, color: 'white', display: 'block', bgcolor: '#349AC2'}}
                             >
-                                {category}
+                                {category.category}
                             </Button>
-                        ))}
+                        )) : <CircularProgress/>}
                     </Container>
-
-
-            
-            
-            
         </Container>
     );
 }

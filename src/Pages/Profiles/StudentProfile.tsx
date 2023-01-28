@@ -5,12 +5,25 @@ import Divider from '@mui/material/Divider';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
-import {CardActionArea, Grid, Button, CardActions, CardHeader} from '@mui/material';
+import {CardActionArea, Grid, Button, CardActions, CardHeader, CircularProgress} from '@mui/material';
 import '../../App.css'
 import DisplayListItem from '../../components/DisplayListItem';
+import {useEffect, useState} from "react";
+import {getUserFromToken} from "../../Services/AuthHelper";
+import {UserModel} from "../../Models/Users/User";
+import * as React from "react";
 
 
 export default function StudentProfile() {
+
+    const [user, setUser] = useState<UserModel>();
+
+    const loadUser = async () => {
+        setUser(await getUserFromToken());
+    }
+    useEffect( () => {loadUser()},
+        [])
+
     return (
         <Container component="main" maxWidth="xl" sx={{mt: 5,}} >
         <Grid xs={12}>
@@ -36,13 +49,13 @@ export default function StudentProfile() {
                         </Grid>
                         <Grid item xs={9}>
                         <Typography gutterBottom variant="h5" component="div">
-                            Name + Apellido insertar
+
+                            {user ? (user.name + ' ' + user.surname) : <CircularProgress/> }
                         </Typography>
                         <Button
                             
                             variant="contained"
                             sx={{ mt: 3, mb: 2, bgcolor: '#349AC2',   }}
-                            
                         >
                             Edit Profile
                         </Button>
@@ -69,12 +82,9 @@ export default function StudentProfile() {
                         </Typography>
                         </Container>
                         <List sx={{ width: '100%', bgcolor: 'background.paper' }}>
-                            <DisplayListItem title="Mail" description="hola@gmail"/>
+                            {user ? <DisplayListItem title="Mail" description={user.email}/> : <CircularProgress/> }
                             <Divider variant="inset" component="li" sx={{ml:0}} />
                         </List>
-                        
-
-                                       
                     </Container>
                 </Grid>
 
