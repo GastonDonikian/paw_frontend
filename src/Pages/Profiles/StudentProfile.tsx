@@ -69,29 +69,28 @@ export default function StudentProfile() {
             
                 </Grid>
                 <Grid item xs={8}>
-                    <Container sx={{boxShadow: '0 3px 10px rgb(0 0 0 / 0.2)', 
-                       bgcolor: 'white', 
+                    <div style={{boxShadow: '0 3px 10px rgb(0 0 0 / 0.2)',
+                       backgroundColor: 'white',
                        borderRadius: '5px', 
                        flexDirection: 'column',
                        display: 'flex', 
-                       alignItems: 'flex-start', pl:0}}>
+                       alignItems: 'flex-start', paddingBottom: 2}}>
 
-                        <Container component="div" sx={{p: '0.75rem 1.25rem', mb:0, backgroundColor: 'rgba(0,0,0,.03)', borderBottom: '1px solid rgba(0,0,0,.125)' }}>
-                            <Typography variant="h5" gutterBottom component="div" >
-                            Contact information
-                        </Typography>
+
+                        <Container component="div" sx={{alignContent: 'center', p: '0.75rem 1.25rem', mb:0, backgroundColor: 'rgba(0,0,0,.03)', borderBottom: '1px solid rgba(0,0,0,.125)' }}>
+                            <Typography variant="h5" gutterBottom component="div" sx={{mb:0}} >
+                                Contact information
+                            </Typography>
                         </Container>
                         <List sx={{ width: '100%', bgcolor: 'background.paper' }}>
                             {user ? <DisplayListItem title="Mail" description={user.email}/> : <CircularProgress/> }
                             <Divider variant="inset" component="li" sx={{ml:0}} />
                         </List>
-                    </Container>
+                    </div>
                 </Grid>
 
             </Grid>
         </Grid>
-       
-        
         </Container>
     );
 }

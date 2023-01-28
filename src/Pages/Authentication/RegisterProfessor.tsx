@@ -109,13 +109,14 @@ export default function RegisterProfessor() {
                         paddingLeft: 3,
                         paddingRight: 3,
                         paddingBottom: 3,
-                        borderRadius: '5px'
+                        borderRadius: '5px',
+                        boxShadow: '0 3px 10px rgb(0 0 0 / 0.2)'
                     }}
                 >
                     <Avatar sx={{m: 1, bgcolor: '#349AC2'}}>
                         <LockOutlinedIcon/>
                     </Avatar>
-                    <Typography component="h1" variant="h5">
+                    <Typography component="h1" variant="h5" sx={{mb:3}}>
                         Register
                     </Typography>
                     <Formik {...registerProfessorFormik} onSubmit={handleSubmit}>
@@ -125,8 +126,9 @@ export default function RegisterProfessor() {
                                     <div></div>}
                                 <Field
                                     as={TextField}
-                                    margin="normal"
+                                    margin="none"
                                     fullWidth
+                                    size="small"
                                     id="email"
                                     helperText={onError(errors['email'] || '')}
                                     label="Email Address"
@@ -135,92 +137,101 @@ export default function RegisterProfessor() {
                                 />
                                 <Field
                                     as={TextField}
-                                    margin="normal"
+                                    margin="none"
                                     fullWidth
                                     name="password"
                                     helperText={onError(errors['password'] || '')}
                                     label="Password"
                                     type="password"
                                     id="password"
+                                    size="small"
                                 />
                                 <Field
                                     as={TextField}
-                                    margin="normal"
+                                    margin="none"
                                     fullWidth
                                     name="repeatPassword"
                                     helperText={onError(errors['repeatPassword'] || '')}
                                     label="Repeat password"
                                     type="password"
                                     id="repeatPassword"
+                                    size="small"
                                 />
                                 <Field
                                     as={TextField}
-                                    margin="normal"
+                                    margin="none"
                                     fullWidth
                                     id="name"
                                     helperText={onError(errors['name'] || '')}
                                     label="Name"
                                     name="name"
+                                    size="small"
                                 />
                                 <Field
                                     as={TextField}
-                                    margin="normal"
+                                    margin="none"
                                     fullWidth
                                     id="surname"
                                     helperText={onError(errors['surname'] || '')}
                                     label="Surname"
                                     name="surname"
+                                    size="small"
                                 />
                                 <Field
                                     as={TextField}
-                                    margin="normal"
+                                    margin="none"
                                     fullWidth
                                     id="phoneNumber"
                                     helperText={onError(errors['phoneNumber'] || '')}
                                     label="Phone number"
                                     name="phoneNumber"
+                                    size="small"
                                 />
                                 <Field
                                     as={TextField}
-                                    margin="normal"
+                                    margin="none"
                                     fullWidth
                                     id="schedule"
                                     helperText={onError(errors['schedule'] || '')}
                                     label="Schedule"
                                     name="schedule"
+                                    size="small"
                                 />
                                 <Field
                                     as={TextField}
-                                    margin="normal"
+                                    margin="none"
                                     fullWidth
                                     id="studies"
                                     helperText={onError(errors['studies'] || '')}
                                     label="Studies"
                                     name="studies"
+                                    size="small"
                                 />
                                 <Field
                                     as={TextField}
-                                    margin="normal"
+                                    margin="none"
                                     fullWidth
                                     id="description"
                                     helperText={onError(errors['description'] || '')}
                                     label="Description"
                                     name="description"
+                                    size="small"
                                 />
                                 <Field
                                     as={TextField}
-                                    margin="normal"
+                                    margin="none"
                                     fullWidth
                                     id="location"
                                     helperText={onError(errors['location'] || '')}
                                     label="Location"
                                     name="location"
+                                    size="small"
                                 />
                                 <Button
                                     type="submit"
                                     fullWidth
                                     variant="contained"
-                                    sx={{mt: 3, mb: 2, bgcolor: '#349AC2'}}
+                                    sx={{mt: 2, mb: 2, bgcolor: '#349AC2'}}
                                 >
                                     Register
                                 </Button>
