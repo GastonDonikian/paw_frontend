@@ -29,7 +29,7 @@ export async function getUserFromToken(){
     if(token === null)
         return undefined;
     //@ts-ignore
-    let user: UserModel = await apiGetUserById(jwt(token)['id']);
+    let user = await apiGetUserById(jwt(token)['id']);
     return user
 
 }

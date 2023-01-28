@@ -6,20 +6,32 @@ import Divider from '@mui/material/Divider';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
-import {CardActionArea, Grid, Button, CardActions, CardHeader} from '@mui/material';
+import {CardActionArea, Grid, Button, CardActions, CardHeader, CircularProgress} from '@mui/material';
 import '../../App.css'
 import DisplayListItem from '../../components/DisplayListItem';
 import { padding } from '@mui/system';
+import {useEffect, useState} from "react";
+import {ProfessorModel} from "../../Models/Users/User";
+import {getUserFromToken} from "../../Services/AuthHelper";
+import * as React from "react";
 
 
 export default function ProfessorProfile() {
+
+    const [user, setUser] = useState<ProfessorModel>();
+
+    const loadUser = async () => {
+        setUser(await getUserFromToken());
+    }
+    useEffect( () => {loadUser()},
+        [])
+
     return (
         <div>
              <Container component="div" maxWidth="xl" sx={{pt: 1, pb: 1, mt: 0, bgcolor: 'white'}} >
              <Grid
                     container
                     direction="row"
-                    
                     spacing={2} 
                     >
                         <Grid item xs={1}  >
@@ -27,13 +39,11 @@ export default function ProfessorProfile() {
                         </Grid>
                         <Grid item >
                         <Typography gutterBottom variant="h5" component="div" sx={{mb:0}}>
-                            Name + Apellido 
+                            {user ? (user.name + ' ' + user.surname) : <CircularProgress/> }
                         </Typography>
-
                         <Typography gutterBottom component="p" sx={{mb:0}}>
-                            mail
+                            {user ? (user.email) : <CircularProgress/> }
                         </Typography>
-
                         <Rating name="read-only" value={3} readOnly />
                         
                         </Grid>
@@ -53,9 +63,9 @@ export default function ProfessorProfile() {
                 
                 <Container sx={{boxShadow: '0 3px 10px rgb(0 0 0 / 0.2)', mb:5, bgcolor: 'white', flexDirection: 'column', borderRadius: '5px', p:2, display: 'flex', alignItems: 'flex-start'}}>
                     <Typography gutterBottom variant="h6" component="div" sx={{mb:0}}>
-                            About NOMBRE
+                            About {user ? (user.name + ' ' + user.surname) : <CircularProgress/> }
                         </Typography>
-                   <Typography>description</Typography>
+                   <Typography>{user ? (user.description) : <CircularProgress/> }</Typography>
                 </Container>
                 <div style={{boxShadow: '0 3px 10px rgb(0 0 0 / 0.2)', 
                        backgroundColor: 'white', 
@@ -96,7 +106,7 @@ export default function ProfessorProfile() {
                             </Typography>
                         </Container>
                         <List sx={{pb:2, pl:2, pr:2, width: '100%', bgcolor: 'background.paper' }}>
-                            <DisplayListItem title="Mail" description="hola@gmail"/>
+                            <DisplayListItem title="Mail" description={user && user.email}/>
                             <Divider variant="inset" component="li" sx={{ml:0}} />
                         </List>
                         
