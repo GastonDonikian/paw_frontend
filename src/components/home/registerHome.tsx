@@ -1,15 +1,17 @@
 
 import Card from '@mui/material/Card';
+import Link from '@mui/material/Link';
 import CardContent from '@mui/material/CardContent';
 import { Avatar } from '@mui/material';
 import Typography from '@mui/material/Typography';
 import LibraryBooksOutlinedIcon from '@mui/icons-material/LibraryBooksOutlined';
 import {CardActionArea, Grid, Button, CardActions} from '@mui/material';
-import '../App.css';
+import '../../App.css';
+import { Container } from '@mui/system';
 
 export default function RegisterHome() {
     return (
-            <Card >
+            <Card>
                 <CardActionArea sx={{ p:2, textAlign: 'center',display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
                 <Avatar sx={{ m: 1, bgcolor: '#349AC2' }}>
                     <LibraryBooksOutlinedIcon />
@@ -21,8 +23,7 @@ export default function RegisterHome() {
                         <Typography variant="body2" color="text.secondary">
                             Register and start right away!
                         </Typography>
-                    </CardContent>
-                
+                    </CardContent>                
                 </CardActionArea>
             </Card>
     );

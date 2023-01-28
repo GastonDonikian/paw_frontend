@@ -8,9 +8,9 @@ import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
 import Typography from '@mui/material/Typography';
 import {useState} from "react";
 import {CardActionArea, Grid, Button, CardActions} from '@mui/material';
-import '../App.css';
+import '../../App.css';
 import { Container } from '@mui/system';
-import { Category } from '../Models/Category';
+import { Category } from '../../Models/Category';
 
 
 export default function SearchHome() {
