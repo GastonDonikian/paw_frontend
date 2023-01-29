@@ -19,6 +19,15 @@ export async function apiRegisterStudent(registerStudent: RegisterStudentModel){
                 "isProfessor": false});
 }
 
+export async function apiGetSubjects(id?: number,page?: number, taught?: boolean){
+    let basicUrl = "/subjects"
+    if(id !== undefined) basicUrl = basicUrl + "?professorId=" + id + '&';
+    if(page !== undefined) basicUrl = basicUrl + "?page=" + page + '&';
+    if(taught !== undefined) basicUrl = basicUrl + "?taught=" + taught + '&';
+    const response = await apiPrivate.get(basicUrl)
+    return response.data;
+}
+
 export async function apiRegisterProfessor(registerProfessor: RegisterProfessorModel){
     return await apiPublic.post("/users",
         {

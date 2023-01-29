@@ -10,7 +10,7 @@ import {useEffect, useState} from "react";
 import {CardActionArea, Grid, Button, CardActions, CircularProgress} from '@mui/material';
 import '../../App.css';
 import { Container } from '@mui/system';
-import { Category } from '../../Models/Category';
+import { Category } from '../../Models/Enums/Category';
 import {getCategories} from "../../Services/EnumService";
 
 

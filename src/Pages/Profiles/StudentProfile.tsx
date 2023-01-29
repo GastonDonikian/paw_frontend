@@ -21,6 +21,7 @@ export default function StudentProfile() {
     const loadUser = async () => {
         setUser(await getUserFromToken());
     }
+
     useEffect( () => {loadUser()},
         [])
 
@@ -61,8 +62,6 @@ export default function StudentProfile() {
                         </Button>
                         </Grid>
                     </Grid>
-                
-                   
                 </Container>
             
 

@@ -12,18 +12,25 @@ import DisplayListItem from '../../components/DisplayListItem';
 import { padding } from '@mui/system';
 import {useEffect, useState} from "react";
 import {ProfessorModel} from "../../Models/Users/User";
-import {getUserFromToken} from "../../Services/AuthHelper";
+import {getUserFromToken, getUserId} from "../../Services/AuthHelper";
 import * as React from "react";
+import {Subject} from "../../Models/Subject";
+import {apiGetSubjects} from "../../Services/UserService";
 
 
 export default function ProfessorProfile() {
 
     const [user, setUser] = useState<ProfessorModel>();
+    const [subjects, setSubjects] = useState<[Subject]>();
 
     const loadUser = async () => {
         setUser(await getUserFromToken());
     }
-    useEffect( () => {loadUser()},
+    const loadSubjects = async () => {
+        setSubjects(await apiGetSubjects(getUserId()))
+    }
+
+    useEffect( () => {loadUser(); loadSubjects()},
         [])
 
     return (
@@ -45,7 +52,6 @@ export default function ProfessorProfile() {
                             {user ? (user.email) : <CircularProgress/> }
                         </Typography>
                         <Rating name="read-only" value={3} readOnly />
-                        
                         </Grid>
                     </Grid>
              </Container>
@@ -78,16 +84,15 @@ export default function ProfessorProfile() {
 
                         <Container component="div" sx={{alignContent: 'center', p: '0.75rem 1.25rem', mb:0, backgroundColor: 'rgba(0,0,0,.03)', borderBottom: '1px solid rgba(0,0,0,.125)' }}>
                             <Typography variant="h5" gutterBottom component="div" sx={{mb:0}} >
-                                Subjects {"(cant)"}
+                                Subjects {subjects?.length}
                             </Typography>
                         </Container>
                         <List sx={{pb:2, pl:2, pr:2, width: '100%', bgcolor: 'background.paper' }}>
-                            <DisplayListItem title="subject" description="category"/>
-                            <Divider variant="inset" component="li" sx={{ml:0}} />
+                        {subjects && (subjects.length > 0 ?subjects.map((subject: any) => (
+                            <div><DisplayListItem title={subject.name} description={subject.category}/>
+                                <Divider variant="inset" component="li" sx={{ml:0}} /></div>
+                        )) : <CircularProgress/>)}
                         </List>
-                        
-
-                                       
                     </div>
             
             </Grid>
@@ -111,7 +116,7 @@ export default function ProfessorProfile() {
                         </List>
                         
 
-                                       
+
                     </div>
                 </Grid>
 
