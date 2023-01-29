@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -18,6 +18,7 @@ import {Field, Form, Formik} from "formik";
 import {apiRegisterProfessor} from "../../Services/UserService";
 import {apiLogin} from "../../Services/Auth";
 import {RegisterProfessorModel} from "../../Models/Users/RegisterProfessorModel";
+import {isAuthenticated, isVerified} from "../../Services/AuthHelper";
 
 
 function Copyright(props: any) {
@@ -35,7 +36,14 @@ function Copyright(props: any) {
 
 const theme = createTheme();
 
-export default function RegisterProfessor() {
+export default function     RegisterProfessor() {
+
+    useEffect(() => {
+        if(isVerified())
+            navigate('/verify')
+        if((isAuthenticated()))
+            navigate('/')
+    }, [])
     const navigate = useNavigate();
     const [badCredentials, setBadCredentials] = useState(false);
     const phoneRegExp = /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/

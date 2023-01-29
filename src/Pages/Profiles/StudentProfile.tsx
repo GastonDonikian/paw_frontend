@@ -9,22 +9,28 @@ import {CardActionArea, Grid, Button, CardActions, CardHeader, CircularProgress}
 import '../../App.css'
 import DisplayListItem from '../../components/DisplayListItem';
 import {useEffect, useState} from "react";
-import {getUserFromToken} from "../../Services/AuthHelper";
+import {getUserFromToken, isAuthenticated, isVerified} from "../../Services/AuthHelper";
 import {UserModel} from "../../Models/Users/User";
 import * as React from "react";
+import {useNavigate} from "react-router-dom";
 
 
 export default function StudentProfile() {
-
+    let navigate = useNavigate();
     const [user, setUser] = useState<UserModel>();
 
     const loadUser = async () => {
         setUser(await getUserFromToken());
     }
 
-    useEffect( () => {loadUser()},
+    useEffect( () => {
+        if(!(isAuthenticated())) {
+            navigate('/')
+        }
+        if(!isVerified()){
+            navigate('/verify')}
+        loadUser()},
         [])
-
     return (
         <Container component="main" maxWidth="xl" sx={{mt: 5,}} >
         <Grid xs={12}>
@@ -36,7 +42,6 @@ export default function StudentProfile() {
                     spacing={5} 
                     >
             <Grid item xs={4}>
-                
                 <Container sx={{boxShadow: '0 3px 10px rgb(0 0 0 / 0.2)', bgcolor: 'white', borderRadius: '5px', p:2, display: 'flex', alignItems: 'flex-start'}}>
                 
                     <Grid
@@ -63,9 +68,6 @@ export default function StudentProfile() {
                         </Grid>
                     </Grid>
                 </Container>
-            
-
-            
                 </Grid>
                 <Grid item xs={8}>
                     <div style={{boxShadow: '0 3px 10px rgb(0 0 0 / 0.2)',
@@ -74,8 +76,6 @@ export default function StudentProfile() {
                        flexDirection: 'column',
                        display: 'flex', 
                        alignItems: 'flex-start', paddingBottom: 2}}>
-
-
                         <Container component="div" sx={{alignContent: 'center', p: '0.75rem 1.25rem', mb:0, backgroundColor: 'rgba(0,0,0,.03)', borderBottom: '1px solid rgba(0,0,0,.125)' }}>
                             <Typography variant="h5" gutterBottom component="div" sx={{mb:0}} >
                                 Contact information

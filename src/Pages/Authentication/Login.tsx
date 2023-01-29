@@ -13,8 +13,8 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useNavigate } from "react-router-dom";
-import  {isVerified, login, getUserById } from '../../Services/AuthHelper'
-import {useState} from "react";
+import {isVerified, login, getUserById, isAuthenticated} from '../../Services/AuthHelper'
+import {useEffect, useState} from "react";
 import {Alert} from "@mui/material";
 function Copyright(props: any) {
     return (
@@ -36,6 +36,13 @@ export default function SignIn() {
     const [userNotVerified, setUserNotVerified] = useState(false);
     const [badCredentials, setBadCredentials] = useState(false);
     const navigate = useNavigate();
+
+    useEffect(() => {
+        if(isVerified())
+            navigate('/verify')
+        if((isAuthenticated()))
+            navigate('/')
+    }, [])
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);

@@ -13,8 +13,8 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useNavigate } from "react-router-dom";
-import  {isVerified, login, getUserById } from '../../Services/AuthHelper'
-import {useState} from "react";
+import {isVerified, login, getUserById, isAuthenticated} from '../../Services/AuthHelper'
+import {useEffect, useState} from "react";
 import {Alert} from "@mui/material";
 import {RegisterStudentModel } from '../../Models/Users/RegisterStudentModel'
 import * as Yup from 'yup';
@@ -40,6 +40,12 @@ const theme = createTheme();
 
 export default function RegisterStudent() {
     const navigate = useNavigate();
+    useEffect(() => {
+        if(isVerified())
+            navigate('/verify')
+        if((isAuthenticated()))
+            navigate('/')
+    }, [])
     const [badCredentials, setBadCredentials] = useState(false);
     const phoneRegExp = /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/
     const registerStudentFormik = {

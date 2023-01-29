@@ -12,14 +12,15 @@ import DisplayListItem from '../../components/DisplayListItem';
 import { padding } from '@mui/system';
 import {useEffect, useState} from "react";
 import {ProfessorModel} from "../../Models/Users/User";
-import {getUserFromToken, getUserId} from "../../Services/AuthHelper";
+import {getUserFromToken, getUserId, isAuthenticated, isVerified} from "../../Services/AuthHelper";
 import * as React from "react";
 import {Subject} from "../../Models/Subject";
 import {apiGetSubjects} from "../../Services/UserService";
+import {useNavigate} from "react-router-dom";
 
 
 export default function ProfessorProfile() {
-
+    let navigate = useNavigate()
     const [user, setUser] = useState<ProfessorModel>();
     const [subjects, setSubjects] = useState<[Subject]>();
 
@@ -30,7 +31,14 @@ export default function ProfessorProfile() {
         setSubjects(await apiGetSubjects(getUserId()))
     }
 
-    useEffect( () => {loadUser(); loadSubjects()},
+    useEffect( () => {
+        if(!(isAuthenticated()))
+            navigate('/');
+        if(!isVerified())
+            navigate('/verify');
+        loadUser();
+        loadSubjects()
+        },
         [])
 
     return (
@@ -103,8 +111,6 @@ export default function ProfessorProfile() {
                        flexDirection: 'column',
                        display: 'flex', 
                        alignItems: 'flex-start', paddingBottom: 2}}>
-                    
-
                         <Container component="div" sx={{alignContent: 'center', p: '0.75rem 1.25rem', mb:0, backgroundColor: 'rgba(0,0,0,.03)', borderBottom: '1px solid rgba(0,0,0,.125)' }}>
                             <Typography variant="h5" gutterBottom component="div" sx={{mb:0}} >
                                  information
@@ -114,9 +120,6 @@ export default function ProfessorProfile() {
                             <DisplayListItem title="Mail" description={user && user.email}/>
                             <Divider variant="inset" component="li" sx={{ml:0}} />
                         </List>
-                        
-
-
                     </div>
                 </Grid>
 

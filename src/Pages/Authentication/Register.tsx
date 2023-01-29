@@ -5,9 +5,22 @@ import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import {CardActionArea, Grid, Button, CardActions} from '@mui/material';
 import '../../App.css';
+import {useNavigate} from "react-router-dom";
+import {useEffect} from "react";
+import {isAuthenticated, isVerified} from "../../Services/AuthHelper";
 
 
 export default function Register() {
+
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        if(isVerified())
+            navigate('/verify')
+        if((isAuthenticated()))
+            navigate('/')
+    }, [])
+
     return (
         <Container component="main" maxWidth="xl" sx={{mt: 5,}} >
             <Grid item xs={12}>
