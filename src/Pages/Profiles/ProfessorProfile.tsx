@@ -43,7 +43,7 @@ export default function ProfessorProfile() {
 
     return (
         <div>
-             <Container component="div" maxWidth="xl" sx={{pt: 1, pb: 1, mt: 0, bgcolor: 'white'}} >
+             <Container component="div" maxWidth="xl" sx={{pt: 1, pb: 1, mt: 0, bgcolor: 'white', boxShadow: '0 3px 10px rgb(0 0 0 / 0.2)'}} >
              <Grid
                     container
                     direction="row"

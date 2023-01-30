@@ -12,6 +12,7 @@ import RegisterStudent from "./Pages/Authentication/RegisterStudent";
 import RegisterProfessor from "./Pages/Authentication/RegisterProfessor";
 import Logout from "./Pages/Authentication/Logout";
 import ProfessorProfile from './Pages/Profiles/ProfessorProfile';
+import Contracts from './Pages/Contracts';
 
 function App() {
   return (
@@ -20,6 +21,9 @@ function App() {
         <Router>
             <Routes>
                 <Route path="/" element={<Home/>}/>
+            </Routes>
+            <Routes>
+                <Route path="/professors" element={<Contracts/>}/>
             </Routes>
             <Routes>
                 <Route path="/login" element={<Login/>}/>
