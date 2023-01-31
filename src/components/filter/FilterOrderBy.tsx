@@ -26,9 +26,6 @@ export default function FilterOrderBy() {
         label="Order by (descending)"
         onChange={handleChange}
       >
-        <MenuItem value="">
-          <em>None</em>
-        </MenuItem>
         <MenuItem value={10}>Price</MenuItem>
         <MenuItem value={20}>Rating</MenuItem>
       </Select>
