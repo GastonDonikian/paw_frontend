@@ -18,38 +18,38 @@ const MenuProps = {
   },
 };
 
-const modalities = ['Remote', 'In person'];
+const categories = ['All', 'Language', 'Science', 'Social', 'Arts'];
 
-export default function FilterLevel() {
-  const [mod, setModality] = React.useState<string[]>([]);
+export default function FilterCategory() {
+  const [cat, setCategory] = React.useState<string[]>([]);
 
-  const handleChange = (event: SelectChangeEvent<typeof mod>) => {
+  const handleChange = (event: SelectChangeEvent<typeof cat>) => {
     const {
       target: { value },
     } = event;
-    setModality(
+    setCategory(
       // On autofill we get a stringified value.
       typeof value === 'string' ? value.split(',') : value,
     );
   };
 
   return (
-      <FormControl size='small' sx={{ m: 1, width: 250 }}>
-        <InputLabel id="demo-multiple-checkbox-label">Modality</InputLabel>
+      <FormControl size='small' sx={{ m: 1, width: 250}}>
+        <InputLabel id="demo-multiple-checkbox-label">Category</InputLabel>
         <Select
           labelId="demo-multiple-checkbox-label"
           id="demo-multiple-checkbox"
           multiple
-          value={mod}
+          value={cat}
           onChange={handleChange}
-          input={<OutlinedInput label="Modality" />}
+          input={<OutlinedInput label="Category" />}
           renderValue={(selected) => selected.join(', ')}
           MenuProps={MenuProps}
         >
-          {modalities.map((modality) => (
-            <MenuItem key={modality} value={modality}>
-              <Checkbox checked={mod.indexOf(modality) > -1} />
-              <ListItemText primary={modality} />
+          {categories.map((category) => (
+            <MenuItem key={category} value={category}>
+              <Checkbox checked={cat.indexOf(category) > -1} />
+              <ListItemText primary={category} />
             </MenuItem>
           ))}
         </Select>
