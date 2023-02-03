@@ -7,7 +7,7 @@ export const apiPublic = axios.create({
 export const apiPrivate = axios.create({
     baseURL: `${process.env.PUBLIC_URL}/`,
     headers: {
-        Authorization: "Bearer " + window.localStorage.getItem("token"),
+        Authorization: "Bearer " + (window.localStorage.getItem('token') === null ? window.sessionStorage.getItem('token') : window.localStorage.getItem("token")),
         "Content-Type": "application/json",
     },
 });
@@ -15,7 +15,7 @@ export const apiPrivate = axios.create({
 export const axiosPrivate = axios.create({
     baseURL: "",
     headers: {
-        Authorization: "Bearer " + window.localStorage.getItem("token"),
+        Authorization: "Bearer " + (window.localStorage.getItem('token') === null ? window.sessionStorage.getItem('token') : window.localStorage.getItem("token")),
         "Content-Type": "application/json",
     },
 });

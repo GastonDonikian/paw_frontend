@@ -12,7 +12,10 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { login } from '../../Services/Auth'
+import { useNavigate } from "react-router-dom";
+import {isVerified, login, getUserById, isAuthenticated} from '../../Services/AuthHelper'
+import {useEffect, useState} from "react";
+import {Alert} from "@mui/material";
 function Copyright(props: any) {
     return (
         <Typography variant="body2" color="text.secondary" align="center" {...props}>
@@ -29,25 +32,40 @@ function Copyright(props: any) {
 const theme = createTheme();
 
 export default function SignIn() {
+    const [rememberMe, setRememberMe] = React.useState(false);
+    const [userNotVerified, setUserNotVerified] = useState(false);
+    const [badCredentials, setBadCredentials] = useState(false);
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        if(isVerified())
+            navigate('/verify')
+        if((isAuthenticated()))
+            navigate('/')
+    }, [])
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
         let authenticationData;
         try {
-            authenticationData = await login(data.get('email') as string, data.get('password') as string);
-            let token;
-            if(authenticationData.headers.authorization !== undefined)
-                token = authenticationData.headers.authorization.substring("Bearer ".length);
-            let user_url: string = authenticationData.data["user_url"];
-            if(token !== undefined){
-                if(data.get('rememberme')) localStorage.setItem('token', token);
-                else sessionStorage.setItem('token', token);
-
+            await login(data.get('email') as string, data.get('password') as string, rememberMe as boolean);
+            if(isVerified())
+                navigate('/');
+            else navigate('/verify');
+        } catch(error: any) {
+            if(error.response){
+                if(error.response.status === 401){
+                    setBadCredentials(true);
+                    setUserNotVerified(false);
+                } else if(error.response.status ===  403){
+                    setUserNotVerified(true);
+                    setBadCredentials(false);
+                    navigate("/verify");
+                }
+            } else {
+                console.log('Should have casual server is down...');
             }
-        } catch (error: any){
-
         }
-
     };
 
     return (
@@ -60,15 +78,24 @@ export default function SignIn() {
                         display: 'flex',
                         flexDirection: 'column',
                         alignItems: 'center',
+                        bgcolor: 'white',
+                        paddingTop: 2,
+                        paddingLeft: 3,
+                        paddingRight: 3,
+                        paddingBottom: 3,
+                        borderRadius: '5px',
+                        boxShadow: '0 3px 10px rgb(0 0 0 / 0.2)'
                     }}
                 >
-                    <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
+                    <Avatar sx={{ m: 1, bgcolor: '#349AC2' }}>
                         <LockOutlinedIcon />
                     </Avatar>
                     <Typography component="h1" variant="h5">
                         Sign in
                     </Typography>
                     <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+                        {badCredentials ? (<Alert severity="error">User or password is invalid!</Alert>) : userNotVerified ? (
+                            <Alert severity="error">User not verified!</Alert>) : (<></>)}
                         <TextField
                             margin="normal"
                             required
@@ -90,6 +117,7 @@ export default function SignIn() {
                             autoComplete="current-password"
                         />
                         <FormControlLabel
+                            onChange={() => setRememberMe(!rememberMe)}
                             control={<Checkbox value="remember" color="primary" />}
                             label="Remember me"
                         />
@@ -97,7 +125,8 @@ export default function SignIn() {
                             type="submit"
                             fullWidth
                             variant="contained"
-                            sx={{ mt: 3, mb: 2 }}
+                            sx={{ mt: 3, mb: 2, bgcolor: '#349AC2' }}
+                            
                         >
                             Sign In
                         </Button>
