@@ -17,9 +17,28 @@ import * as React from "react";
 import {Subject} from "../../Models/Subject";
 import {apiGetSubjects} from "../../Services/UserService";
 import {useNavigate} from "react-router-dom";
+import Tabs from '@mui/material/Tabs';
+import Tab from '@mui/material/Tab';
+import DisplayReview from '../../components/DisplayReview';
+import Box from '@mui/material/Box';
+
+function a11yProps(index: number) {
+    return {
+        id: `simple-tab-${index}`,
+        'aria-controls': `simple-tabpanel-${index}`,
+    };
+}
 
 
 export default function ProfessorProfile() {
+    const [tab1, setTab] = useState(true);
+    const [value, setValue] = React.useState(0);
+
+    const handleChange = (event: React.SyntheticEvent, newValue: number) => {
+        setValue(newValue);
+    };
+
+
     let navigate = useNavigate()
     const [user, setUser] = useState<ProfessorModel>();
     const [subjects, setSubjects] = useState<[Subject]>();
@@ -43,7 +62,7 @@ export default function ProfessorProfile() {
 
     return (
         <div>
-             <Container component="div" maxWidth="xl" sx={{pt: 1, pb: 1, mt: 0, bgcolor: 'white', boxShadow: '0 3px 10px rgb(0 0 0 / 0.2)'}} >
+             <Container component="div" maxWidth="xl" sx={{ pt: 1, pb: 1, mt: 0, bgcolor: 'white', boxShadow: '0 3px 10px rgb(0 0 0 / 0.2)'}} >
              <Grid
                     container
                     direction="row"
@@ -112,14 +131,21 @@ export default function ProfessorProfile() {
                        display: 'flex', 
                        alignItems: 'flex-start', paddingBottom: 2}}>
                         <Container component="div" sx={{alignContent: 'center', p: '0.75rem 1.25rem', mb:0, backgroundColor: 'rgba(0,0,0,.03)', borderBottom: '1px solid rgba(0,0,0,.125)' }}>
-                            <Typography variant="h5" gutterBottom component="div" sx={{mb:0}} >
-                                 information
-                            </Typography>
+                            <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
+                                        <Tab label="Information" {...a11yProps(0)} onClick={() => setTab(s => !s)} />
+                                        <Tab label="Reviews" {...a11yProps(1)} onClick={() => setTab(s => !s)} />
+                            </Tabs>
                         </Container>
-                        <List sx={{pb:2, pl:2, pr:2, width: '100%', bgcolor: 'background.paper' }}>
-                            <DisplayListItem title="Mail" description={user && user.email}/>
-                            <Divider variant="inset" component="li" sx={{ml:0}} />
-                        </List>
+                        {tab1 ?  
+                                <List sx={{ pb: 2, pl: 2, pr: 2, width: '100%', bgcolor: 'background.paper' }}>
+                                    <DisplayListItem title="Mail" description="desc" />
+                                    <Divider variant="inset" component="li" sx={{ ml: 0 }} />
+                                </List> : null}
+                                {!tab1 ?  
+                                <List sx={{ pb: 2, pl: 2, pr: 2, width: '100%', bgcolor: 'background.paper' }}>
+                                    <DisplayReview name="Alejandro" surname="jimenex" review="la clase ta buena" rating="4" date="12-03-21" />
+                                    
+                                </List> : null}
                     </div>
                 </Grid>
 

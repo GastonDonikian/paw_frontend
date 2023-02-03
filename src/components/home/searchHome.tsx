@@ -75,7 +75,7 @@ export default function SearchHome() {
                         </Grid>
                     </Box>
 
-                    <Container sx={{ flexDirection: 'row', textAlign:'center', alignItems: 'center', alignContent: 'center', display: { xs: 'none', md: 'flex' } }}>
+                    <Container sx={{ flexDirection: 'row', textAlign:'center', alignItems: 'center', justifyContent: 'center', display: { xs: 'none', md: 'flex' } }}>
                         {categories.length > 0 ?categories.map((category: any) => (
                             <Button
                                 key={category}
