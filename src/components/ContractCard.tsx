@@ -10,7 +10,7 @@ import ListItemText from '@mui/material/ListItemText';
 import Flippy, { FrontSide, BackSide } from 'react-flippy';
 
 
-const ContractCard = (props: any) => {
+const ContractCardComponent = (props: any) => {
   
   let name : string = props.name;
   let surname: string = props.surname;
@@ -21,7 +21,7 @@ const ContractCard = (props: any) => {
   let studies: string = props.studies ;
   let location: string = props.location ;
   let modality: string = props.modality ;
-
+ 
 
 
   return (
@@ -73,4 +73,4 @@ const ContractCard = (props: any) => {
   );
 }
 
-export default ContractCard;
+export default ContractCardComponent;

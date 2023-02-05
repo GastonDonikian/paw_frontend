@@ -20,7 +20,7 @@ const MenuProps = {
 
 const levels = ['All', 'School', 'High School', 'College'];
 
-export default function FilterLevel() {
+export default function FilterLevel({childToParent}: any) {
   const [lev, setLevel] = React.useState<string[]>([]);
 
   const handleChange = (event: SelectChangeEvent<typeof lev>) => {
@@ -28,9 +28,10 @@ export default function FilterLevel() {
       target: { value },
     } = event;
     setLevel(
-      // On autofill we get a stringified value.
+      // On autofill, we get a stringified value.
       typeof value === 'string' ? value.split(',') : value,
     );
+    childToParent(value)
   };
 
   return ( 

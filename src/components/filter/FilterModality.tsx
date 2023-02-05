@@ -20,7 +20,7 @@ const MenuProps = {
 
 const modalities = ['Remote', 'In person'];
 
-export default function FilterLevel() {
+export default function FilterLevel({childToParent}: any) {
   const [mod, setModality] = React.useState<string[]>([]);
 
   const handleChange = (event: SelectChangeEvent<typeof mod>) => {
@@ -31,6 +31,7 @@ export default function FilterLevel() {
       // On autofill we get a stringified value.
       typeof value === 'string' ? value.split(',') : value,
     );
+    childToParent(value)
   };
 
   return (

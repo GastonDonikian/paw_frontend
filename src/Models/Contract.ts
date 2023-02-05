@@ -9,3 +9,25 @@ export interface Contract {
     studies: string,
     location: string
 }
+
+export interface ContractCardInterface{
+    description: string,
+    local: boolean,
+    remote:boolean,
+    price: string,
+    status: string,
+
+    rating: number,
+    summaryProfessor: {
+        name: string,
+        surname: string,
+        phoneNumber: string,
+        location: string,
+        studies: string,
+    }
+    subject: {
+        "category": string,
+        "level": string,
+        "name": string
+    }
+}

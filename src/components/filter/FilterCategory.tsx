@@ -20,7 +20,7 @@ const MenuProps = {
 
 const categories = ['All', 'Language', 'Science', 'Social', 'Arts'];
 
-export default function FilterCategory() {
+export default function FilterCategory({childToParent} : any) {
   const [cat, setCategory] = React.useState<string[]>([]);
 
   const handleChange = (event: SelectChangeEvent<typeof cat>) => {
@@ -28,9 +28,11 @@ export default function FilterCategory() {
       target: { value },
     } = event;
     setCategory(
-      // On autofill we get a stringified value.
+      // On autofill, we get a stringifies value.
       typeof value === 'string' ? value.split(',') : value,
     );
+    // console.log(value)
+    childToParent(value)
   };
 
   return (

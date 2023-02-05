@@ -8,11 +8,12 @@ import FormHelperText from '@mui/material/FormHelperText';
 import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 
-export default function FilterOrderBy() {
+export default function FilterOrderBy({childToParent} : any) {
   const [order, setOrder] = React.useState('');
 
   const handleChange = (event: SelectChangeEvent) => {
     setOrder(event.target.value);
+    childToParent(event.target.value);
   };
 
   return (

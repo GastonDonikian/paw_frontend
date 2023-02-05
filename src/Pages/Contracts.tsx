@@ -24,25 +24,64 @@ import { CardActionArea, Grid, Button, CardActions, CardHeader } from '@mui/mate
 import '../App.css'
 import DisplayListItem from '../components/DisplayListItem';
 import { padding } from '@mui/system';
-import ContractCard from '../components/ContractCard';
+import ContractCardComponent from '../components/ContractCard';
 import FilterModality from '../components/filter/FilterModality';
 import FilterCategory from '../components/filter/FilterCategory';
+import {useEffect, useState} from "react";
+import {getContractsByFilter} from "../Services/ContractService";
+import {ContractCardInterface} from "../Models/Contract";
+
 
 
 export default function ProfessorProfile() {
-    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    const [contracts, setContracts] = useState<[ContractCardInterface]>()
+
+    const [categories, setCategory] = useState<[string]>();
+    const [level, setLevel] = useState<[string]>();
+    const [modality, setModality] = useState<[string]>();
+    const [orderBy, setOrderBy] = useState<string>();
+    const handleSearchSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
         //let authenticationData;
         console.log(data.get('search') as string);
     }
 
+    const handleFilterSubmit = async () => {
+        let cont = await getContractsByFilter(categories, level, undefined, modality, orderBy)
+        console.log(categories)
+        setContracts(cont)
+
+    }
+
+    useEffect(() => {
+        const fetchContracts = async () =>{
+            let cont = await getContractsByFilter(undefined, undefined, undefined, undefined, undefined)
+            setContracts(cont)
+        }
+        fetchContracts()
+    },[])
+
+    const handleCategory = (cat : any) => {
+        setCategory(cat)
+    }
+
+    const handleLevel = (lev : any) => {
+        setLevel(lev)
+    }
+    const handleModality = (mod : any) => {
+        setModality(mod)
+    }
+    const handleOrderBy = (order : any) => {
+        setOrderBy(order)
+    }
+
+
+
     return (
         <div>
             <Container component="div" maxWidth="xl" sx={{ pb: 1, mt: 0, bgcolor: 'white', boxShadow: '0 3px 10px rgb(0 0 0 / 0.2)' }} >
-                <Box component="form" noValidate onSubmit={handleSubmit} sx={{ flexDirection: 'row', mt: 1 }}>
-
-
+                <Box component="form" noValidate onSubmit={handleSearchSubmit} sx={{ flexDirection: 'row', mt: 1 }}>
                     <Grid container spacing={1} direction="row" justifyContent="center" alignItems="center">
                         <Grid item xs={11}>
                             <TextField
@@ -103,13 +142,14 @@ export default function ProfessorProfile() {
                                     </Typography>
                                 </Container>
                                 <Grid container sx={{ display: 'flex', flexDirection: 'column', mr: 4, m:2,}}>
-                                    <Grid item sx={{pr: 7}}> <FilterCategory/> </Grid>
-                                    <Grid item sx={{pr: 7}}> <FilterLevel/> </Grid>
-                                    <Grid item sx={{pr: 7}}> <FilterModality/> </Grid>
-                                    <Grid item sx={{pr: 7}}> <FilterOrderBy/> </Grid>
+                                    <Grid item sx={{pr: 7}}> <FilterCategory childToParent={handleCategory}/> </Grid>
+                                    <Grid item sx={{pr: 7}}> <FilterLevel childToParent={handleLevel}/> </Grid>
+                                    <Grid item sx={{pr: 7}}> <FilterModality childToParent={handleModality}/> </Grid>
+                                    <Grid item sx={{pr: 7}}> <FilterOrderBy childToParent={handleOrderBy}/> </Grid>
                                 <Button
                                     type="submit"
                                     variant="contained"
+                                    onClick={handleFilterSubmit}
                                     sx={{ mr: 8, mt: 1, mb: 1, bgcolor: '#349AC2', alignSelf: 'flex-end'}}
                                 >
                                     Filter
@@ -122,38 +162,19 @@ export default function ProfessorProfile() {
 
                         </Grid>
                         <Grid item xs={9} sx={{ alignItems: 'center', display: 'flex', flexDirection: 'column' }}>
-
                             <Grid container
                                 direction="row"
                                 alignItems="stretch"
                                 spacing={2} >
-
-                                <Grid item xs={4} >
-                                    <ContractCard name="agustin" surname="gomez" subject="matematica" rating="4" price="200"
-                                        description="yo enseño re bien" studies="itba" location="recoleta" modality="remote"
-                                    /> </Grid>
-
-                                <Grid item xs={4} >
-                                    <ContractCard name="agustin" surname="gomez" subject="matematica" rating="4" price="200"
-                                        description="yo enseño re bien"
-                                    /> </Grid>
-                                <Grid item xs={4} >
-                                    <ContractCard name="agustin" surname="gomez" subject="matematica" rating="4" price="200"
-                                        description="yo enseño re bien"
-                                    /> </Grid>
-                                <Grid item xs={4} >
-                                    <ContractCard name="agustin" subject="matematica" rating="4" price="200"
-                                        description="yo enseño re bien"
-                                    /> </Grid> <Grid item xs={4} >
-                                    <ContractCard name="agustin" subject="matematica" rating="4" price="200"
-                                        description="yo enseño re bien"
-                                    /> </Grid> <Grid item xs={4} >
-                                    <ContractCard name="agustin" subject="matematica" rating="4" price="200"
-                                        description="yo enseño re bien"
-                                    /> </Grid> <Grid item xs={4} >
-                                    <ContractCard name="agustin" subject="matematica" rating="4" price="200"
-                                        description="yo enseño re bien"
-                                    /> </Grid>
+                                {contracts && contracts.map(contract =>
+                                    <Grid item xs={4} >
+                                        <ContractCardComponent name={contract.summaryProfessor.name} surname={contract.summaryProfessor.surname}
+                                                      subject={contract.subject.name} rating={contract.rating} price={contract.price}
+                                                      description={contract.description} studies={contract.summaryProfessor.studies}
+                                                               location={contract.summaryProfessor.location} modality={contract.remote}
+                                        />
+                                    </Grid>)
+                                }
 
                             </Grid>
 
