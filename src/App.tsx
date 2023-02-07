@@ -17,6 +17,8 @@ import MySubjects from './Pages/MySubjects';
 import EditProfessorProfile from './Pages/Profiles/EditProfessorProfile';
 import EditStudentProfile from './Pages/Profiles/EditStudentProfile';
 import NewSubject from './Pages/NewSubject';
+import Subjects from './Pages/Subjects';
+import NewContract from './Pages/NewContract';
 
 function App() {
   return (
@@ -64,6 +66,12 @@ function App() {
             </Routes>
             <Routes>
                 <Route path="/newSubject" element={<NewSubject/>}/>
+            </Routes>
+            <Routes>
+                <Route path="/subjects" element={<Subjects/>}/>
+            </Routes>
+            <Routes>
+                <Route path="/newContract" element={<NewContract/>}/>
             </Routes>
             
       </Router>

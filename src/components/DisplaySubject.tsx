@@ -8,11 +8,10 @@ import Avatar from '@mui/material/Avatar';
 import Typography from '@mui/material/Typography';
 import { Button, Grid } from '@mui/material';
 
-const DisplayMySubject = (props: any) => {
+const DisplaySubject = (props: any) => {
   
   let title : string = props.title;
   let description : string = props.description;
-  let active: boolean = props.active;
 
 
   return (
@@ -25,14 +24,10 @@ const DisplayMySubject = (props: any) => {
             description
           }
         />
-        
-            {active ?
+
             <Button variant="contained" sx={{mt: 1,color: 'white', display: 'block', bgcolor: '#349AC2'}}>
-                Put On Hold</Button> :
-            <Button variant="contained" sx={{mt:1, color: 'white', display: 'block', bgcolor: '#349AC2'}}>
-                Restore subject</Button>}
+                Teach subject</Button> 
         
-        <Button variant="contained" sx={{mt:1, ml:2, color: 'white', display: 'block', bgcolor: '#DC3545'}}>Stop TeACHING</Button>
         
         
         
@@ -43,4 +38,4 @@ const DisplayMySubject = (props: any) => {
   );
 }
 
-export default DisplayMySubject;
+export default DisplaySubject;
