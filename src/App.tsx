@@ -13,6 +13,10 @@ import RegisterProfessor from "./Pages/Authentication/RegisterProfessor";
 import Logout from "./Pages/Authentication/Logout";
 import ProfessorProfile from './Pages/Profiles/ProfessorProfile';
 import Contracts from './Pages/Contracts';
+import MySubjects from './Pages/MySubjects';
+import EditProfessorProfile from './Pages/Profiles/EditProfessorProfile';
+import EditStudentProfile from './Pages/Profiles/EditStudentProfile';
+import NewSubject from './Pages/NewSubject';
 
 function App() {
   return (
@@ -48,6 +52,18 @@ function App() {
             </Routes>
             <Routes>
                 <Route path="/professorProfile" element={<ProfessorProfile/>}/>
+            </Routes>
+            <Routes>
+                <Route path="/mySubjects" element={<MySubjects/>}/>
+            </Routes>
+            <Routes>
+                <Route path="/editProfessorProfile" element={<EditProfessorProfile/>}/>
+            </Routes>
+            <Routes>
+                <Route path="/editStudentProfile" element={<EditStudentProfile/>}/>
+            </Routes>
+            <Routes>
+                <Route path="/newSubject" element={<NewSubject/>}/>
             </Routes>
             
       </Router>

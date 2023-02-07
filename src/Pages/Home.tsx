@@ -7,6 +7,8 @@ import SearchHome from "../components/home/searchHome";
 import { hover } from "@testing-library/user-event/dist/hover";
 import { Typography } from "@mui/material";
 import "../App.css"
+import { isAuthenticated } from "../Services/AuthHelper";
+import MissingSubject from "../components/home/missingSubject";
 
 
 export default function Home() {
@@ -29,11 +31,17 @@ export default function Home() {
                     alignItems="stretch"
                     spacing={2} 
                     >
-                        <Grid item xs={4} component="a"
+                        {isAuthenticated() ?
+                        <Grid item xs={4} alignItems="stretch" component="a"
                         href="/register" sx={{textDecoration: 'none' }}>
                             <RegisterHome/>
+                        </Grid> :
+                        <Grid item xs={4} alignItems="stretch" component="a"
+                        href="/newSubject" sx={{textDecoration: 'none' }}>
+                            <MissingSubject/>
                         </Grid>
-                        <Grid item xs={4} >
+                        }
+                        <Grid item  alignItems="stretch" xs={4} >
                             <EmailHome/>
                         </Grid>
                     </Grid>

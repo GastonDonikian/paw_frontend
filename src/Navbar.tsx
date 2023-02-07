@@ -13,10 +13,12 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import {isAuthenticated} from "./Services/AuthHelper";
 import "./App.css"
+import Grid from '@mui/material/Grid'
 
 const pagesLoggedIn = ['Professors', 'Classes'];
 const pagesLoggedOut =  ['Professors'];
-const settingsLoggedIn = ['Profile', 'Logout'];
+const rightLoggedOut = ['Register', 'Login']
+const settingsLoggedIn = ['Profile' ,'mySubjects', 'Logout'];
 const settingsLoggedOut = ['Register', 'Login'];
 
 function Navbar() {
@@ -43,13 +45,17 @@ function Navbar() {
         <AppBar position="static">
             <Container maxWidth="xl" sx={{bgcolor: '#343A40' }}>
                 <Toolbar disableGutters  >
+                    <Grid container
+  direction="row"
+  justifyContent="space-between"
+  alignItems="center">
                 <Typography component="a"
                         href="/">
                     <img src="./connect.png" height={50} />
             
                 </Typography>
 
-                    <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
+                    <Grid item sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
                         <IconButton
                             size="large"
                             aria-label="account of current user"
@@ -84,9 +90,9 @@ function Navbar() {
                                 </MenuItem>
                             ))}
                         </Menu>
-                    </Box>
+                    </Grid>
                    
-                    <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
+                    <Grid item sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
                         {pages.map((page) => (
                             <Button
                                 key={page}
@@ -97,9 +103,9 @@ function Navbar() {
                                 {page}
                             </Button>
                         ))}
-                    </Box>
+                    </Grid>
 
-                    <Box sx={{ flexGrow: 0 }}>
+                    {isAuthenticated() ? <Grid item sx={{ flexGrow: 0 }}>
                         <Tooltip title="Open settings">
                             <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                                 <Avatar alt="Remy Sharp" src="./profilePhoto.jpeg" />
@@ -128,7 +134,22 @@ function Navbar() {
                                 </MenuItem>
                             ))}
                         </Menu>
-                    </Box>
+                    </Grid> : 
+                    <Grid item  justifyContent="flex-end" sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
+                    {rightLoggedOut.map((page) => (
+                        <Button
+                            key={page}
+                            href={page.toLowerCase()}
+                            onClick={handleCloseNavMenu}
+                            sx={{ my: 2, color: 'white', display: 'block'}}
+                        >
+                            {page}
+                        </Button>
+                    ))}
+                </Grid>
+                     }
+
+                </Grid>
                 </Toolbar>
             </Container>
         </AppBar>
