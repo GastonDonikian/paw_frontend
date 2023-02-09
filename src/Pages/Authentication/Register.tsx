@@ -14,12 +14,6 @@ export default function Register() {
 
     const navigate = useNavigate();
 
-    useEffect(() => {
-        if(isVerified())
-            navigate('/verify')
-        if((isAuthenticated()))
-            navigate('/')
-    }, [])
 
     return (
         <Container component="main" maxWidth="xl" sx={{mt: 5,}} >

@@ -10,11 +10,51 @@ import '../App.css'
 import * as React from "react";
 import {useNavigate} from "react-router-dom";
 import DisplayMySubject from '../components/DisplayMySubject';
+import {useEffect, useState} from "react";
+import {apiGetSubjects} from "../Services/SubjectService";
+import {getUserId} from "../Services/AuthHelper";
+import {
+    activateContract, apiActivateContract,
+    apiDeleteContract,
+    apiGetContractsByStatus, apiPauseContract,
+    getIdFromUrl,
+    pauseContract
+} from "../Services/ContractService";
+import {Contract} from "../Models/Contract";
 
 
 
 export default function MySubjects() {
-    
+    const [activeContracts,setActiveContracts] = useState<Contract[]>([])
+    const [onHoldContracts,setOnHoldContracts] = useState<Contract[]>([])
+
+    const loadContracts = async () => {
+        setActiveContracts(await apiGetContractsByStatus('ACTIVE'));
+        setActiveContracts(await apiGetContractsByStatus('PAUSED'));
+    }
+
+    const sendActive = async (contract: Contract) => {
+        setActiveContracts(currentContracts => [...currentContracts,contract])
+        setOnHoldContracts(currentContracts => currentContracts.filter(c => getIdFromUrl(c.url) != getIdFromUrl(contract.url)))
+        await apiActivateContract(contract.url)
+    }
+
+    const deleteContract = async (contract: Contract) => {
+        setActiveContracts(currentContracts => currentContracts.filter(c => getIdFromUrl(c.url) != getIdFromUrl(contract.url)))
+        setOnHoldContracts(currentContracts => currentContracts.filter(c => getIdFromUrl(c.url) != getIdFromUrl(contract.url)))
+        await apiDeleteContract(contract.url)
+    }
+
+    const sendOnHold = async (contract: Contract) => {
+        setActiveContracts(currentContracts => currentContracts.filter(c => getIdFromUrl(c.url) != getIdFromUrl(contract.url)))
+        setOnHoldContracts(currentContracts => [...currentContracts,contract])
+        await apiPauseContract(contract.url)
+    }
+
+    useEffect(() => {
+        loadContracts()
+    },[])
+
     return (
         <Container component="main" maxWidth="xl" sx={{mt: 5,}} >
         <Grid xs={12}>
@@ -40,9 +80,14 @@ export default function MySubjects() {
                             <Button>Add Subject</Button></Grid></Grid>
                         </Container>
                         <List sx={{ width: '100%', bgcolor: 'background.paper' }}>
-                        <DisplayMySubject title="analisis" description="la doy practica :)"
-                        active={true} />
-                        <Divider variant="inset" component="li" sx={{ ml: 0 }} />
+                            {activeContracts.length > 0 && activeContracts.map( (contract:any) => (
+                                <div><DisplayMySubject title={contract.title} description={contract.description} contract={contract}
+                                                       changeStatus={sendOnHold} delete={deleteContract}
+                                                  active={true}
+                                />
+                                    <Divider variant="inset" component="li" sx={{ ml: 0 }} /></div>
+                            ))}
+
                             <Divider variant="inset" component="li" sx={{ml:0}} />
                         </List>
                     </div>
@@ -60,11 +105,12 @@ export default function MySubjects() {
                             </Typography>
                         </Container>
                         <List sx={{ width: '100%', bgcolor: 'background.paper' }}>
-                        <DisplayMySubject title="matematica" description="la doy re bien :)"
-                        active={false} />
-                        <Divider variant="inset" component="li" sx={{ ml: 0 }} />
-                        <DisplayMySubject title="matematica" description="la doy re bien :)"
-                        active={false} />
+                            {onHoldContracts.length > 0 && onHoldContracts.map( (contract:any) => (
+                                <div><DisplayMySubject title={contract.title} description={contract.description}
+                                                       changeStatus={sendActive} delete={deleteContract} contract={contract}
+                                                       active={false}/>
+                                    <Divider variant="inset" component="li" sx={{ ml: 0 }} /></div>
+                            ))}
                         <Divider variant="inset" component="li" sx={{ ml: 0 }} />
                         </List>
                     </div>

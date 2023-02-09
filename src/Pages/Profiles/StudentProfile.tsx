@@ -84,6 +84,7 @@ export default function StudentProfile() {
                         <List sx={{ width: '100%', bgcolor: 'background.paper' }}>
                             {user ? <DisplayListItem title="Mail" description={user.email}/> : <CircularProgress/> }
                             <Divider variant="inset" component="li" sx={{ml:0}} />
+                            {user ? <DisplayListItem title="Phone number" description={user.phoneNumber}/> : <CircularProgress/> }
                         </List>
                     </div>
                 </Grid>

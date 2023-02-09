@@ -1,5 +1,6 @@
 import {apiPrivate, apiPublic} from "./ServiceUtils";
 import {Category} from "../Models/Enums/Category";
+import {getUserId} from "./AuthHelper";
 
 
 function buildQuery(baseUrl:string,professorId?: number,subjectId?: number, categories?: [string],
@@ -52,6 +53,10 @@ async function apiGetContracts(professorId?: number,subjectId?: number, categori
     return response.data;
 }
 
+export async function apiGetContractsByStatus(status: string){
+    return apiGetContracts(getUserId(),undefined,undefined,undefined,status,undefined,undefined,undefined,undefined,undefined);
+}
+
 async function apiGetContractsCard(professorId?: number,subjectId?: number, categories?: [string],
                                levels?: [string],status: string='ACTIVE', locations?: [string],
                                remote ?:boolean, local?: boolean, orderBy?: string, search?: string) {
@@ -60,6 +65,24 @@ async function apiGetContractsCard(professorId?: number,subjectId?: number, cate
     return response.data;
 }
 
+export function getIdFromUrl(url: string){
+    const splitUrl = url.split('/');
+    return splitUrl[4]
+}
+export async function apiPauseContract(url:string) {
+    const response = await apiPrivate.post('/contracts/' + getIdFromUrl(url),{"status": "PAUSED"})
+    return response.data;
+}
+
+export async function apiActivateContract(url:string) {
+    const response = await apiPrivate.post('/contracts/' + getIdFromUrl(url),{"status": "ACTIVE"})
+    return response.data;
+}
+
+export async function apiDeleteContract(url:string){
+    const response = await apiPrivate.delete('/contracts/' + getIdFromUrl(url))
+    return response.data;
+}
 export async function getContractsByFilter(categories?: [string],levels?: [string],locations?: [string],modality?: [string],orderBy?: string){
     let remote , local;
     if(modality) {

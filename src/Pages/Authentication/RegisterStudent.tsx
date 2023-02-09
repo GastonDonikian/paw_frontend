@@ -41,7 +41,7 @@ const theme = createTheme();
 export default function RegisterStudent() {
     const navigate = useNavigate();
     useEffect(() => {
-        if(isVerified())
+        if(!isVerified())
             navigate('/verify')
         if((isAuthenticated()))
             navigate('/')

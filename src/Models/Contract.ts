@@ -4,6 +4,8 @@ export interface Contract {
     subject: string,
     rating: number,
     price: string,
+    url: string,
+
     description: string,
     modality: string,
     studies: string,
@@ -17,6 +19,7 @@ export interface ContractCardInterface{
     price: string,
     status: string,
 
+    url: string,
     rating: number,
     summaryProfessor: {
         name: string,

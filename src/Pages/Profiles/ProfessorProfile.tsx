@@ -15,12 +15,12 @@ import {ProfessorModel} from "../../Models/Users/User";
 import {getUserFromToken, getUserId, isAuthenticated, isVerified} from "../../Services/AuthHelper";
 import * as React from "react";
 import {Subject} from "../../Models/Subject";
-import {apiGetSubjects} from "../../Services/UserService";
 import {useNavigate} from "react-router-dom";
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import DisplayReview from '../../components/DisplayReview';
 import Box from '@mui/material/Box';
+import {apiGetSubjects} from "../../Services/SubjectService";
 
 function a11yProps(index: number) {
     return {
@@ -51,10 +51,6 @@ export default function ProfessorProfile() {
     }
 
     useEffect( () => {
-        if(!(isAuthenticated()))
-            navigate('/');
-        if(!isVerified())
-            navigate('/verify');
         loadUser();
         loadSubjects()
         },

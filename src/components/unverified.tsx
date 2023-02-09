@@ -5,10 +5,21 @@ import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import {CardActionArea, Grid, Button, CardActions} from '@mui/material';
 import './verify.css';
+import {useEffect, useState} from "react";
+import {UserModel} from "../Models/Users/User";
+import {getUserFromToken} from "../Services/AuthHelper";
 
 export default function Verified() {
+    const [user, setUser] = useState<UserModel>();
+
+    const loadUser = async () => {
+        setUser(await getUserFromToken());
+    }
+
+    useEffect( () => {loadUser()}, [])
+
     return (
-        
+         
         <div className="container-fluid py-5">
     <div className="container">
             
@@ -23,9 +34,9 @@ export default function Verified() {
                         <img src="./profilePhoto.jpeg" height={80} style={{width: '100px', height: '100px', borderRadius: '100px', margin: '10%'}} />
                         </div>
                         <ul className="signature-content">
-                            <li><h3 className="title"> nombre + apellido</h3></li>
-                            <li>Email: mail@mail.com</li>
-                            <li>Mobile: 112e12e1e</li>
+                            <li><h3 className="title"> {user?.name} {user?.surname}</h3></li>
+                            <li>Email: {user?.email}</li>
+                            <li>Mobile: {user?.phoneNumber}</li>
                         </ul>
                         <div>
                                 <form action="" method="post">
