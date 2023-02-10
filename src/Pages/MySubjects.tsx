@@ -13,12 +13,10 @@ import DisplayMySubject from '../components/DisplayMySubject';
 import {useEffect, useState} from "react";
 import {apiGetSubjects} from "../Services/SubjectService";
 import {getUserId} from "../Services/AuthHelper";
-import {
-    activateContract, apiActivateContract,
+import { apiActivateContract,
     apiDeleteContract,
     apiGetContractsByStatus, apiPauseContract,
-    getIdFromUrl,
-    pauseContract
+    getIdFromUrl
 } from "../Services/ContractService";
 import {Contract} from "../Models/Contract";
 

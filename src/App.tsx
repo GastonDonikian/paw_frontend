@@ -19,6 +19,9 @@ import EditStudentProfile from './Pages/Profiles/EditStudentProfile';
 import NewSubject from './Pages/NewSubject';
 import Subjects from './Pages/Subjects';
 import NewContract from './Pages/NewContract';
+import MyStudents from './Pages/MyStudents';
+import MyLessons from './Pages/MyLessons';
+import Class from './Pages/Class';
 
 function App() {
   return (
@@ -72,6 +75,15 @@ function App() {
             </Routes>
             <Routes>
                 <Route path="/newContract" element={<NewContract/>}/>
+            </Routes>
+            <Routes>
+                <Route path="/myStudents" element={<MyStudents/>}/>
+            </Routes>
+            <Routes>
+                <Route path="/myLessons" element={<MyLessons/>}/>
+            </Routes>
+            <Routes>
+                <Route path="/class" element={<Class/>}/>
             </Routes>
             
       </Router>

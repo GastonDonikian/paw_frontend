@@ -16,7 +16,7 @@ import "./App.css"
 import Grid from '@mui/material/Grid'
 
 const pagesLoggedIn = ['Professors', 'Classes'];
-const pagesLoggedOut =  ['Professors'];
+const pagesLoggedOut =  ['Professors', 'MyLessons', 'MyStudents'];
 const rightLoggedOut = ['Register', 'Login']
 const settingsLoggedIn = ['Profile' ,'mySubjects', 'Logout'];
 const settingsLoggedOut = ['Register', 'Login'];
@@ -98,7 +98,10 @@ function Navbar() {
                                 key={page}
                                 href={page.toLowerCase()}
                                 onClick={handleCloseNavMenu}
-                                sx={{ my: 2, color: 'white', display: 'block'}}
+                                sx={{ my: 2, color: 'white', display: 'block',
+                                '&:hover': {
+                                    color: 'white'
+                                },}}
                             >
                                 {page}
                             </Button>
@@ -141,7 +144,9 @@ function Navbar() {
                             key={page}
                             href={page.toLowerCase()}
                             onClick={handleCloseNavMenu}
-                            sx={{ my: 2, color: 'white', display: 'block'}}
+                            sx={{ my: 2, color: 'white', display: 'block','&:hover': {
+                                color: 'white'
+                            },}}
                         >
                             {page}
                         </Button>

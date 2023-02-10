@@ -80,7 +80,10 @@ export default function SearchHome() {
                             <Button
                                 key={category}
                                 disableFocusRipple
-                                sx={{ mr: 1, color: 'white', display: 'block', bgcolor: '#349AC2'}}
+                                sx={{ mr: 1, color: 'white', display: 'block', bgcolor: '#349AC2',
+                                '&:hover': {
+                                    backgroundColor: '#349AC2',
+                                } }}
                             >
                                 {category.category}
                             </Button>

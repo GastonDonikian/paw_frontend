@@ -1,5 +1,5 @@
-import Verified from "../../components/verified"
-import Unverified from "../../components/unverified"
+import Verified from "../../components/verify/verified"
+import Unverified from "../../components/verify/unverified"
 import {UserModel} from "../../Models/Users/User";
 import {isVerified} from "../../Services/AuthHelper";
 

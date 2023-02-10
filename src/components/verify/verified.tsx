@@ -6,8 +6,8 @@ import Typography from '@mui/material/Typography';
 import {CardActionArea, Grid, Button, CardActions} from '@mui/material';
 import './verify.css';
 import {useEffect, useState} from "react";
-import {UserModel} from "../Models/Users/User";
-import {getUserFromToken, isAuthenticated, isVerified} from "../Services/AuthHelper";
+import {UserModel} from "../../Models/Users/User";
+import {getUserFromToken, isAuthenticated, isVerified} from "../../Services/AuthHelper";
 
 export default function Verified() {
     const [user, setUser] = useState<UserModel>();
