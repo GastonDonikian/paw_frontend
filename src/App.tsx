@@ -44,7 +44,7 @@ function App() {
                 <Route path="/editProfessorProfile" element={<EditProfessorProfile/>}/>
                 <Route path="/editStudentProfile" element={<EditStudentProfile/>}/>
                 <Route path="/newSubject" element={<NewSubject/>}/>
-                <Route path="/subjects" element={<Subjects/>}/>
+                <Route path="/addSubjects" element={<Subjects/>}/>
                 <Route path="/newContract" element={<NewContract/>}/>
                 <Route path="/myStudents" element={<MyStudents/>}/>
                 <Route path="/myLessons" element={<MyLessons/>}/>

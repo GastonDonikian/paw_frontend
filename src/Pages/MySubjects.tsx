@@ -23,12 +23,13 @@ import {Contract} from "../Models/Contract";
 
 
 export default function MySubjects() {
+    const navigate = useNavigate()
     const [activeContracts,setActiveContracts] = useState<Contract[]>([])
     const [onHoldContracts,setOnHoldContracts] = useState<Contract[]>([])
 
     const loadContracts = async () => {
         setActiveContracts(await apiGetContractsByStatus('ACTIVE'));
-        setActiveContracts(await apiGetContractsByStatus('PAUSED'));
+        setOnHoldContracts(await apiGetContractsByStatus('PAUSED'));
     }
 
     const sendActive = async (contract: Contract) => {
@@ -75,7 +76,7 @@ export default function MySubjects() {
                                <Grid item><Typography variant="h5" gutterBottom component="div" sx={{mb:0}} >
                                 Subjects
                             </Typography></Grid> <Grid item>
-                            <Button>Add Subject</Button></Grid></Grid>
+                            <Button onClick={() => {navigate('/addSubjects')}}>Add Subject</Button></Grid></Grid>
                         </Container>
                         <List sx={{ width: '100%', bgcolor: 'background.paper' }}>
                             {activeContracts.length > 0 && activeContracts.map( (contract:any) => (

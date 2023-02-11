@@ -34,12 +34,16 @@ function buildQuery(baseUrl:string,professorId?: number,subjectId?: number, cate
     if(local !== undefined){
         baseUrl = baseUrl + "local=" + remote + '&';
     }
+    if(status !== 'ACTIVE'){
+        baseUrl = baseUrl + "status=" + status + "&"
+    }
     if(orderBy !== undefined){
         baseUrl = baseUrl + "orderBy=" + orderBy + '&';
     }
     if(search !== undefined){
         baseUrl = baseUrl + "search=" + search + '&';
     }
+    console.log(status)
     return baseUrl
 
 }
@@ -48,6 +52,7 @@ async function apiGetContracts(professorId?: number,subjectId?: number, categori
                                levels?: string[],status: string='ACTIVE', locations?: string [],
                                remote ?:boolean, local?: boolean, orderBy?: string, search?: string) {
     let baseUrl = "/contracts"
+    console.log(status)
     const response = await apiPublic.get(buildQuery(baseUrl,professorId,subjectId,categories,levels,status,locations,remote,local,orderBy,search))
     return response.data;
 }
@@ -69,12 +74,12 @@ export function getIdFromUrl(url: String){
     return splitUrl[4]
 }
 export async function apiPauseContract(url:String) {
-    const response = await apiPrivate.post('/contracts/' + getIdFromUrl(url),{"status": "PAUSED"})
+    const response = await apiPrivate.put('/contracts/' + getIdFromUrl(url),{"status": "PAUSED"})
     return response.data;
 }
 
 export async function apiActivateContract(url:String) {
-    const response = await apiPrivate.post('/contracts/' + getIdFromUrl(url),{"status": "ACTIVE"})
+    const response = await apiPrivate.put('/contracts/' + getIdFromUrl(url),{"status": "ACTIVE"})
     return response.data;
 }
 
