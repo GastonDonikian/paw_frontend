@@ -21,6 +21,11 @@ import Tab from '@mui/material/Tab';
 import DisplayReview from '../../components/DisplayReview';
 import Box from '@mui/material/Box';
 import {apiGetSubjects} from "../../Services/SubjectService";
+import {getContractsForProfessor} from "../../Services/ContractService";
+import contractCard from "../../components/ContractCard";
+import {ContractCardInterface} from "../../Models/Contract";
+import ListItem from "@mui/material/ListItem";
+import ListItemText from "@mui/material/ListItemText";
 
 function a11yProps(index: number) {
     return {
@@ -41,18 +46,25 @@ export default function ProfessorProfile() {
 
     let navigate = useNavigate()
     const [user, setUser] = useState<ProfessorModel>();
-    const [subjects, setSubjects] = useState<[Subject]>();
+    const [contracts, setContracts] = useState<ContractCardInterface []>();
+    const [selectedContract, setSelectedContracts] = useState<ContractCardInterface>()
 
     const loadUser = async () => {
         setUser(await getUserFromToken());
     }
-    const loadSubjects = async () => {
-        setSubjects(await apiGetSubjects(getUserId()))
+
+    const loadContracts = async () => {
+        setContracts(await getContractsForProfessor(getUserId()))
+        console.log(contracts)
+    }
+
+    const selectContract = async (contract: ContractCardInterface) => {
+        setSelectedContracts(contract)
     }
 
     useEffect( () => {
         loadUser();
-        loadSubjects()
+        loadContracts();
         },
         [])
 
@@ -107,13 +119,19 @@ export default function ProfessorProfile() {
 
                         <Container component="div" sx={{alignContent: 'center', p: '0.75rem 1.25rem', mb:0, backgroundColor: 'rgba(0,0,0,.03)', borderBottom: '1px solid rgba(0,0,0,.125)' }}>
                             <Typography variant="h5" gutterBottom component="div" sx={{mb:0}} >
-                                Subjects {subjects?.length}
+                                Subjects {contracts?.length}
                             </Typography>
                         </Container>
                         <List sx={{pb:2, pl:2, pr:2, width: '100%', bgcolor: 'background.paper' }}>
-                        {subjects && (subjects.length > 0 ?subjects.map((subject: any) => (
-                            <div><DisplayListItem title={subject.name} description={subject.category}/>
-                                <Divider variant="inset" component="li" sx={{ml:0}} /></div>
+                        {contracts && (contracts.length > 0 ?contracts.map((contract: ContractCardInterface) => (
+                            <Typography onClick={() => setSelectedContracts(contract)}>
+                                <ListItem alignItems="flex-start">
+                                    <ListItemText primaryTypographyProps={(selectedContract !== undefined && selectedContract.url === contract.url) ? {fontWeight:'bold'} : {fontWeight:'normal'}}
+                                        primary= {contract.subject.name}
+                                        secondary={contract.subject.category}
+                                    />
+                                </ListItem>
+                                <Divider variant="inset" component="li" sx={{ml:0}} /></Typography>
                         )) : <CircularProgress/>)}
                         </List>
                     </div>
@@ -134,8 +152,23 @@ export default function ProfessorProfile() {
                         </Container>
                         {tab1 ?  
                                 <List sx={{ pb: 2, pl: 2, pr: 2, width: '100%', bgcolor: 'background.paper' }}>
-                                    <DisplayListItem title="Mail" description="desc" />
-                                    <Divider variant="inset" component="li" sx={{ ml: 0 }} />
+                                    {selectedContract ?
+                                        <div>
+                                            <DisplayListItem title="Subject" description={selectedContract.subject.name} />
+                                            <Divider variant="inset" component="li" sx={{ ml: 0 }} />
+                                            <DisplayListItem title="Studies" description={selectedContract.summaryProfessor.studies} />
+                                            <Divider variant="inset" component="li" sx={{ ml: 0 }} />
+                                            <DisplayListItem title="Description" description={selectedContract.description} />
+                                            <Divider variant="inset" component="li" sx={{ ml: 0 }} />
+                                            <DisplayListItem title="Phone" description={selectedContract.summaryProfessor.phoneNumber} />
+                                            <Divider variant="inset" component="li" sx={{ ml: 0 }} />
+                                            <DisplayListItem title="Price" description={selectedContract.price} />
+                                            <Divider variant="inset" component="li" sx={{ ml: 0 }} />
+                                            <DisplayListItem title="Modality" description={selectedContract.local + ' ' + selectedContract.remote} />
+                                            <Divider variant="inset" component="li" sx={{ ml: 0 }} />
+                                        </div>:
+                                    <div><DisplayListItem title="Mail" description="desc" />
+                                        <Divider variant="inset" component="li" sx={{ ml: 0 }} /></div>}
                                 </List> : null}
                                 {!tab1 ?  
                                 <List sx={{ pb: 2, pl: 2, pr: 2, width: '100%', bgcolor: 'background.paper' }}>

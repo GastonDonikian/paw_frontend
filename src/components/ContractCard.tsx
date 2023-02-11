@@ -8,19 +8,21 @@ import Grid from '@mui/material/Grid';
 import ListItemText from '@mui/material/ListItemText';
 // @ts-ignore
 import Flippy, { FrontSide, BackSide } from 'react-flippy';
+import {ContractCardInterface} from "../Models/Contract";
 
 
 const ContractCardComponent = (props: any) => {
-  
-  let name : string = props.name;
-  let surname: string = props.surname;
-  let subject: string = props.subject;
-  let rating: number = props.rating;
-  let price: string = props.price ;
-  let description : string = props.description;
-  let studies: string = props.studies ;
-  let location: string = props.location ;
-  let modality: string = props.modality ;
+  let contract: ContractCardInterface = props.contract;
+  let name : string = contract.summaryProfessor.name;
+  let surname: string = contract.summaryProfessor.surname;
+  let subject: string = contract.subject.name;
+  let rating: number = contract.rating;
+  let price: string = contract.price ;
+  let description : string = contract.description;
+  let studies: string = contract.summaryProfessor.studies ;
+  let location: string = contract.summaryProfessor.location ;
+  let modality: string = contract.remote + ' ' + contract.local ;
+  let url: string = contract.url
  
 
 

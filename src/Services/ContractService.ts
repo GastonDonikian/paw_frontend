@@ -40,7 +40,6 @@ function buildQuery(baseUrl:string,professorId?: number,subjectId?: number, cate
     if(search !== undefined){
         baseUrl = baseUrl + "search=" + search + '&';
     }
-
     return baseUrl
 
 }
@@ -83,6 +82,11 @@ export async function apiDeleteContract(url:string){
     const response = await apiPrivate.delete('/contracts/' + getIdFromUrl(url))
     return response.data;
 }
+
+export async function getContractsForProfessor(id: number) {
+    return await apiGetContractsCard(id,undefined,undefined,undefined,undefined,undefined,undefined,undefined,undefined,undefined)
+}
+
 export async function getContractsByFilter(categories?: [string],levels?: [string],locations?: [string],modality?: [string],orderBy?: string){
     let remote , local;
     if(modality) {

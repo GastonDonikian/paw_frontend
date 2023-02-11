@@ -158,8 +158,6 @@ export default function ProfessorProfile() {
 
                                 
                             </div>
-
-
                         </Grid>
                         <Grid item xs={9} sx={{ alignItems: 'center', display: 'flex', flexDirection: 'column' }}>
                             <Grid container
@@ -168,19 +166,14 @@ export default function ProfessorProfile() {
                                 spacing={2} >
                                 {contracts && contracts.map(contract =>
                                     <Grid item xs={4} >
-                                        <ContractCardComponent name={contract.summaryProfessor.name} surname={contract.summaryProfessor.surname}
+                                        <ContractCardComponent contract={contract} name={contract.summaryProfessor.name} surname={contract.summaryProfessor.surname}
                                                       subject={contract.subject.name} rating={contract.rating} price={contract.price}
                                                       description={contract.description} studies={contract.summaryProfessor.studies}
                                                                location={contract.summaryProfessor.location} modality={contract.remote}
                                         />
                                     </Grid>)
                                 }
-
                             </Grid>
-
-
-
-
                             <Pagination count={10} color="primary" sx={{ mt: 2 }} />
 
 
