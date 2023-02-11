@@ -31,7 +31,7 @@ export default function Home() {
                     alignItems="stretch"
                     spacing={2} 
                     >
-                        {isAuthenticated() ?
+                        {!isAuthenticated() ?
                         <Grid item xs={4} alignItems="stretch" component="a"
                         href="/register" sx={{textDecoration: 'none' }}>
                             <RegisterHome/>

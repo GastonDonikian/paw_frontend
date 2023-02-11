@@ -31,7 +31,6 @@ export default function FilterCategory({childToParent} : any) {
       // On autofill, we get a stringifies value.
       typeof value === 'string' ? value.split(',') : value,
     );
-    // console.log(value)
     childToParent(value)
   };
 
