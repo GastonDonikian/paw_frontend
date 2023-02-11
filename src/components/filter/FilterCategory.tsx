@@ -6,6 +6,8 @@ import FormControl from '@mui/material/FormControl';
 import ListItemText from '@mui/material/ListItemText';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import Checkbox from '@mui/material/Checkbox';
+import {getCategories} from "../../Services/EnumService";
+import {useEffect, useState} from "react";
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -18,11 +20,16 @@ const MenuProps = {
   },
 };
 
-const categories = ['All', 'Language', 'Science', 'Social', 'Arts'];
 
-export default function FilterCategory({childToParent} : any) {
-  const [cat, setCategory] = React.useState<string[]>([]);
+export default function FilterCategory(props : any) {
+  const [cat, setCategory] = React.useState<string[]>(props.initialCategory || []);
+  const [categories, setCategories] = useState([]);
 
+    const load = async () => {
+       setCategories((await getCategories()).map((categ: any) => categ.category));
+    }
+    useEffect( () => {load()},
+        [])
   const handleChange = (event: SelectChangeEvent<typeof cat>) => {
     const {
       target: { value },
@@ -31,10 +38,11 @@ export default function FilterCategory({childToParent} : any) {
       // On autofill, we get a stringifies value.
       typeof value === 'string' ? value.split(',') : value,
     );
-    childToParent(value)
+    props.childToParent(value)
   };
 
-  return (
+  // @ts-ignore
+    return (
       <FormControl size='small' sx={{ m: 1, width: 250}}>
         <InputLabel id="demo-multiple-checkbox-label">Category</InputLabel>
         <Select
@@ -47,7 +55,7 @@ export default function FilterCategory({childToParent} : any) {
           renderValue={(selected) => selected.join(', ')}
           MenuProps={MenuProps}
         >
-          {categories.map((category) => (
+          {categories.map((category: any) => (
             <MenuItem key={category} value={category}>
               <Checkbox checked={cat.indexOf(category) > -1} />
               <ListItemText primary={category} />

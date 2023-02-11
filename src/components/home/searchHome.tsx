@@ -12,6 +12,7 @@ import '../../App.css';
 import { Container } from '@mui/system';
 import { Category } from '../../Models/Enums/Category';
 import {getCategories} from "../../Services/EnumService";
+import {useNavigate} from "react-router-dom";
 
 
 
@@ -19,6 +20,7 @@ import {getCategories} from "../../Services/EnumService";
 export default function SearchHome() {
     // const navigate = useNavigate();
     const [categories, setCategories] = useState([]);
+    const navigate = useNavigate()
     const load = async () => {
         setCategories(await getCategories())
     }
@@ -27,8 +29,7 @@ export default function SearchHome() {
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
-        //let authenticationData;
-        console.log(data.get('search') as string);
+        navigate("/professors?search=" + data.get('search') as string)
     }
 
     return (
@@ -78,7 +79,10 @@ export default function SearchHome() {
                     <Container sx={{ flexDirection: 'row', textAlign:'center', alignItems: 'center', justifyContent: 'center', display: { xs: 'none', md: 'flex' } }}>
                         {categories.length > 0 ?categories.map((category: any) => (
                             <Button
-                                key={category}
+                                key={category.category}
+                                onClick={() => {
+                                    navigate("/professors?categories=" + category.category)
+                                }}
                                 disableFocusRipple
                                 sx={{ mr: 1, color: 'white', display: 'block', bgcolor: '#349AC2',
                                 '&:hover': {

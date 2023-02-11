@@ -8,12 +8,12 @@ import FormHelperText from '@mui/material/FormHelperText';
 import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 
-export default function FilterOrderBy({childToParent} : any) {
-  const [order, setOrder] = React.useState('');
+export default function FilterOrderBy(props : any) {
+  const [order, setOrder] = React.useState(props.initialOrderBy || '');
 
   const handleChange = (event: SelectChangeEvent) => {
     setOrder(event.target.value);
-    childToParent(event.target.value);
+    props.childToParent(event.target.value);
   };
 
   return (
@@ -27,8 +27,8 @@ export default function FilterOrderBy({childToParent} : any) {
         label="Order by (descending)"
         onChange={handleChange}
       >
-        <MenuItem value={10}>Price</MenuItem>
-        <MenuItem value={20}>Rating</MenuItem>
+        <MenuItem value={"Price"}>Price</MenuItem>
+        <MenuItem value={"Rating"}>Rating</MenuItem>
       </Select>
     </FormControl>
     

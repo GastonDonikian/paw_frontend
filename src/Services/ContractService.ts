@@ -3,8 +3,8 @@ import {Category} from "../Models/Enums/Category";
 import {getUserId} from "./AuthHelper";
 
 
-function buildQuery(baseUrl:string,professorId?: number,subjectId?: number, categories?: [string],
-                    levels?: [string],status: string='ACTIVE', locations?: [string],
+function buildQuery(baseUrl:string,professorId?: number,subjectId?: number, categories?: string [],
+                    levels?: string [],status: string='ACTIVE', locations?: string [],
                     remote ?:boolean, local?: boolean, orderBy?: string, search?: string) {
     baseUrl += '?'
     if(professorId !== undefined){
@@ -14,7 +14,7 @@ function buildQuery(baseUrl:string,professorId?: number,subjectId?: number, cate
         baseUrl = baseUrl + "subjectId=" + subjectId + '&';
     }
     if(categories !== undefined){
-        for(var category of categories){
+        for(const category of categories){
             baseUrl = baseUrl + "categories=" + category + '&'
         }
     }
@@ -44,8 +44,8 @@ function buildQuery(baseUrl:string,professorId?: number,subjectId?: number, cate
 
 }
 
-async function apiGetContracts(professorId?: number,subjectId?: number, categories?: [string],
-                               levels?: [string],status: string='ACTIVE', locations?: [string],
+async function apiGetContracts(professorId?: number,subjectId?: number, categories?: string [],
+                               levels?: string[],status: string='ACTIVE', locations?: string [],
                                remote ?:boolean, local?: boolean, orderBy?: string, search?: string) {
     let baseUrl = "/contracts"
     const response = await apiPublic.get(buildQuery(baseUrl,professorId,subjectId,categories,levels,status,locations,remote,local,orderBy,search))
@@ -56,29 +56,29 @@ export async function apiGetContractsByStatus(status: string){
     return apiGetContracts(getUserId(),undefined,undefined,undefined,status,undefined,undefined,undefined,undefined,undefined);
 }
 
-async function apiGetContractsCard(professorId?: number,subjectId?: number, categories?: [string],
-                               levels?: [string],status: string='ACTIVE', locations?: [string],
+async function apiGetContractsCard(professorId?: number,subjectId?: number, categories?: string [],
+                               levels?: string [],status: string='ACTIVE', locations?: string [],
                                remote ?:boolean, local?: boolean, orderBy?: string, search?: string) {
     let baseUrl = "/contractsCards"
     const response = await apiPublic.get(buildQuery(baseUrl,professorId,subjectId,categories,levels,status,locations,remote,local,orderBy,search))
     return response.data;
 }
 
-export function getIdFromUrl(url: string){
+export function getIdFromUrl(url: String){
     const splitUrl = url.split('/');
     return splitUrl[4]
 }
-export async function apiPauseContract(url:string) {
+export async function apiPauseContract(url:String) {
     const response = await apiPrivate.post('/contracts/' + getIdFromUrl(url),{"status": "PAUSED"})
     return response.data;
 }
 
-export async function apiActivateContract(url:string) {
+export async function apiActivateContract(url:String) {
     const response = await apiPrivate.post('/contracts/' + getIdFromUrl(url),{"status": "ACTIVE"})
     return response.data;
 }
 
-export async function apiDeleteContract(url:string){
+export async function apiDeleteContract(url:String){
     const response = await apiPrivate.delete('/contracts/' + getIdFromUrl(url))
     return response.data;
 }
@@ -87,7 +87,11 @@ export async function getContractsForProfessor(id?: number) {
     return await apiGetContractsCard(id,undefined,undefined,undefined,undefined,undefined,undefined,undefined,undefined,undefined)
 }
 
-export async function getContractsByFilter(categories?: [string],levels?: [string],locations?: [string],modality?: [string],orderBy?: string){
+export async function getContractsBySearch(search: string){
+    return apiGetContractsCard(undefined,undefined,undefined,undefined,undefined,undefined,undefined,undefined,undefined,search)
+}
+
+export async function getContractsByFilter(categories?: string [],levels?: string [],locations?: string [],modality?: string [],orderBy?: string){
     let remote , local;
     if(modality) {
         if(modality.includes('remote'))

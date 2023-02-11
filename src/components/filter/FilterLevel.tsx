@@ -6,6 +6,8 @@ import FormControl from '@mui/material/FormControl';
 import ListItemText from '@mui/material/ListItemText';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import Checkbox from '@mui/material/Checkbox';
+import {useEffect, useState} from "react";
+import {getCategories, getLevels} from "../../Services/EnumService";
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -18,11 +20,16 @@ const MenuProps = {
   },
 };
 
-const levels = ['All', 'School', 'High School', 'College'];
 
-export default function FilterLevel({childToParent}: any) {
-  const [lev, setLevel] = React.useState<string[]>([]);
+export default function FilterLevel(props: any) {
+  const [lev, setLevel] = React.useState<string[]>(props.initialLevel || []);
+    const [levels, setLevels] = useState([]);
 
+    const load = async () => {
+        setLevels((await getLevels()).map((level: any) => level.level));
+    }
+    useEffect( () => {load()},
+        [])
   const handleChange = (event: SelectChangeEvent<typeof lev>) => {
     const {
       target: { value },
@@ -31,7 +38,7 @@ export default function FilterLevel({childToParent}: any) {
       // On autofill, we get a stringified value.
       typeof value === 'string' ? value.split(',') : value,
     );
-    childToParent(value)
+    props.childToParent(value)
   };
 
   return ( 

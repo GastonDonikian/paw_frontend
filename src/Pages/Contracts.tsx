@@ -1,36 +1,21 @@
 import * as React from 'react';
-import FormLabel from '@mui/material/FormLabel';
-import FormControl from '@mui/material/FormControl';
-import FormGroup from '@mui/material/FormGroup';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import FormHelperText from '@mui/material/FormHelperText';
-import Checkbox from '@mui/material/Checkbox';
 import FilterOrderBy from '../components/filter/FilterOrderBy';
 import FilterLevel from '../components/filter/FilterLevel';
-
 import Container from '@mui/material/Container';
 import Pagination from '@mui/material/Pagination';
-import Card from '@mui/material/Card';
-import List from '@mui/material/List';
-import Rating from '@mui/material/Rating';
-import Divider from '@mui/material/Divider';
 import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
 import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
-import CardContent from '@mui/material/CardContent';
-import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
-import { CardActionArea, Grid, Button, CardActions, CardHeader } from '@mui/material';
+import { Grid, Button } from '@mui/material';
 import '../App.css'
-import DisplayListItem from '../components/DisplayListItem';
-import { padding } from '@mui/system';
 import ContractCardComponent from '../components/ContractCard';
 import FilterModality from '../components/filter/FilterModality';
 import FilterCategory from '../components/filter/FilterCategory';
 import {useEffect, useState} from "react";
-import {getContractsByFilter} from "../Services/ContractService";
+import {getContractsByFilter, getContractsBySearch} from "../Services/ContractService";
 import {ContractCardInterface} from "../Models/Contract";
-import {useNavigate} from "react-router-dom";
+import {useNavigate, useSearchParams} from "react-router-dom";
 import {getUserIdFromUrl} from "../Services/UserService";
 
 
@@ -38,38 +23,57 @@ import {getUserIdFromUrl} from "../Services/UserService";
 export default function ProfessorProfile() {
     const [contracts, setContracts] = useState<[ContractCardInterface]>()
     let navigate = useNavigate()
-    const [categories, setCategory] = useState<[string]>();
-    const [level, setLevel] = useState<[string]>();
-    const [modality, setModality] = useState<[string]>();
-    const [orderBy, setOrderBy] = useState<string>();
+    const [categories, setCategories] = useState<string []>([]);
+    const [levels, setLevels] = useState<string []>([]);
+    const [modality, setModality] = useState<string []>([]);
+    const [queryParams] = useSearchParams();
+    const [orderBy, setOrderBy] = useState<string>(queryParams.get('orderBy') || '');
+    const [search, setSearch] = useState<string>(queryParams.get('search') || '')
+
     const handleSearchSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
-        //let authenticationData;
-        console.log(data.get('search') as string);
-    }
-
-    const handleFilterSubmit = async () => {
-        let cont = await getContractsByFilter(categories, level, undefined, modality, orderBy)
-        console.log(categories)
+        let cont = await getContractsBySearch(data.get('search') as string || search)
         setContracts(cont)
-
+    }
+    const fetchContracts = async () =>{
+        let cont = await getContractsByFilter(categories, levels, undefined, modality, orderBy)
+        setContracts(cont)
     }
 
+    const fetchContractsBySearch = async () => {
+        let cont = await getContractsBySearch(search)
+        setContracts(cont)
+    }
     useEffect(() => {
-        const fetchContracts = async () =>{
-            let cont = await getContractsByFilter(undefined, undefined, undefined, undefined, undefined)
-            setContracts(cont)
+        if(search !== '') {
+            fetchContractsBySearch()
+            return;
+        }
+
+        //@ts-ignore
+        for (const entry of queryParams.entries()) {
+            const [param, value] = entry;
+            if (param == "levels") {
+                !levels.includes(value) && levels.push(value)
+            }
+            if (param == "categories") {
+                !categories.includes(value) && categories.push(value)
+            }
+            if (param == "modality") {
+                !modality.includes(value) && modality.push(value)
+            }
         }
         fetchContracts()
+        console.log(categories)
     },[])
 
     const handleCategory = (cat : any) => {
-        setCategory(cat)
+        setCategories(cat)
     }
 
     const handleLevel = (lev : any) => {
-        setLevel(lev)
+        setLevels(lev)
     }
     const handleModality = (mod : any) => {
         setModality(mod)
@@ -77,8 +81,6 @@ export default function ProfessorProfile() {
     const handleOrderBy = (order : any) => {
         setOrderBy(order)
     }
-
-
 
     return (
         <div>
@@ -91,6 +93,8 @@ export default function ProfessorProfile() {
                                 name="search"
                                 fullWidth
                                 label="Search"
+                                placeholder={search}
+                                InputLabelProps={{ shrink: true }}
                                 variant="outlined"
                                 size="small"
                                 sx={{ mt: 2, mb: 2 }}
@@ -144,14 +148,14 @@ export default function ProfessorProfile() {
                                     </Typography>
                                 </Container>
                                 <Grid container sx={{ display: 'flex', flexDirection: 'column', mr: 4, m:2,}}>
-                                    <Grid item sx={{pr: 7}}> <FilterCategory childToParent={handleCategory}/> </Grid>
-                                    <Grid item sx={{pr: 7}}> <FilterLevel childToParent={handleLevel}/> </Grid>
-                                    <Grid item sx={{pr: 7}}> <FilterModality childToParent={handleModality}/> </Grid>
-                                    <Grid item sx={{pr: 7}}> <FilterOrderBy childToParent={handleOrderBy}/> </Grid>
+                                    <Grid item sx={{pr: 7}}> <FilterCategory initialCategory={categories} childToParent={handleCategory}/> </Grid>
+                                    <Grid item sx={{pr: 7}}> <FilterLevel initialLevel={levels} childToParent={handleLevel}/> </Grid>
+                                    <Grid item sx={{pr: 7}}> <FilterModality initialModality={modality} childToParent={handleModality}/> </Grid>
+                                    <Grid item sx={{pr: 7}}> <FilterOrderBy initialOrderBy={orderBy} childToParent={handleOrderBy}/> </Grid>
                                 <Button
                                     type="submit"
                                     variant="contained"
-                                    onClick={handleFilterSubmit}
+                                    onClick={fetchContracts}
                                     sx={{ mr: 8, mt: 1, mb: 1, bgcolor: '#349AC2', alignSelf: 'flex-end'}}
                                 >
                                     Filter
