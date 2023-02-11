@@ -83,7 +83,7 @@ export async function apiDeleteContract(url:string){
     return response.data;
 }
 
-export async function getContractsForProfessor(id: number) {
+export async function getContractsForProfessor(id?: number) {
     return await apiGetContractsCard(id,undefined,undefined,undefined,undefined,undefined,undefined,undefined,undefined,undefined)
 }
 

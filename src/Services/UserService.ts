@@ -19,6 +19,10 @@ export async function apiRegisterStudent(registerStudent: RegisterStudentModel){
                 "isProfessor": false});
 }
 
+export function getUserIdFromUrl(url: string){
+    const splitUrl = url.split('/');
+    return splitUrl[4]
+}
 
 
 

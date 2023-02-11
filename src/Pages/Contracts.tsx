@@ -30,12 +30,14 @@ import FilterCategory from '../components/filter/FilterCategory';
 import {useEffect, useState} from "react";
 import {getContractsByFilter} from "../Services/ContractService";
 import {ContractCardInterface} from "../Models/Contract";
+import {useNavigate} from "react-router-dom";
+import {getUserIdFromUrl} from "../Services/UserService";
 
 
 
 export default function ProfessorProfile() {
     const [contracts, setContracts] = useState<[ContractCardInterface]>()
-
+    let navigate = useNavigate()
     const [categories, setCategory] = useState<[string]>();
     const [level, setLevel] = useState<[string]>();
     const [modality, setModality] = useState<[string]>();
@@ -155,8 +157,6 @@ export default function ProfessorProfile() {
                                     Filter
                                 </Button>
                                 </Grid>
-
-                                
                             </div>
                         </Grid>
                         <Grid item xs={9} sx={{ alignItems: 'center', display: 'flex', flexDirection: 'column' }}>
@@ -165,18 +165,14 @@ export default function ProfessorProfile() {
                                 alignItems="stretch"
                                 spacing={2} >
                                 {contracts && contracts.map(contract =>
-                                    <Grid item xs={4} >
-                                        <ContractCardComponent contract={contract} name={contract.summaryProfessor.name} surname={contract.summaryProfessor.surname}
-                                                      subject={contract.subject.name} rating={contract.rating} price={contract.price}
-                                                      description={contract.description} studies={contract.summaryProfessor.studies}
-                                                               location={contract.summaryProfessor.location} modality={contract.remote}
-                                        />
+                                    <Grid item xs={4} onClick={() => {
+                                        navigate('/professorProfile/' + getUserIdFromUrl(contract.summaryProfessor.url))
+                                    }}>
+                                        <ContractCardComponent contract={contract} on/>
                                     </Grid>)
                                 }
                             </Grid>
                             <Pagination count={10} color="primary" sx={{ mt: 2 }} />
-
-
                         </Grid>
 
 

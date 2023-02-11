@@ -30,62 +30,26 @@ function App() {
         <Router>
             <Routes>
                 <Route path="/" element={<Home/>}/>
-            </Routes>
-            <Routes>
                 <Route path="/professors" element={<Contracts/>}/>
-            </Routes>
-            <Routes>
                 <Route path="/login" element={<Login/>}/>
-            </Routes>
-            <Routes>
                 <Route path="/logout" element={<Logout/>}/>
-            </Routes>
-            <Routes>
                 <Route path="/register" element={<Register/>}/>
-            </Routes>
-            <Routes>
                 <Route path="/registerStudent" element={<RegisterStudent/>}/>
-            </Routes>
-            <Routes>
                 <Route path="/registerProfessor" element={<RegisterProfessor/>}/>
-            </Routes>
-            <Routes>
                 <Route path="/verify" element={<Verify/>}/>
-            </Routes>
-            <Routes>
                 <Route path="/profile" element={<StudentProfile/>}/>
-            </Routes>
-            <Routes>
+                <Route path="/professorProfile/:id/" element={<ProfessorProfile/>}/>
                 <Route path="/professorProfile" element={<ProfessorProfile/>}/>
-            </Routes>
-            <Routes>
                 <Route path="/mySubjects" element={<MySubjects/>}/>
-            </Routes>
-            <Routes>
                 <Route path="/editProfessorProfile" element={<EditProfessorProfile/>}/>
-            </Routes>
-            <Routes>
                 <Route path="/editStudentProfile" element={<EditStudentProfile/>}/>
-            </Routes>
-            <Routes>
                 <Route path="/newSubject" element={<NewSubject/>}/>
-            </Routes>
-            <Routes>
                 <Route path="/subjects" element={<Subjects/>}/>
-            </Routes>
-            <Routes>
                 <Route path="/newContract" element={<NewContract/>}/>
-            </Routes>
-            <Routes>
                 <Route path="/myStudents" element={<MyStudents/>}/>
-            </Routes>
-            <Routes>
                 <Route path="/myLessons" element={<MyLessons/>}/>
-            </Routes>
-            <Routes>
                 <Route path="/class" element={<Class/>}/>
             </Routes>
-            
       </Router>
       <MainBackground />
       </div>

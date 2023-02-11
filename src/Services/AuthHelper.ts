@@ -36,8 +36,13 @@ export async function getUserFromToken(){
 
 export function getUserId(){
     let token = localStorage.getItem('token') === null ? sessionStorage.getItem('token') : localStorage.getItem('token');
-    // @ts-ignore
-    return jwt(token)['id']
+    let id = -1;
+    try { // @ts-ignore
+        id = jwt(token)['id']}
+    catch (error){
+        return -1;
+    }
+    return id;
 }
 
 export function isVerified() {

@@ -12,10 +12,10 @@ import DisplayListItem from '../../components/DisplayListItem';
 import { padding } from '@mui/system';
 import {useEffect, useState} from "react";
 import {ProfessorModel} from "../../Models/Users/User";
-import {getUserFromToken, getUserId, isAuthenticated, isVerified} from "../../Services/AuthHelper";
+import {getUserById, getUserFromToken, getUserId, isAuthenticated, isVerified} from "../../Services/AuthHelper";
 import * as React from "react";
 import {Subject} from "../../Models/Subject";
-import {useNavigate} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import DisplayReview from '../../components/DisplayReview';
@@ -26,6 +26,7 @@ import contractCard from "../../components/ContractCard";
 import {ContractCardInterface} from "../../Models/Contract";
 import ListItem from "@mui/material/ListItem";
 import ListItemText from "@mui/material/ListItemText";
+import {apiGetUserById} from "../../Services/UserService";
 
 function a11yProps(index: number) {
     return {
@@ -36,6 +37,11 @@ function a11yProps(index: number) {
 
 
 export default function ProfessorProfile() {
+    let navigate = useNavigate()
+    let {id} = useParams();
+    if(id === undefined) {
+        navigate('/error404');
+    }
     const [tab1, setTab] = useState(true);
     const [value, setValue] = React.useState(0);
 
@@ -44,18 +50,23 @@ export default function ProfessorProfile() {
     };
 
 
-    let navigate = useNavigate()
+
     const [user, setUser] = useState<ProfessorModel>();
     const [contracts, setContracts] = useState<ContractCardInterface []>();
     const [selectedContract, setSelectedContracts] = useState<ContractCardInterface>()
-
+    const [isCurrentProfile,setIsCurrentProfile] = useState<Boolean>(false);
     const loadUser = async () => {
-        setUser(await getUserFromToken());
+        if(isCurrentProfile)
+            setUser(await getUserFromToken());
+        else {
+            //@ts-ignore
+            setUser(await getUserById(id));
+        }
     }
 
     const loadContracts = async () => {
-        setContracts(await getContractsForProfessor(getUserId()))
-        console.log(contracts)
+        // @ts-ignore
+        setContracts(await getContractsForProfessor(id))
     }
 
     const selectContract = async (contract: ContractCardInterface) => {
@@ -63,6 +74,11 @@ export default function ProfessorProfile() {
     }
 
     useEffect( () => {
+        if (id === undefined) {
+            navigate('/error404');
+        }
+        // @ts-ignore
+        setIsCurrentProfile((id === getUserId()))
         loadUser();
         loadContracts();
         },
