@@ -9,7 +9,7 @@ import {CardActionArea, Grid, Button, CardActions, CardHeader, CircularProgress}
 import '../../App.css'
 import DisplayListItem from '../../components/DisplayListItem';
 import {useEffect, useState} from "react";
-import {getUserFromToken, isAuthenticated, isVerified} from "../../Services/AuthHelper";
+import {getUserFromToken, getUserId, isAuthenticated, isVerified} from "../../Services/AuthHelper";
 import {UserModel} from "../../Models/Users/User";
 import * as React from "react";
 import {useNavigate} from "react-router-dom";
@@ -22,14 +22,9 @@ export default function StudentProfile() {
     const loadUser = async () => {
         setUser(await getUserFromToken());
     }
-
     useEffect( () => {
-        if(!(isAuthenticated())) {
-            navigate('/')
-        }
-        if(!isVerified()){
-            navigate('/verify')}
-        loadUser()},
+            loadUser();
+        },
         [])
     return (
         <Container component="main" maxWidth="xl" sx={{mt: 5,}} >
@@ -59,7 +54,7 @@ export default function StudentProfile() {
                             {user ? (user.name + ' ' + user.surname) : <CircularProgress/> }
                         </Typography>
                         <Button
-                            
+                            onClick={() => {navigate('/editStudentProfile')}}
                             variant="contained"
                             sx={{ mt: 3, mb: 2, bgcolor: '#349AC2',   }}
                         >

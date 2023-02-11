@@ -39,9 +39,6 @@ function a11yProps(index: number) {
 export default function ProfessorProfile() {
     let navigate = useNavigate()
     let {id} = useParams();
-    if(id === undefined) {
-        navigate('/error404');
-    }
     const [tab1, setTab] = useState(true);
     const [value, setValue] = React.useState(0);
 
@@ -56,7 +53,7 @@ export default function ProfessorProfile() {
     const [selectedContract, setSelectedContracts] = useState<ContractCardInterface>()
     const [isCurrentProfile,setIsCurrentProfile] = useState<Boolean>(false);
     const loadUser = async () => {
-        if(isCurrentProfile)
+        if(!id)
             setUser(await getUserFromToken());
         else {
             //@ts-ignore
@@ -74,12 +71,8 @@ export default function ProfessorProfile() {
     }
 
     useEffect( () => {
-        if (id === undefined) {
-            navigate('/error404');
-        }
-        // @ts-ignore
-        setIsCurrentProfile((id === getUserId()))
         loadUser();
+        setIsCurrentProfile(!id || (parseInt(id) === getUserId()))
         loadContracts();
         },
         [])
@@ -182,15 +175,26 @@ export default function ProfessorProfile() {
                                             <Divider variant="inset" component="li" sx={{ ml: 0 }} />
                                             <DisplayListItem title="Modality" description={selectedContract.local + ' ' + selectedContract.remote} />
                                             <Divider variant="inset" component="li" sx={{ ml: 0 }} />
+                                            {!isCurrentProfile && <Button variant="contained" >Request a lesson</Button>}
                                         </div>:
-                                    <div><DisplayListItem title="Mail" description="desc" />
-                                        <Divider variant="inset" component="li" sx={{ ml: 0 }} /></div>}
+                                    <div>
+                                        <DisplayListItem title="Mail" description={user?.email} />
+                                        <Divider variant="inset" component="li" sx={{ ml: 0 }} />
+                                        <DisplayListItem title="Studies" description={user?.studies} />
+                                        <Divider variant="inset" component="li" sx={{ ml: 0 }} />
+                                        <DisplayListItem title="Phone" description={user?.phoneNumber} />
+                                        <Divider variant="inset" component="li" sx={{ ml: 0 }} />
+                                    </div>}
                                 </List> : null}
                                 {!tab1 ?  
                                 <List sx={{ pb: 2, pl: 2, pr: 2, width: '100%', bgcolor: 'background.paper' }}>
                                     <DisplayReview name="Alejandro" surname="jimenex" review="la clase ta buena" rating="4" date="12-03-21" />
-                                    
                                 </List> : null}
+                        <Container>
+                            {isCurrentProfile && <Button variant="contained" onClick={() => {
+                            navigate('/editProfessorProfile')}
+                            }>Edit profile</Button>}
+                        </Container>
                     </div>
                 </Grid>
 

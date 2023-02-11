@@ -96,7 +96,7 @@ function Navbar() {
                         {pages.map((page) => (
                             <Button
                                 key={page}
-                                href={page.toLowerCase()}
+                                href={'/' + page.toLowerCase()}
                                 onClick={handleCloseNavMenu}
                                 sx={{ my: 2, color: 'white', display: 'block',
                                 '&:hover': {
@@ -142,7 +142,7 @@ function Navbar() {
                     {rightLoggedOut.map((page) => (
                         <Button
                             key={page}
-                            href={page.toLowerCase()}
+                            href={'/' + page.toLowerCase()}
                             onClick={handleCloseNavMenu}
                             sx={{ my: 2, color: 'white', display: 'block','&:hover': {
                                 color: 'white'

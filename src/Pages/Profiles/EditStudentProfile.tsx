@@ -3,73 +3,57 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
-import Link from '@mui/material/Link';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useNavigate } from "react-router-dom";
-import {isVerified, login, getUserById, isAuthenticated} from '../../Services/AuthHelper'
+import {isVerified, isAuthenticated, getUserFromToken} from '../../Services/AuthHelper'
 import {useEffect, useState} from "react";
 import {Alert} from "@mui/material";
 import {RegisterStudentModel } from '../../Models/Users/RegisterStudentModel'
 import * as Yup from 'yup';
-import {Form, Formik, Field, ErrorMessage} from "formik";
-import {apiRegisterStudent} from "../../Services/UserService";
+import {Form, Formik, Field} from "formik";
+import {apiEditStudent, apiRegisterStudent} from "../../Services/UserService";
 import {apiLogin} from "../../Services/Auth";
+import {ProfessorModel} from "../../Models/Users/User";
+import {EditStudentModel} from "../../Models/Users/EditStudentModel";
 
 
 const theme = createTheme();
 
 export default function EditStudentProfile() {
     const navigate = useNavigate();
-    useEffect(() => {
-        if(isVerified())
-            navigate('/verify')
-        if((isAuthenticated()))
-            navigate('/')
-    }, [])
     const [badCredentials, setBadCredentials] = useState(false);
+    const [user, setUser] = useState<ProfessorModel>();
+    const loadUser = async () => {
+        setUser(await getUserFromToken());
+    }
+    useEffect(() => {loadUser();}, [])
+
     const phoneRegExp = /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/
-    const registerStudentFormik = {
+    const editStudentFormik = {
         initialValues: {
-            email: "",
-            password: "",
-            repeatPassword: "",
-            name: "",
-            surname: "",
-            phoneNumber: ""
+            name: user?.name,
+            surname: user?.surname,
+            phoneNumber: user?.phoneNumber
         },
         validationSchema: Yup.object().shape({
-            email: Yup.string().email("Not an email"),
-            password: Yup.string()
-                .min(8, "Password should be longer than 8 characters")
-                .max(40, "Password should be shorter than 40 characters")
-                .required("Password is required!"),
-            repeatPassword: Yup.string().oneOf([Yup.ref('password'), null], 'Passwords must match'),
             name: Yup.string()
                 .min(3, "Name should be longer")
-                .max(40, "Name should be shorter")
-                .required("Name is required!"),
+                .max(40, "Name should be shorter"),
             surname: Yup.string()
                 .min(3, "Surname should be longer")
-                .max(40, "Surname should be shorter")
-                .required("Surname is required!"),
+                .max(40, "Surname should be shorter"),
             phoneNumber: Yup.string().matches(phoneRegExp, 'Phone number is not valid')
         })
     }
-    const handleSubmit = async (values: RegisterStudentModel) => {
+    const handleSubmit = async (values: EditStudentModel) => {
         try {
-            await apiRegisterStudent(values);
-            await apiLogin(values.email,values.password);
-            navigate('/verify');
+            await apiEditStudent(values);
+            navigate('/profile');
         } catch (error: any) {
             setBadCredentials(true);
-            navigate('/register')
         }
     }
     const onError = (error: string) => {
@@ -99,7 +83,7 @@ export default function EditStudentProfile() {
                     }}
                 >
                     
-                    <Formik {...registerStudentFormik} onSubmit={handleSubmit}>
+                    <Formik {...editStudentFormik} onSubmit={handleSubmit}>
                         {({values, errors}) => (
                             <Form>
                                 {badCredentials ? <Alert severity="error">Something went wrong!</Alert> :
@@ -111,6 +95,8 @@ export default function EditStudentProfile() {
                                     id="name"
                                     helperText={onError(errors['name'] || '')}
                                     label="Name"
+                                    InputLabelProps={{ shrink: true }}
+                                    placeholder={user?.name}
                                     name="name"
                                     size="small"
                                     sx={{mt:2}}
@@ -121,6 +107,8 @@ export default function EditStudentProfile() {
                                     fullWidth
                                     id="surname"
                                     helperText={onError(errors['surname'] || '')}
+                                    InputLabelProps={{ shrink: true }}
+                                    placeholder={user?.surname}
                                     label="Surname"
                                     name="surname"
                                     size="small"
@@ -129,19 +117,10 @@ export default function EditStudentProfile() {
                                     as={TextField}
                                     margin="none"
                                     fullWidth
-                                    id="email"
-                                    helperText={onError(errors['email'] || '')}
-                                    label="Email Address"
-                                    name="email"
-                                    autoFocus
-                                    size="small"
-                                />
-                                <Field
-                                    as={TextField}
-                                    margin="none"
-                                    fullWidth
                                     id="phoneNumber"
                                     helperText={onError(errors['phoneNumber'] || '')}
+                                    InputLabelProps={{ shrink: true }}
+                                    placeholder={user?.phoneNumber}
                                     label="Phone number"
                                     name="phoneNumber"
                                     size="small"
