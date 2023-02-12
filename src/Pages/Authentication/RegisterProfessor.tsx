@@ -36,14 +36,7 @@ function Copyright(props: any) {
 
 const theme = createTheme();
 
-export default function     RegisterProfessor() {
-
-    useEffect(() => {
-        if(isVerified())
-            navigate('/verify')
-        if((isAuthenticated()))
-            navigate('/')
-    }, [])
+export default function RegisterProfessor() {
     const navigate = useNavigate();
     const [badCredentials, setBadCredentials] = useState(false);
     const phoneRegExp = /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/

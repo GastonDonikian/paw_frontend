@@ -1,80 +1,64 @@
 import * as React from 'react';
-import FormLabel from '@mui/material/FormLabel';
-import FormControl from '@mui/material/FormControl';
-import FormGroup from '@mui/material/FormGroup';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import FormHelperText from '@mui/material/FormHelperText';
-import Checkbox from '@mui/material/Checkbox';
-import FilterOrderBy from '../components/filter/FilterOrderBy';
 import FilterLevel from '../components/filter/FilterLevel';
 
 import Container from '@mui/material/Container';
-import Pagination from '@mui/material/Pagination';
-import Card from '@mui/material/Card';
 import List from '@mui/material/List';
-import Rating from '@mui/material/Rating';
 import Divider from '@mui/material/Divider';
 import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
 import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
-import CardContent from '@mui/material/CardContent';
-import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import { CardActionArea, Grid, Button, CardActions, CardHeader } from '@mui/material';
 import '../App.css'
-import DisplayListItem from '../components/DisplayListItem';
-import { padding } from '@mui/system';
-import ContractCardComponent from '../components/ContractCard';
-import FilterModality from '../components/filter/FilterModality';
 import FilterCategory from '../components/filter/FilterCategory';
 import {useEffect, useState} from "react";
 import {getContractsByFilter} from "../Services/ContractService";
 import {ContractCardInterface} from "../Models/Contract";
 import DisplaySubject from '../components/DisplaySubject';
+import {useSearchParams} from "react-router-dom";
+import {apiGetSubjects} from "../Services/SubjectService";
+import {Subject} from "../Models/Subject";
+import {getUserId} from "../Services/AuthHelper";
 
 
 
 export default function Subjects() {
-    const [contracts, setContracts] = useState<[ContractCardInterface]>()
+    const [subjects, setSubjects] = useState<Subject []>([])
 
-    const [categories, setCategory] = useState<[string]>();
-    const [level, setLevel] = useState<[string]>();
-    const [modality, setModality] = useState<[string]>();
-    const [orderBy, setOrderBy] = useState<string>();
+    const [categories, setCategories] = useState<string []>([]);
+    const [levels, setLevels] = useState<string []>([]);
+    const [queryParams] = useSearchParams();
     const handleSearchSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-        event.preventDefault();
-        const data = new FormData(event.currentTarget);
-        //let authenticationData;
-        console.log(data.get('search') as string);
+        // event.preventDefault();
+        // const data = new FormData(event.currentTarget);
+        // //let authenticationData;
+        // console.log(data.get('search') as string);
     }
 
-    const handleFilterSubmit = async () => {
-        let cont = await getContractsByFilter(categories, level, undefined, modality, orderBy)
-        console.log(categories)
-        setContracts(cont)
-
+    const fetchSubjects = async () =>{
+        let subj = await apiGetSubjects(getUserId(), 1, false, categories, levels)
+        setSubjects(subj)
     }
-
     useEffect(() => {
-        const fetchContracts = async () =>{
-            let cont = await getContractsByFilter(undefined, undefined, undefined, undefined, undefined)
-            setContracts(cont)
+        //@ts-ignore
+        for (const entry of queryParams.entries()) {
+            const [param, value] = entry;
+            if (param == "levels") {
+                !levels.includes(value) && levels.push(value)
+            }
+            if (param == "categories") {
+                !categories.includes(value) && categories.push(value)
+            }
         }
-        fetchContracts()
+        fetchSubjects()
     },[])
 
     const handleCategory = (cat : any) => {
-        setCategory(cat)
+        setCategories(cat)
     }
 
     const handleLevel = (lev : any) => {
-        setLevel(lev)
-    }
-    const handleModality = (mod : any) => {
-        setModality(mod)
-    }
-    const handleOrderBy = (order : any) => {
-        setOrderBy(order)
+        setLevels(lev)
     }
 
 
@@ -143,23 +127,18 @@ export default function Subjects() {
                                     </Typography>
                                 </Container>
                                 <Grid container sx={{ display: 'flex', flexDirection: 'column', mr: 4, m:2,}}>
-                                    <Grid item sx={{pr: 7}}> <FilterCategory childToParent={handleCategory}/> </Grid>
-                                    <Grid item sx={{pr: 7}}> <FilterLevel childToParent={handleLevel}/> </Grid>
-                                
+                                    <Grid item sx={{pr: 7}}> <FilterCategory initialCategory={categories} childToParent={handleCategory}/> </Grid>
+                                    <Grid item sx={{pr: 7}}> <FilterLevel initialLevel={levels} childToParent={handleLevel}/> </Grid>
                                 <Button
                                     type="submit"
                                     variant="contained"
-                                    onClick={handleFilterSubmit}
+                                    onClick={fetchSubjects}
                                     sx={{ mr: 8, mt: 1, mb: 1, bgcolor: '#349AC2', alignSelf: 'flex-end'}}
                                 >
                                     Filter
                                 </Button>
                                 </Grid>
-
-                                
                             </div>
-
-
                         </Grid>
                         <Grid item xs={9}>
                     <div style={{boxShadow: '0 3px 10px rgb(0 0 0 / 0.2)', 
@@ -176,12 +155,13 @@ export default function Subjects() {
                             </Typography>
                         </Container>
                         <List sx={{pb:2, pl:2, pr:2, width: '100%', bgcolor: 'background.paper' }}>
-                            <DisplaySubject title="Matematica" description="High School"/>
-                            <Divider variant="inset" component="li" sx={{ml:0}} />
-                            <DisplaySubject title="Matematica" description="High School"/>
-                            <Divider variant="inset" component="li" sx={{ml:0}} />
-                            <DisplaySubject title="Matematica" description="High School"/>
-                            <Divider variant="inset" component="li" sx={{ml:0}} />
+                            {subjects.length > 0 && subjects?.map((subject:any) => (
+                                <div>
+                                    <DisplaySubject subject={subject} title={subject.name} description={subject.category}/>
+                                    <Divider variant="inset" component="li" sx={{ml:0}} />
+                                </div>
+                            ))
+                            }
                         </List>
                         
 

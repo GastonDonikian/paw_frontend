@@ -1,5 +1,4 @@
 import {apiPrivate, apiPublic} from "./ServiceUtils";
-import {Category} from "../Models/Enums/Category";
 import {getUserId} from "./AuthHelper";
 
 
@@ -43,16 +42,25 @@ function buildQuery(baseUrl:string,professorId?: number,subjectId?: number, cate
     if(search !== undefined){
         baseUrl = baseUrl + "search=" + search + '&';
     }
-    console.log(status)
     return baseUrl
 
+}
+
+export async function apiCreateContract(subjectId: number,description: string,local: boolean, remote: boolean, price: number){
+    const response = await apiPrivate.post("/contracts",{
+        subjectId: subjectId,
+        contractDescription: description,
+        local: local,
+        remote: remote,
+        price: price
+    })
+    return response.data
 }
 
 async function apiGetContracts(professorId?: number,subjectId?: number, categories?: string [],
                                levels?: string[],status: string='ACTIVE', locations?: string [],
                                remote ?:boolean, local?: boolean, orderBy?: string, search?: string) {
     let baseUrl = "/contracts"
-    console.log(status)
     const response = await apiPublic.get(buildQuery(baseUrl,professorId,subjectId,categories,levels,status,locations,remote,local,orderBy,search))
     return response.data;
 }
@@ -106,5 +114,5 @@ export async function getContractsByFilter(categories?: string [],levels?: strin
         if(modality.includes('local') && modality.includes('remote'))
             remote = local = undefined;
     }
-    return apiGetContractsCard(undefined,undefined,categories,levels,'ACTIVE',locations,remote,local,orderBy,undefined)
+    return apiGetContractsCard(undefined,undefined,categories,levels,'ACTIVE',locations,remote,local,orderBy,undefined);
 }

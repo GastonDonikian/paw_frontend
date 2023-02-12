@@ -12,6 +12,13 @@ export interface Contract {
     location: string
 }
 
+export interface CreateContractInterface{
+    description: string,
+    local: boolean,
+    remote: boolean,
+    price: number
+}
+
 export interface ContractCardInterface{
     description: string,
     local: boolean,

@@ -1,76 +1,63 @@
 import * as React from 'react';
-import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
-import Link from '@mui/material/Link';
-import MenuItem from '@mui/material/MenuItem';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { useNavigate } from "react-router-dom";
-import {isVerified, login, getUserById, isAuthenticated} from '../Services/AuthHelper'
+import {useNavigate, useParams} from "react-router-dom";
 import {useEffect, useState} from "react";
 import {Alert, Select} from "@mui/material";
 import {RegisterStudentModel } from '../Models/Users/RegisterStudentModel'
 import * as Yup from 'yup';
 import {Form, Formik, Field, ErrorMessage} from "formik";
-import {apiRegisterStudent} from "../Services/UserService";
+import {apiRegisterProfessor, apiRegisterStudent} from "../Services/UserService";
 import {apiLogin} from "../Services/Auth";
+import {CreateContractInterface} from "../Models/Contract";
+import {apiGetSubject, apiGetSubjects} from "../Services/SubjectService";
+import {RegisterProfessorModel} from "../Models/Users/RegisterProfessorModel";
+import {Subject} from "../Models/Subject";
+import {apiCreateContract} from "../Services/ContractService";
+import {CheckBox} from "@mui/icons-material";
 
 
 const theme = createTheme();
 
 export default function NewContract() {
     const navigate = useNavigate();
-    useEffect(() => {
-        if(isVerified())
-            navigate('/verify')
-        if((isAuthenticated()))
-            navigate('/')
-    }, [])
-    const [badCredentials, setBadCredentials] = useState(false);
-    const phoneRegExp = /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/
-    const registerStudentFormik = {
-        initialValues: {
-            email: "",
-            password: "",
-            repeatPassword: "",
-            name: "",
-            surname: "",
-            phoneNumber: ""
-        },
-        validationSchema: Yup.object().shape({
-            email: Yup.string().email("Not an email"),
-            password: Yup.string()
-                .min(8, "Password should be longer than 8 characters")
-                .max(40, "Password should be shorter than 40 characters")
-                .required("Password is required!"),
-            repeatPassword: Yup.string().oneOf([Yup.ref('password'), null], 'Passwords must match'),
-            name: Yup.string()
-                .min(3, "Name should be longer")
-                .max(40, "Name should be shorter")
-                .required("Name is required!"),
-            surname: Yup.string()
-                .min(3, "Surname should be longer")
-                .max(40, "Surname should be shorter")
-                .required("Surname is required!"),
-            phoneNumber: Yup.string().matches(phoneRegExp, 'Phone number is not valid')
-        })
+    let {id} = useParams();
+    const [subject,setSubject] = useState<Subject>();
+    const getCurrentSubject = async () => {
+        const subj =  await apiGetSubject(parseInt(id || '-1'));
+        setSubject(subj)
     }
-    const handleSubmit = async (values: RegisterStudentModel) => {
+
+    useEffect(() => {
+        getCurrentSubject()
+    },[])
+
+    const [badCredentials, setBadCredentials] = useState(false);
+    const newContractFormik = {
+        initialValues: {
+            description: "",
+            local: false,
+            remote: false,
+            price: 0.0
+        },
+        validationSchema: Yup.
+        object().shape({
+            description: Yup.string()
+                .required("Description is required!"),
+            price: Yup.number().required("Your lessons need a price!")})
+    }
+    const handleSubmit = async (values: CreateContractInterface) => {
         try {
-            await apiRegisterStudent(values);
-            await apiLogin(values.email,values.password);
-            navigate('/verify');
+            await apiCreateContract(parseInt(id || '-1'), values.description, values.local, values.remote, values.price)
+            navigate('/mysubjects');
         } catch (error: any) {
             setBadCredentials(true);
-            navigate('/register')
         }
     }
     const onError = (error: string) => {
@@ -102,64 +89,47 @@ export default function NewContract() {
                     <Typography component="h1" variant="h5">
                         Teach subject
                     </Typography>
-                    <Formik {...registerStudentFormik} onSubmit={handleSubmit}>
+                    <Formik {...newContractFormik} onSubmit={handleSubmit}>
                         {({values, errors}) => (
                             <Form>
                                 {badCredentials ? <Alert severity="error">Something went wrong!</Alert> :
                                     <div></div>}
-                                <Field
-                                    as={TextField}
-                                    margin="none"
-                                    fullWidth
-                                    id="name"
-                                    helperText={onError(errors['email'] || '')}
-                                    label="Name"
-                                    name="name"
-                                    disabled
-                                    defaultValue="Name"
-                                    size="small"
-                                    sx={{mt:2}}
-                                />
                                  <Field
                                     as={TextField}
                                     margin="none"
                                     fullWidth
                                     id="subject"
-                                    helperText={onError(errors['email'] || '')}
+                                    helperText={onError( '')}
                                     label="Subject"
                                     name="subject"
-                                    disabled
-                                    defaultValue="Matematica"
+                                    InputLabelProps={{ shrink: true }}
+                                    value={subject?.name}
                                     size="small"
                                 />
                                 <Field
                                     as={TextField}
                                     margin="none"
                                     fullWidth
-                                    id="name"
-                                    helperText={onError(errors['name'] || '')}
-                                    label="Subject"
-                                    name="subject"
+                                    id="description"
+                                    helperText={onError(errors['description'] || '')}
+                                    label="Description"
+                                    name="description"
                                     size="small"
                                 />
-                                
-                                <Field
-                                    as={TextField}
-                                    margin="none"
-                                    fullWidth
-                                    id="message"
-                                    helperText={onError(errors['phoneNumber'] || '')}
-                                    label="Message"
-                                    name="message"
-                                    size="small"
-                                />
-                                
+                                <label>
+                                    <Field fullWidth type="checkbox" id="local" name="local"/>
+                                    Local
+                                </label>
+                                <label>
+                                    <Field fullWidth type="checkbox" id="remote" name="remote"/>
+                                    Remote
+                                </label>
                                 <Field
                                     as={TextField}
                                     margin="none"
                                     fullWidth
                                     id="price"
-                                    helperText={onError(errors['phoneNumber'] || '')}
+                                    helperText={onError(errors['price'] || '')}
                                     label="Price per hour"
                                     name="price"
                                     size="small"
