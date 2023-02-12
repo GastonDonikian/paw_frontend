@@ -1,0 +1,11 @@
+{
+  "verified": {
+    "body": "Su cuenta fue verificada",
+    "button": "Comenzar"
+  },
+  "unverified": {
+    "body": "Su cuenta no fue verificada, por favor revise su casilla de correo",
+    "button": "Reenviar mail"
+  },
+  "password": "Contraseña"
+}

@@ -7,7 +7,7 @@ import ListItem from '@mui/material/ListItem';
 import Grid from '@mui/material/Grid';
 import ListItemText from '@mui/material/ListItemText';
 // @ts-ignore
-import Flippy, { FrontSide, BackSide } from 'react-flippy';
+// import Flippy, { FrontSide, BackSide } from 'react-flippy';
 
 
 const ContractCard = (props: any) => {
@@ -26,17 +26,17 @@ const ContractCard = (props: any) => {
 
   return (
     <div>
-         <Flippy
-    flipOnHover={true} // default false
-    flipDirection="horizontal" // horizontal or vertical
+    {/*     <Flippy*/}
+    {/*flipOnHover={true} // default false*/}
+    {/*flipDirection="horizontal" // horizontal or vertical*/}
     
-     >
+    {/* >*/}
     
-    <FrontSide
-      style={{
-        backgroundColor: 'white', borderRadius:'8px'
-      }}
-    >
+    {/*<FrontSide*/}
+    {/*  style={{*/}
+    {/*    backgroundColor: 'white', borderRadius:'8px'*/}
+    {/*  }}*/}
+    {/*>*/}
         <Grid sx={{alignContent:'center', display: 'flex', textAlign:'center', justifyItems: 'center', flexDirection: 'column'}}>
             <Grid item>
                 <img src="./profilePhoto.jpeg" height={80} /> 
@@ -58,16 +58,16 @@ const ContractCard = (props: any) => {
             
         </Grid>
 
-    </FrontSide>
-    <BackSide
-      style={{ backgroundColor: 'white', borderRadius:'8px'}}>
-        <Typography >Description: {description}</Typography>
-        <Typography >Studies: {studies}</Typography>
-        <Typography >Location: {location}</Typography>
-        <Typography >Modality: {modality}</Typography>
-           
-    </BackSide>
-  </Flippy>
+  {/*  </FrontSide>*/}
+  {/*  <BackSide*/}
+  {/*    style={{ backgroundColor: 'white', borderRadius:'8px'}}>*/}
+  {/*      <Typography >Description: {description}</Typography>*/}
+  {/*      <Typography >Studies: {studies}</Typography>*/}
+  {/*      <Typography >Location: {location}</Typography>*/}
+  {/*      <Typography >Modality: {modality}</Typography>*/}
+  {/*         */}
+  {/*  </BackSide>*/}
+  {/*</Flippy>*/}
 </div>
 
   );

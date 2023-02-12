@@ -4,7 +4,6 @@ import {useTranslation} from "react-i18next";
 import './verify.css';
 
 export default function Unverified() {
-    const {t} = useTranslation()
     return (
         
         <div className="container-fluid py-5">

@@ -13,6 +13,7 @@ import RegisterProfessor from "./Pages/Authentication/RegisterProfessor";
 import Logout from "./Pages/Authentication/Logout";
 import ProfessorProfile from './Pages/Profiles/ProfessorProfile';
 import Contracts from './Pages/Contracts';
+import {useTranslation} from "react-i18next";
 
 function App() {
   return (
