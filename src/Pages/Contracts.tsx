@@ -17,6 +17,7 @@ import {getContractsByFilter, getContractsBySearch} from "../Services/ContractSe
 import {ContractCardInterface} from "../Models/Contract";
 import {useNavigate, useSearchParams} from "react-router-dom";
 import {getUserIdFromUrl} from "../Services/UserService";
+import NothingHere from '../components/nothingHere';
 
 
 
@@ -168,6 +169,9 @@ export default function ProfessorProfile() {
                                 direction="row"
                                 alignItems="stretch"
                                 spacing={2} >
+                                    
+                                   <NothingHere/>
+
                                 {contracts && contracts.map(contract =>
                                     <Grid item xs={4} onClick={() => {
                                         navigate('/professorProfile/' + getUserIdFromUrl(contract.summaryProfessor.url))
