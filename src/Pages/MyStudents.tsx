@@ -88,11 +88,11 @@ export default function MyStudents() {
     const [openFinish, setOpenFinish] = React.useState(false);
 
     const handleClickOpenFinish = () => {
-      setOpenReject(true);
+      setOpenFinish(true);
     };
   
     const handleCloseFinish = () => {
-      setOpenReject(false);
+      setOpenFinish(false);
     };
   
 
