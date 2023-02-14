@@ -173,8 +173,8 @@ export default function Class() {
 
                                 <Container component="div" sx={{ alignItems: 'center', p: '0.75rem 1.25rem', mb: 0, backgroundColor: 'rgba(0,0,0,.03)', borderBottom: '1px solid rgba(0,0,0,.125)' }}>
                                     <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
-                                        <Tab label="Chat" {...a11yProps(0)} onClick={() => setTab(s => !s)} />
-                                        <Tab label="Files" {...a11yProps(1)} onClick={() => setTab(s => !s)} />
+                                        <Tab label="Chat" {...a11yProps(0)} onClick={() => {if(tab1===false) {setTab(s => !s)} }}/>
+                                        <Tab label="Files" {...a11yProps(1)} onClick={() =>  {if(tab1===true) {setTab(s => !s)} }} />
                                     </Tabs>
                                 </Container>
                                 {tab1 ?

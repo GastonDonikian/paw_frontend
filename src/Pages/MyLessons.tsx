@@ -57,14 +57,14 @@ const GreenButton = styled(Button)<ButtonProps>(({ theme }) => ({
 }));
 
 export default function MyLessons() {
-    const [open, setOpen] = React.useState(false);
+    const [openRate, setOpenRate] = React.useState(false);
 
-  const handleClickOpen = () => {
-    setOpen(true);
+  const handleClickOpenRate = () => {
+    setOpenRate(true);
   };
 
-  const handleClose = () => {
-    setOpen(false);
+  const handleCloseRate = () => {
+    setOpenRate(false);
   };
 
   const [rating, setRating] = React.useState<number | null>(2);
@@ -74,6 +74,20 @@ export default function MyLessons() {
     const handleChange = (event: React.SyntheticEvent, newValue: number) => {
         setValue(newValue);
     };
+
+
+    const [open, setOpen] = React.useState(false);
+
+    const handleClickOpen = () => {
+      setOpen(true);
+    };
+  
+    const handleClose = () => {
+      setOpen(false);
+    };
+  
+
+    
 
 
     return (
@@ -108,11 +122,11 @@ export default function MyLessons() {
                 <List sx={{ pb: 2, pl: 2, pr: 2, width: '100%', bgcolor: 'background.paper' }}>
 
                     <DisplayLesson name="juan" surname="perez" email="email">
-                        <RedButton variant="outlined" sx={{ mt: 1, ml: 2, }}>Cancel request</RedButton>
+                        <RedButton variant="outlined"  onClick={handleClickOpen} sx={{ mt: 1, ml: 2, }}>Cancel request</RedButton>
                     </DisplayLesson>
 
                     <DisplayLesson name="juan" surname="perez" email="email">
-                        <RedButton variant="outlined" sx={{ mt: 1, ml: 2, }}>Cancel request</RedButton>
+                        <RedButton variant="outlined" onClick={handleClickOpen} sx={{ mt: 1, ml: 2, }}>Cancel request</RedButton>
                     </DisplayLesson>
                 </List>
             )}
@@ -122,7 +136,7 @@ export default function MyLessons() {
                 <List sx={{ pb: 2, pl: 2, pr: 2, width: '100%', bgcolor: 'background.paper' }}>
 
                     <DisplayLesson name="juan" surname="perez" email="email">
-                        <RedButton variant="outlined" sx={{ mt: 1, ml: 2, }}>Cancel lesson</RedButton>
+                        <RedButton variant="outlined"  onClick={handleClickOpen} sx={{ mt: 1, ml: 2, }}>Cancel lesson</RedButton>
                         <GreenButton variant="outlined" sx={{ mt: 1, ml: 2, }}>Go to class</GreenButton>
                   </DisplayLesson>
                 </List>
@@ -132,13 +146,13 @@ export default function MyLessons() {
                 <List sx={{ pb: 2, pl: 2, pr: 2, width: '100%', bgcolor: 'background.paper' }}>
 
                     <DisplayLesson name="juan" surname="perez" email="email">
-                        <BlueButton variant="outlined" onClick={handleClickOpen} sx={{ mt: 1, ml: 2, }}>Rate</BlueButton>
+                        <BlueButton variant="outlined" onClick={handleClickOpenRate} sx={{ mt: 1, ml: 2, }}>Rate</BlueButton>
                         <GreenButton variant="outlined" sx={{ mt: 1, ml: 2, }}>Request new lesson</GreenButton>
                     </DisplayLesson>
                 </List>
             )}
-<Dialog open={open} onClose={handleClose}>
-        <DialogTitle>Subscribe</DialogTitle>
+<Dialog open={openRate} onClose={handleCloseRate}>
+        <DialogTitle>Rate lesson</DialogTitle>
         <DialogContent>
           <DialogContentText>
             Rating:
@@ -157,8 +171,8 @@ export default function MyLessons() {
         />
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose}>Close</Button>
-          <Button onClick={handleClose}>Rate</Button>
+          <Button onClick={handleCloseRate}>Close</Button>
+          <Button onClick={handleCloseRate}>Rate</Button>
         </DialogActions>
       </Dialog>
 
@@ -174,6 +188,29 @@ export default function MyLessons() {
             )}
 
 
+
+
+<Dialog
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">
+          {"Are you sure you want to cancel this lesson?"}
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            This action is permanent, and to undo it you will have to request another lesson.
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose}>no</Button>
+          <Button onClick={handleClose} autoFocus>
+            yes
+          </Button>
+        </DialogActions>
+      </Dialog>
 
         </Container>
     );

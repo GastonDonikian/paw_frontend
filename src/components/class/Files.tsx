@@ -4,6 +4,12 @@ import Divider from '@mui/material/Divider';
 import ListItemText from '@mui/material/ListItemText';
 import { Button, Typography, TextField, Grid } from '@mui/material';
 import Table from '@mui/material/Table';
+import * as React from 'react';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
 
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -32,6 +38,16 @@ const RedButton = styled(Button)<ButtonProps>(({ theme }) => ({
 
 export default function Files() {
 
+    const [open, setOpen] = React.useState(false);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
     return (
         <>
             <Table sx={{ minWidth: 650, mb: 0 }} aria-label="simple table">
@@ -46,7 +62,7 @@ export default function Files() {
                     <ListItemText primary={"file name xdxd"} />
                     <BlueButton variant="contained" >
                         Download</BlueButton>
-                    <RedButton variant="contained" sx={{ ml: 2, }}>
+                    <RedButton onClick={handleClickOpen} variant="contained" sx={{ ml: 2, }}>
                         Delete</RedButton>
                 </ListItem>
                 <Divider variant="inset" component="li" sx={{ ml: 0 }} />
@@ -55,12 +71,35 @@ export default function Files() {
                     <ListItemText primary={"file name xdxd"} />
                     <BlueButton variant="contained" >
                         Download</BlueButton>
-                    <RedButton variant="contained" sx={{ ml: 2, }}>
+                    <RedButton onClick={handleClickOpen} variant="contained" sx={{ ml: 2, }}>
                         Delete</RedButton>
                 </ListItem>
 
                 <Divider variant="inset" component="li" sx={{ ml: 0 }} />
             </List >
+
+            <Dialog
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">
+          {"Are you sure you want to delete this file?"}
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            The file will be permanently deleted and this action cannot be undone. 
+            You will need to upload the file again.
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose}>cancel</Button>
+          <Button onClick={handleClose} autoFocus sx={{color: 'red'}}>
+            delete
+          </Button>
+        </DialogActions>
+      </Dialog>
 
             <hr className="black" />
 

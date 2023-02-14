@@ -13,6 +13,11 @@ import { red, lightGreen, lightBlue } from '@mui/material/colors';
 import { ButtonProps } from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
 
 const BlueButton = styled(Button)<ButtonProps>(({ theme }) => ({
   color: lightBlue[600],
@@ -57,6 +62,40 @@ export default function MyStudents() {
       setValue(newValue);
     };
 
+    const [open, setOpen] = React.useState(false);
+
+    const handleClickOpen = () => {
+      setOpen(true);
+    };
+  
+    const handleClose = () => {
+      setOpen(false);
+    };
+
+
+    const [openReject, setOpenReject] = React.useState(false);
+
+    const handleClickOpenReject = () => {
+      setOpenReject(true);
+    };
+  
+    const handleCloseReject = () => {
+      setOpenReject(false);
+    };
+
+
+
+    const [openFinish, setOpenFinish] = React.useState(false);
+
+    const handleClickOpenFinish = () => {
+      setOpenReject(true);
+    };
+  
+    const handleCloseFinish = () => {
+      setOpenReject(false);
+    };
+  
+
     return (
 
 <Container component="div" maxWidth="md" sx={{
@@ -88,13 +127,13 @@ export default function MyStudents() {
               <List sx={{ pb: 2, pl: 2, pr: 2, width: '100%', bgcolor: 'background.paper' }}>
 
                   <DisplayLesson name="juan" surname="perez" email="email">
-                      <RedButton variant="outlined" sx={{ mt: 1, ml: 2, }}>Reject student</RedButton>
+                      <RedButton variant="outlined"  onClick={handleClickOpenReject} sx={{ mt: 1, ml: 2, }}>Reject student</RedButton>
                       <GreenButton variant="outlined" sx={{ mt: 1, ml: 2, }}>Accept student</GreenButton>
                   
                   </DisplayLesson>
 
                   <DisplayLesson name="juan" surname="perez" email="email">
-                      <RedButton variant="outlined" sx={{ mt: 1, ml: 2, }}>Reject student</RedButton>
+                      <RedButton variant="outlined"  onClick={handleClickOpenReject} sx={{ mt: 1, ml: 2, }}>Reject student</RedButton>
                       <GreenButton variant="outlined" sx={{ mt: 1, ml: 2, }}>Accept student</GreenButton>
                   </DisplayLesson>
               </List>
@@ -105,8 +144,8 @@ export default function MyStudents() {
               <List sx={{ pb: 2, pl: 2, pr: 2, width: '100%', bgcolor: 'background.paper' }}>
 
                   <DisplayLesson name="juan" surname="perez" email="email">
-                      <RedButton variant="outlined" sx={{ mt: 1, ml: 2, }}>Cancel lesson</RedButton>
-                      <BlueButton variant="outlined" sx={{ mt: 1, ml: 2, }}>Finish lesson</BlueButton>
+                      <RedButton variant="outlined" onClick={handleClickOpen} sx={{ mt: 1, ml: 2, }}>Cancel lesson</RedButton>
+                      <BlueButton variant="outlined" onClick={handleClickOpenFinish} sx={{ mt: 1, ml: 2, }}>Finish lesson</BlueButton>
                       <GreenButton variant="outlined" sx={{ mt: 1, ml: 2, }}>Go to class</GreenButton>
                   </DisplayLesson>
               </List>
@@ -136,6 +175,80 @@ export default function MyStudents() {
                   </DisplayLesson>
               </List>
           )}
+
+<Dialog
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">
+          {"Are you sure you want to cancel this lesson?"}
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            This action is permanent, and to undo it the student will have to request another lesson.
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose}>no</Button>
+          <Button onClick={handleClose} autoFocus>
+            yes
+          </Button>
+        </DialogActions>
+      </Dialog>
+
+
+
+<Dialog
+        open={openReject}
+        onClose={handleCloseReject}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">
+          {"Are you sure you want to reject this student?"}
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            This action is permanent, and to undo it the student will have to request another lesson.
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseReject}>no</Button>
+          <Button onClick={handleCloseReject} autoFocus>
+            yes
+          </Button>
+        </DialogActions>
+      </Dialog>
+
+
+      <Dialog
+        open={openFinish}
+        onClose={handleCloseFinish}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">
+          {"Are you sure you want to finish this lesson?"}
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            This action is permanent, but the student can request another lesson.
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseFinish}>no</Button>
+          <Button onClick={handleCloseFinish} autoFocus>
+            yes
+          </Button>
+        </DialogActions>
+      </Dialog>
+
+
+
+
+
    </Container>
       
      
