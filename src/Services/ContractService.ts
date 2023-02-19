@@ -42,7 +42,7 @@ function buildQuery(baseUrl:string,professorId?: number,subjectId?: number, cate
     if(search !== undefined){
         baseUrl = baseUrl + "search=" + search + '&';
     }
-    return baseUrl
+    return baseUrl;
 
 }
 

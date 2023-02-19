@@ -22,7 +22,7 @@ import NothingHere from '../components/nothingHere';
 
 
 export default function ProfessorProfile() {
-    const [contracts, setContracts] = useState<[ContractCardInterface]>()
+    const [contracts, setContracts] = useState<ContractCardInterface []>()
     let navigate = useNavigate()
     const [categories, setCategories] = useState<string []>([]);
     const [levels, setLevels] = useState<string []>([]);

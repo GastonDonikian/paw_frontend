@@ -15,6 +15,11 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
+import {useEffect, useState} from "react";
+import {LessonInterface} from "../Models/Lesson";
+import {apiGetLessons} from "../Services/LessonService";
+import {getUserId} from "../Services/AuthHelper";
+import {getIdFromUrl} from "../Services/ContractService";
 
 
 
@@ -58,6 +63,26 @@ const GreenButton = styled(Button)<ButtonProps>(({ theme }) => ({
 
 export default function MyLessons() {
     const [openRate, setOpenRate] = React.useState(false);
+    const [lessons, setLessons] = useState<LessonInterface []>();
+    const [rating, setRating] = React.useState<number | null>(2);
+    const [value, setValue] = React.useState(0);
+    let isProfessor = false
+
+    useEffect(() => {
+        if(lessons === undefined){
+            getLessons()
+        }
+
+    },[])
+    const getLessons = async () => {
+        let less;
+        if(isProfessor) {
+            less = await apiGetLessons(getUserId(),undefined,undefined,undefined,undefined)
+        } else {
+            less = await apiGetLessons(undefined,getUserId(),undefined,undefined,undefined)
+        }
+        setLessons(less)
+    }
 
   const handleClickOpenRate = () => {
     setOpenRate(true);
@@ -67,9 +92,7 @@ export default function MyLessons() {
     setOpenRate(false);
   };
 
-  const [rating, setRating] = React.useState<number | null>(2);
 
-    const [value, setValue] = React.useState(0);
 
     const handleChange = (event: React.SyntheticEvent, newValue: number) => {
         setValue(newValue);
@@ -120,35 +143,31 @@ export default function MyLessons() {
             {//requests
             value === 0 && (
                 <List sx={{ pb: 2, pl: 2, pr: 2, width: '100%', bgcolor: 'background.paper' }}>
-
-                    <DisplayLesson name="juan" surname="perez" email="email">
-                        <RedButton variant="outlined"  onClick={handleClickOpen} sx={{ mt: 1, ml: 2, }}>Cancel request</RedButton>
-                    </DisplayLesson>
-
-                    <DisplayLesson name="juan" surname="perez" email="email">
-                        <RedButton variant="outlined" onClick={handleClickOpen} sx={{ mt: 1, ml: 2, }}>Cancel request</RedButton>
-                    </DisplayLesson>
+                    {lessons && lessons.filter(c => c.lessonStatus === "PENDING_APPROVAL").map(selectedLesson =>
+                        <DisplayLesson lesson={selectedLesson} isProfessor={isProfessor}>
+                            <RedButton variant="outlined"  onClick={handleClickOpen} sx={{ mt: 1, ml: 2, }}>Cancel request</RedButton>
+                        </DisplayLesson>)}
                 </List>
             )}
 
             {//in progress
             value === 1 && (
                 <List sx={{ pb: 2, pl: 2, pr: 2, width: '100%', bgcolor: 'background.paper' }}>
-
-                    <DisplayLesson name="juan" surname="perez" email="email">
-                        <RedButton variant="outlined"  onClick={handleClickOpen} sx={{ mt: 1, ml: 2, }}>Cancel lesson</RedButton>
-                        <GreenButton variant="outlined" sx={{ mt: 1, ml: 2, }}>Go to class</GreenButton>
-                  </DisplayLesson>
+                    {lessons && lessons.filter(c => c.lessonStatus === "IN_PROCESS").map(selectedLesson =>
+                        <DisplayLesson lesson={selectedLesson} isProfessor={isProfessor}>
+                            <RedButton variant="outlined"  onClick={handleClickOpen} sx={{ mt: 1, ml: 2, }}>Cancel lesson</RedButton>
+                            <GreenButton variant="outlined" sx={{ mt: 1, ml: 2, }}>Go to class</GreenButton>
+                        </DisplayLesson>)}
                 </List>
             )}
             {//finished
             value === 2 && (
                 <List sx={{ pb: 2, pl: 2, pr: 2, width: '100%', bgcolor: 'background.paper' }}>
-
-                    <DisplayLesson name="juan" surname="perez" email="email">
-                        <BlueButton variant="outlined" onClick={handleClickOpenRate} sx={{ mt: 1, ml: 2, }}>Rate</BlueButton>
-                        <GreenButton variant="outlined" sx={{ mt: 1, ml: 2, }}>Request new lesson</GreenButton>
-                    </DisplayLesson>
+                    {lessons && lessons.filter(c => c.lessonStatus === "FINISHED").map(selectedLesson =>
+                        <DisplayLesson lesson={selectedLesson} isProfessor={isProfessor}>
+                            <BlueButton variant="outlined" onClick={handleClickOpenRate} sx={{ mt: 1, ml: 2, }}>Rate</BlueButton>
+                            <GreenButton variant="outlined" sx={{ mt: 1, ml: 2, }}>Request new lesson</GreenButton>
+                        </DisplayLesson>)}
                 </List>
             )}
 <Dialog open={openRate} onClose={handleCloseRate}>
@@ -180,10 +199,10 @@ export default function MyLessons() {
             { // cancelled
             value === 3 && (
                 <List sx={{ pb: 2, pl: 2, pr: 2, width: '100%', bgcolor: 'background.paper' }}>
-
-                    <DisplayLesson name="juan" surname="perez" email="email">
+                    {lessons && lessons.filter(c => c.lessonStatus === "CANCELLED").map(selectedLesson =>
+                    <DisplayLesson lesson={selectedLesson} isProfessor={isProfessor}>
                         <GreenButton variant="outlined" sx={{ mt: 1, ml: 2, }}>Request new lesson</GreenButton>
-                    </DisplayLesson>
+                    </DisplayLesson>)}
                 </List>
             )}
 
@@ -211,7 +230,6 @@ export default function MyLessons() {
           </Button>
         </DialogActions>
       </Dialog>
-
         </Container>
     );
 }

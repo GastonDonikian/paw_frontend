@@ -8,12 +8,22 @@ import { Grid, Typography } from '@mui/material';
 import Rating from '@mui/material/Rating';
 import Avatar from '@mui/material/Avatar';
 import Container from '@mui/material/Container';
+import {LessonInterface} from "../Models/Lesson";
+import {bool} from "yup";
 
 const DisplayLesson = (props: any) => {
+    let currentLesson: LessonInterface = props.lesson;
+    let isProfessor: boolean = props.isProfessor;
+    let name,email : string;
+    let subjectName: string = currentLesson.subjectName
+    if(isProfessor) {
+        name = currentLesson.studentName;
+        email = currentLesson.studentEmail;
+    } else {
+        name = currentLesson.professorName;
+        email = currentLesson.professorEmail;
+    }
 
-    let name: string = props.name;
-    let email: string = props.email;
-    let surname: string = props.surname;
 
 
     return (
@@ -27,7 +37,7 @@ const DisplayLesson = (props: any) => {
                        marginBottom: 8,
                        alignItems: 'flex-start', paddingBottom: 2}}>
                         <Container component="div" sx={{alignContent: 'center', p: '0.75rem 1.25rem', mb:0, backgroundColor: 'rgba(0,0,0,.03)', borderBottom: '1px solid rgba(0,0,0,.125)' }}>
-                           <Typography>subject</Typography>
+                           <Typography>{subjectName}</Typography>
                         </Container>
                    <ListItem alignItems="flex-start" >     
                 
@@ -44,7 +54,7 @@ const DisplayLesson = (props: any) => {
                     </Grid>
                     <Grid item xs={3} >
                         <Typography gutterBottom variant="h5" component="div" sx={{ml: 2, mb: 0 }}>
-                            {name} {surname}
+                            {name} - ${currentLesson.price}
                         </Typography>
                         <Typography gutterBottom component="div" sx={{ml:2,  mb: 0 }}>
                             {email}
