@@ -38,6 +38,7 @@ export interface ContractCardInterface{
         url: string
     }
     subject: {
+        "url": string,
         "category": string,
         "level": string,
         "name": string

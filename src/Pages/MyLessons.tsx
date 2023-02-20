@@ -1,27 +1,26 @@
 import Container from "@mui/material/Container";
 import List from "@mui/material/List";
-import { Typography, Button, Grid } from "@mui/material";
+import {Button, Typography} from "@mui/material";
 import DisplayLesson from "../components/DisplayLesson";
 import * as React from 'react';
+import {useEffect, useState} from 'react';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
-import { styled } from '@mui/material/styles';
+import {styled} from '@mui/material/styles';
 import Rating from "@mui/material/Rating";
-import { red, lightGreen, lightBlue } from '@mui/material/colors';
-import { ButtonProps } from '@mui/material/Button';
+import {lightBlue, lightGreen, red} from '@mui/material/colors';
+import {ButtonProps} from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
-import {useEffect, useState} from "react";
 import {LessonInterface} from "../Models/Lesson";
-import {apiGetLessons} from "../Services/LessonService";
+import {apiCancelLesson, apiGetLessons, apiRequestLesson} from "../Services/LessonService";
 import {getUserId} from "../Services/AuthHelper";
 import {getIdFromUrl} from "../Services/ContractService";
-
-
+import {apiPostReview} from "../Services/ReviewService"
 
 
 function a11yProps(index: number) {
@@ -64,8 +63,10 @@ const GreenButton = styled(Button)<ButtonProps>(({ theme }) => ({
 export default function MyLessons() {
     const [openRate, setOpenRate] = React.useState(false);
     const [lessons, setLessons] = useState<LessonInterface []>();
-    const [rating, setRating] = React.useState<number | null>(2);
+    const [rating, setRating] = React.useState<number>(0);
+    const [message, setMessage] = useState<string>('')
     const [value, setValue] = React.useState(0);
+    const [currentId, setCurrentId] = useState(-1);
     let isProfessor = false
 
     useEffect(() => {
@@ -74,6 +75,12 @@ export default function MyLessons() {
         }
 
     },[])
+
+    const cancelLesson = async() => {
+        await apiCancelLesson(currentId)
+        setLessons(lessons => lessons?.filter(c => parseInt(getIdFromUrl(c.url)) !== currentId))
+    }
+
     const getLessons = async () => {
         let less;
         if(isProfessor) {
@@ -84,7 +91,8 @@ export default function MyLessons() {
         setLessons(less)
     }
 
-  const handleClickOpenRate = () => {
+  const handleClickOpenRate = (lessonUrl: string) => {
+        setCurrentId(parseInt(getIdFromUrl(lessonUrl)))
     setOpenRate(true);
   };
 
@@ -92,6 +100,14 @@ export default function MyLessons() {
     setOpenRate(false);
   };
 
+  const handleChangeMessage = (event : any) => {
+      setMessage(event.target.value);
+  };
+
+    const handleCloseRateSuccess = async () => {
+        await apiPostReview(currentId,message,rating)
+        setOpenRate(false);
+    };
 
 
     const handleChange = (event: React.SyntheticEvent, newValue: number) => {
@@ -101,7 +117,9 @@ export default function MyLessons() {
 
     const [open, setOpen] = React.useState(false);
 
-    const handleClickOpen = () => {
+
+    const handleClickOpen = (lessonUrl: string) => {
+        setCurrentId(parseInt(getIdFromUrl(lessonUrl)))
       setOpen(true);
     };
   
@@ -134,10 +152,10 @@ export default function MyLessons() {
             </Typography>
             <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
 
-                <Tab label="Requests" {...a11yProps(0)} />
-                <Tab label="In Progress" {...a11yProps(1)} />
-                <Tab label="Finished" {...a11yProps(2)} />
-                <Tab label="Cancelled" {...a11yProps(3)} />
+                <Tab label={"Requests (" + (lessons ? lessons?.filter(c => c.lessonStatus === "PENDING_APPROVAL").length : 0) + ")"}{...a11yProps(0)} />
+                <Tab label={"In Progress (" + (lessons ? lessons?.filter(c => c.lessonStatus === "IN_PROCESS").length : 0) + ")"} {...a11yProps(1)} />
+                <Tab label={"Finished (" + (lessons ?  lessons?.filter(c => c.lessonStatus === "FINISHED").length : 0) + ")"} {...a11yProps(2)} />
+                <Tab label={"Cancelled (" + (lessons ? lessons?.filter(c => c.lessonStatus === "CANCELLED").length : 0) + ")"} {...a11yProps(3)} />
             </Tabs>
 
             {//requests
@@ -145,7 +163,7 @@ export default function MyLessons() {
                 <List sx={{ pb: 2, pl: 2, pr: 2, width: '100%', bgcolor: 'background.paper' }}>
                     {lessons && lessons.filter(c => c.lessonStatus === "PENDING_APPROVAL").map(selectedLesson =>
                         <DisplayLesson lesson={selectedLesson} isProfessor={isProfessor}>
-                            <RedButton variant="outlined"  onClick={handleClickOpen} sx={{ mt: 1, ml: 2, }}>Cancel request</RedButton>
+                            <RedButton variant="outlined"  onClick={() => handleClickOpen(selectedLesson.url)} sx={{ mt: 1, ml: 2, }}>Cancel request</RedButton>
                         </DisplayLesson>)}
                 </List>
             )}
@@ -155,7 +173,7 @@ export default function MyLessons() {
                 <List sx={{ pb: 2, pl: 2, pr: 2, width: '100%', bgcolor: 'background.paper' }}>
                     {lessons && lessons.filter(c => c.lessonStatus === "IN_PROCESS").map(selectedLesson =>
                         <DisplayLesson lesson={selectedLesson} isProfessor={isProfessor}>
-                            <RedButton variant="outlined"  onClick={handleClickOpen} sx={{ mt: 1, ml: 2, }}>Cancel lesson</RedButton>
+                            <RedButton variant="outlined"  onClick={() => handleClickOpen(selectedLesson.url)} sx={{ mt: 1, ml: 2, }}>Cancel lesson</RedButton>
                             <GreenButton variant="outlined" sx={{ mt: 1, ml: 2, }}>Go to class</GreenButton>
                         </DisplayLesson>)}
                 </List>
@@ -165,11 +183,12 @@ export default function MyLessons() {
                 <List sx={{ pb: 2, pl: 2, pr: 2, width: '100%', bgcolor: 'background.paper' }}>
                     {lessons && lessons.filter(c => c.lessonStatus === "FINISHED").map(selectedLesson =>
                         <DisplayLesson lesson={selectedLesson} isProfessor={isProfessor}>
-                            <BlueButton variant="outlined" onClick={handleClickOpenRate} sx={{ mt: 1, ml: 2, }}>Rate</BlueButton>
+                            <BlueButton variant="outlined" onClick={() => {handleClickOpenRate(selectedLesson.url)}} sx={{ mt: 1, ml: 2, }}>Rate</BlueButton>
                             <GreenButton variant="outlined" sx={{ mt: 1, ml: 2, }}>Request new lesson</GreenButton>
                         </DisplayLesson>)}
                 </List>
             )}
+
 <Dialog open={openRate} onClose={handleCloseRate}>
         <DialogTitle>Rate lesson</DialogTitle>
         <DialogContent>
@@ -179,7 +198,7 @@ export default function MyLessons() {
           <Rating
         value={rating}
         onChange={(event, newRating) => {
-          setRating(newRating);
+          setRating(newRating? newRating: 0);
         }}
       />
       <TextField
@@ -187,11 +206,13 @@ export default function MyLessons() {
           placeholder="Review"
           multiline
           fullWidth
+          value={message}
+          onChange={handleChangeMessage}
         />
         </DialogContent>
         <DialogActions>
           <Button onClick={handleCloseRate}>Close</Button>
-          <Button onClick={handleCloseRate}>Rate</Button>
+          <Button onClick={() => {handleCloseRateSuccess()}}>Rate</Button>
         </DialogActions>
       </Dialog>
 
@@ -225,7 +246,7 @@ export default function MyLessons() {
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>no</Button>
-          <Button onClick={handleClose} autoFocus>
+          <Button onClick={() => {handleClose(); cancelLesson()}} autoFocus>
             yes
           </Button>
         </DialogActions>

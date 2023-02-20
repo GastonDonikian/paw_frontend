@@ -15,9 +15,9 @@ import {isAuthenticated} from "./Services/AuthHelper";
 import "./App.css"
 import Grid from '@mui/material/Grid'
 
-const pagesLoggedIn = ['Professors', 'Classes'];
-const pagesLoggedOut =  ['Professors', 'MyLessons', 'MyStudents'];
-const rightLoggedOut = ['Register', 'Login']
+const pagesLoggedOut = ['Professors'];
+const pagesLoggedIn =  ['Professors', 'MyLessons', 'MyStudents'];
+const rightLoggedOut = ['Register', 'Login'];
 const settingsLoggedIn = ['Profile' ,'mySubjects', 'Logout'];
 const settingsLoggedOut = ['Register', 'Login'];
 

@@ -29,3 +29,13 @@ export async function apiGetLessons(professorId?: number, studentId?: number, le
     const response = await apiPrivate.get(buildQuery(baseUrl,professorId,studentId,lessonId,subjectId,status));
     return response.data
 }
+
+export async function apiRequestLesson(contractId: number){
+    const response = await apiPrivate.post("/lessons",{"contractId": contractId})
+    return response.data;
+}
+
+export async function apiCancelLesson(lessonId: number) {
+    const response = await apiPrivate.delete("/lessons/" + lessonId)
+    return response.data;
+}

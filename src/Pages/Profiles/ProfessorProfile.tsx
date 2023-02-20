@@ -21,12 +21,16 @@ import Tab from '@mui/material/Tab';
 import DisplayReview from '../../components/DisplayReview';
 import Box from '@mui/material/Box';
 import {apiGetSubjects} from "../../Services/SubjectService";
-import {getContractsForProfessor} from "../../Services/ContractService";
+import {getContractsForProfessor, getIdFromUrl} from "../../Services/ContractService";
 import contractCard from "../../components/ContractCard";
 import {ContractCardInterface} from "../../Models/Contract";
 import ListItem from "@mui/material/ListItem";
 import ListItemText from "@mui/material/ListItemText";
 import {apiGetUserById} from "../../Services/UserService";
+import {apiRequestLesson} from "../../Services/LessonService";
+import {Review} from "../../Models/Review";
+import {apiGetReviews} from "../../Services/ReviewService";
+import NothingHere from "../../components/nothingHere";
 
 function a11yProps(index: number) {
     return {
@@ -50,8 +54,10 @@ export default function ProfessorProfile() {
 
     const [user, setUser] = useState<ProfessorModel>();
     const [contracts, setContracts] = useState<ContractCardInterface []>();
-    const [selectedContract, setSelectedContracts] = useState<ContractCardInterface>()
+    const [selectedContract, setSelectedContracts] = useState<ContractCardInterface>();
+    const [selectedReviews, setSelectedReviews] = useState<Review []>();
     const [isCurrentProfile,setIsCurrentProfile] = useState<Boolean>(false);
+    const [reviews, setReviews] = useState<Review []>();
     const loadUser = async () => {
         if(!id)
             setUser(await getUserFromToken());
@@ -61,12 +67,39 @@ export default function ProfessorProfile() {
         }
     }
 
+
+
+    const createContract = async (selectedContract : ContractCardInterface) => {
+        try {
+            await apiRequestLesson(parseInt(getIdFromUrl(selectedContract?.url)));
+            navigate("/myLessons")
+        } catch(error: any) {
+            if (error.response) {
+                if (error.response.status === 409) {
+                    //TODO FIX FOR A NICE POPUP
+                    alert("Class already exists!")
+                }
+            }
+        }
+    }
     const loadContracts = async () => {
         // @ts-ignore
         setContracts(await getContractsForProfessor(id))
     }
 
-    const selectContract = async (contract: ContractCardInterface) => {
+    const loadReviews = async () => {
+        // @ts-ignore
+        setReviews(await apiGetReviews(undefined,undefined,id,undefined))
+    }
+
+    function getIdFromUrl(url: String){
+        const splitUrl = url.split('/');
+        return splitUrl[4]
+    }
+
+    const selectContract = (contract: ContractCardInterface) => {
+        let selectedRev = reviews?.filter(c => (getIdFromUrl(c.subjectUrl) === getIdFromUrl(contract.subject.url)))
+        setSelectedReviews(selectedRev)
         setSelectedContracts(contract)
     }
 
@@ -74,6 +107,7 @@ export default function ProfessorProfile() {
         loadUser();
         setIsCurrentProfile(!id || (parseInt(id) === getUserId()))
         loadContracts();
+        loadReviews()
         },
         [])
 
@@ -133,7 +167,7 @@ export default function ProfessorProfile() {
                         </Container>
                         <List sx={{pb:2, pl:2, pr:2, width: '100%', bgcolor: 'background.paper' }}>
                         {contracts && (contracts.length > 0 ?contracts.map((contract: ContractCardInterface) => (
-                            <Typography onClick={() => setSelectedContracts(contract)}>
+                            <Typography onClick={() => selectContract(contract)}>
                                 <ListItem alignItems="flex-start">
                                     <ListItemText primaryTypographyProps={(selectedContract !== undefined && selectedContract.url === contract.url) ? {fontWeight:'bold'} : {fontWeight:'normal'}}
                                         primary= {contract.subject.name}
@@ -155,8 +189,8 @@ export default function ProfessorProfile() {
                        alignItems: 'flex-start', paddingBottom: 2}}>
                         <Container component="div" sx={{alignContent: 'center', p: '0.75rem 1.25rem', mb:0, backgroundColor: 'rgba(0,0,0,.03)', borderBottom: '1px solid rgba(0,0,0,.125)' }}>
                             <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
-                                        <Tab label="Information" {...a11yProps(0)} onClick={() =>  {if(tab1===false) {setTab(s => !s)} }} />
-                                        <Tab label="Reviews" {...a11yProps(1)} onClick={() =>  {if(tab1===true) {setTab(s => !s)} }}/>
+                                        <Tab label="Information" {...a11yProps(0)} onClick={() =>  {if(!tab1) {setTab(s => !s)} }} />
+                                        <Tab label="Reviews" {...a11yProps(1)} onClick={() =>  {if(tab1) {setTab(s => !s)} }}/>
                             </Tabs>
                         </Container>
                         {tab1 ?  
@@ -175,7 +209,8 @@ export default function ProfessorProfile() {
                                             <Divider variant="inset" component="li" sx={{ ml: 0 }} />
                                             <DisplayListItem title="Modality" description={selectedContract.local + ' ' + selectedContract.remote} />
                                             <Divider variant="inset" component="li" sx={{ ml: 0 }} />
-                                            {!isCurrentProfile && <Button variant="contained" >Request a lesson</Button>}
+                                            {!isCurrentProfile && <Button variant="contained" onClick={() => {createContract(selectedContract)}
+                                            }>Request a lesson</Button>}
                                         </div>:
                                     <div>
                                         <DisplayListItem title="Mail" description={user?.email} />
@@ -188,8 +223,16 @@ export default function ProfessorProfile() {
                                 </List> : null}
                                 {!tab1 ?  
                                 <List sx={{ pb: 2, pl: 2, pr: 2, width: '100%', bgcolor: 'background.paper' }}>
-                                    <DisplayReview name="Alejandro" surname="jimenex" review="la clase ta buena" rating="4" date="12-03-21" />
-                                </List> : null}
+                                    {selectedContract ? (selectedReviews && selectedReviews.length > 0 ?
+                                        selectedReviews.map((review: Review) => (
+                                            <DisplayReview name={review.author} review={review.message} rating={review.rating} date={review.date} />
+                                        )) : <NothingHere/>)
+                                     : (reviews ?
+                                        reviews.map((review: Review) => (
+                                            <DisplayReview name={review.author} review={review.message} rating={review.rating} date={review.date} />
+                                        )) : <NothingHere/>)
+                                    }
+                                 </List> : null}
                         <Container>
                             {isCurrentProfile && <Button variant="contained" onClick={() => {
                             navigate('/editProfessorProfile')}

@@ -169,8 +169,8 @@ export default function ProfessorProfile() {
                                 direction="row"
                                 alignItems="stretch"
                                 spacing={2} >
-                                    
-                                   <NothingHere/>
+
+                                {!contracts && <NothingHere/>}
 
                                 {contracts && contracts.map(contract =>
                                     <Grid item xs={4} onClick={() => {
@@ -180,7 +180,6 @@ export default function ProfessorProfile() {
                                     </Grid>)
                                 }
                             </Grid>
-                            <Pagination count={10} color="primary" sx={{ mt: 2 }} />
                         </Grid>
 
 
