@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {useEffect, useState} from 'react';
+import {useState} from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -18,7 +18,6 @@ import {Field, Form, Formik} from "formik";
 import {apiRegisterProfessor} from "../../Services/UserService";
 import {apiLogin} from "../../Services/Auth";
 import {RegisterProfessorModel} from "../../Models/Users/RegisterProfessorModel";
-import {isAuthenticated, isVerified} from "../../Services/AuthHelper";
 
 
 function Copyright(props: any) {

@@ -1,4 +1,4 @@
-import {apiPrivate, apiPublic} from "./ServiceUtils";
+import {apiPublic} from "./ServiceUtils";
 
 
 export async function getLocations(){

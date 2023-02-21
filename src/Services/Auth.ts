@@ -1,4 +1,4 @@
-import { apiPrivate, apiPublic,axiosPrivate } from "./ServiceUtils"
+import {apiPublic} from "./ServiceUtils"
 
 
 export async function apiLogin(username: string, password: string){

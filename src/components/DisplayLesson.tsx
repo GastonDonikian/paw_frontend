@@ -1,15 +1,8 @@
 import * as React from 'react';
-import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
-import Divider from '@mui/material/Divider';
-import ListItemText from '@mui/material/ListItemText';
-import ListItemAvatar from '@mui/material/ListItemAvatar';
-import { Grid, Typography } from '@mui/material';
-import Rating from '@mui/material/Rating';
-import Avatar from '@mui/material/Avatar';
+import {Grid, Typography} from '@mui/material';
 import Container from '@mui/material/Container';
 import {LessonInterface} from "../Models/Lesson";
-import {bool} from "yup";
 
 const DisplayLesson = (props: any) => {
     let currentLesson: LessonInterface = props.lesson;

@@ -1,24 +1,18 @@
 import * as React from 'react';
 import {useEffect, useState} from 'react';
-import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
-import Link from '@mui/material/Link';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import {createTheme, ThemeProvider} from '@mui/material/styles';
 import {useNavigate} from "react-router-dom";
 import {Alert} from "@mui/material";
 import * as Yup from 'yup';
 import {Field, Form, Formik} from "formik";
-import {apiEditProfessor, apiRegisterProfessor} from "../../Services/UserService";
-import {apiLogin} from "../../Services/Auth";
-import {RegisterProfessorModel} from "../../Models/Users/RegisterProfessorModel";
-import {getUserById, getUserFromToken, getUserId, isAuthenticated, isVerified} from "../../Services/AuthHelper";
+import {apiEditProfessor} from "../../Services/UserService";
+import {getUserFromToken} from "../../Services/AuthHelper";
 import {ProfessorModel} from "../../Models/Users/User";
 import {EditProfessorModel} from "../../Models/Users/EditProfessorModel";
 

@@ -1,8 +1,6 @@
 import Container from '@mui/material/Container';
 import TextField from '@mui/material/TextField';
-import Box from '@mui/material/Box';
-import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
-import {  Grid, Button, Typography, Divider } from '@mui/material';
+import {Button, Divider, Grid, Typography} from '@mui/material';
 import ChatMessages from './ChatMessages';
 
 

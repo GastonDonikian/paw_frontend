@@ -1,13 +1,9 @@
 import * as React from 'react';
-import { Card } from '@mui/material';
 import Typography from '@mui/material/Typography';
 import Rating from '@mui/material/Rating';
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
 import Grid from '@mui/material/Grid';
-import ListItemText from '@mui/material/ListItemText';
 // @ts-ignore
-import Flippy, { FrontSide, BackSide } from 'react-flippy';
+import Flippy, {BackSide, FrontSide} from 'react-flippy';
 import {ContractCardInterface} from "../Models/Contract";
 
 

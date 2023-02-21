@@ -1,30 +1,13 @@
 import * as React from 'react';
-import { styled } from '@mui/material/styles';
-import { lightBlue } from '@mui/material/colors';
-import { ButtonProps } from '@mui/material/Button';
+import {useState} from 'react';
+import {styled} from '@mui/material/styles';
+import {lightBlue} from '@mui/material/colors';
+import {ButtonProps} from '@mui/material/Button';
 import Container from '@mui/material/Container';
-import Pagination from '@mui/material/Pagination';
-import Card from '@mui/material/Card';
-import List from '@mui/material/List';
-import Rating from '@mui/material/Rating';
-import Divider from '@mui/material/Divider';
 import TextField from '@mui/material/TextField';
-import Box from '@mui/material/Box';
-import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
-import CardContent from '@mui/material/CardContent';
-import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
-import { CardActionArea, Grid, Button, CardActions, CardHeader } from '@mui/material';
+import {Button, Grid} from '@mui/material';
 import '../App.css'
-import DisplayListItem from '../components/DisplayListItem';
-import { padding } from '@mui/system';
-import ContractCardComponent from '../components/ContractCard';
-import FilterModality from '../components/filter/FilterModality';
-import FilterCategory from '../components/filter/FilterCategory';
-import { useEffect, useState } from "react";
-import { getContractsByFilter } from "../Services/ContractService";
-import { ContractCardInterface } from "../Models/Contract";
-import DisplaySubject from '../components/DisplaySubject';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Files from '../components/class/Files';
@@ -32,7 +15,6 @@ import Chat from '../components/class/Chat';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 
 const BlueButton = styled(Button)<ButtonProps>(({ theme }) => ({

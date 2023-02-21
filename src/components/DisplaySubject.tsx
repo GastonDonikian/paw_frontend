@@ -1,7 +1,7 @@
 import * as React from 'react';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
-import { Button, Grid } from '@mui/material';
+import {Button} from '@mui/material';
 import {useNavigate} from "react-router-dom";
 import {getIdFromSubjectUrl} from "../Services/SubjectService";
 

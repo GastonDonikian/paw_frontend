@@ -1,13 +1,10 @@
-import {UserModel} from "../Models/Users/User";
 import RegisterHome from "../components/home/registerHome";
 import EmailHome from "../components/home/emailHome";
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
 import SearchHome from "../components/home/searchHome";
-import { hover } from "@testing-library/user-event/dist/hover";
-import { Typography } from "@mui/material";
 import "../App.css"
-import { isAuthenticated } from "../Services/AuthHelper";
+import {isAuthenticated} from "../Services/AuthHelper";
 import MissingSubject from "../components/home/missingSubject";
 
 

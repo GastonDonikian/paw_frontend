@@ -17,12 +17,11 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import {LessonInterface} from "../Models/Lesson";
-import {apiChangeLesson, apiGetLessons, apiRequestLesson} from "../Services/LessonService";
+import {apiChangeLesson, apiGetLessons} from "../Services/LessonService";
 import {getUserId} from "../Services/AuthHelper";
 import {getIdFromUrl} from "../Services/ContractService";
 import {apiPostReview} from "../Services/ReviewService"
 import {useNavigate} from "react-router-dom";
-import {setIn} from "formik";
 import NothingHere from "../components/nothingHere";
 
 

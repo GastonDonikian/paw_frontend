@@ -1,30 +1,28 @@
 import Container from "@mui/material/Container";
 import * as React from 'react';
-import { List } from "@mui/material";
-import { useTheme } from '@mui/material/styles';
-import AppBar from '@mui/material/AppBar';
-import Button from "@mui/material/Button";
+import {useEffect, useState} from 'react';
+import {List} from "@mui/material";
+import {styled} from '@mui/material/styles';
+import Button, {ButtonProps} from "@mui/material/Button";
 import DisplayLesson from "../components/DisplayLesson";
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Rating from "@mui/material/Rating";
-import { styled } from '@mui/material/styles';
-import { red, lightGreen, lightBlue } from '@mui/material/colors';
-import { ButtonProps } from '@mui/material/Button';
+import {lightBlue, lightGreen, red} from '@mui/material/colors';
 import Typography from '@mui/material/Typography';
-import Box from '@mui/material/Box';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import {LessonInterface} from "../Models/Lesson";
-import {apiGetLessons} from "../Services/LessonService";
+import {apiChangeLesson, apiDeleteLesson, apiGetLessons} from "../Services/LessonService";
 import {getUserId} from "../Services/AuthHelper";
-import {useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import NothingHere from "../components/nothingHere";
 import {getIdFromUrl} from "../Services/ContractService";
+import {Review} from "../Models/Review";
+import {apiGetReviews} from "../Services/ReviewService";
 
 const BlueButton = styled(Button)<ButtonProps>(({ theme }) => ({
   color: lightBlue[600],
@@ -69,6 +67,7 @@ export default function MyStudents() {
     const [inProgressLessons, setInProgressLessons] = useState<LessonInterface []>([]);
     const [cancelledLessons, setCancelledLessons] = useState<LessonInterface []>([]);
     const [finishedLessons, setFinishedLessons] = useState<LessonInterface []>([]);
+    const [reviews, setReviews] = useState<Review []>();
     let navigate = useNavigate();
     const [currentId, setCurrentId] = useState(-1);
     let isProfessor =true;
@@ -77,9 +76,23 @@ export default function MyStudents() {
     };
 
     useEffect(() => {
-        getStudents()
-
+        getStudents();
+        loadReviews();
     },[])
+
+    const loadReviews = async () => {
+        let rev = await apiGetReviews(undefined,undefined,getUserId(),undefined)
+        setReviews(rev)
+    }
+
+    const getReviewByLessonId = (lessonId: number) => {
+        if(reviews === undefined)
+            return undefined;
+        let help = reviews.filter(c => parseInt(getIdFromUrl(c.lessonUrl)) === lessonId)
+        if(help.length > 0 )
+            return help.at(0)
+    }
+
     const getStudents = async () => {
         let less : LessonInterface[];
         less = await apiGetLessons(getUserId(),undefined,undefined,undefined,undefined)
@@ -114,6 +127,51 @@ export default function MyStudents() {
       setOpenReject(false);
     };
 
+    const handleCloseRejectSuccess = async () => {
+        await cancelStudent();
+        setOpenReject(false);
+
+    };
+
+    const cancelStudent = async() => {
+        await apiChangeLesson(currentId,"CANCELLED",undefined,undefined)
+        let lesson : LessonInterface | undefined = lessons.filter(c => parseInt(getIdFromUrl(c.url)) === currentId).at(0)
+        if(lesson === undefined)
+            return;
+        // @ts-ignore
+        setCancelledLessons(cancelledLessons => [...cancelledLessons, lesson])
+        setInProgressLessons(inProgressLessons => inProgressLessons?.filter(c => parseInt(getIdFromUrl(c.url)) !== currentId))
+        setPendingApprovalLessons(pendingApprovalLessons => pendingApprovalLessons?.filter(c => parseInt(getIdFromUrl(c.url)) !== currentId))
+    }
+
+    const acceptStudent = async(lessonUrl: string) => {
+        let lessonId = parseInt(getIdFromUrl(lessonUrl))
+        await apiChangeLesson(lessonId,"IN_PROCESS",undefined,undefined)
+        navigate("/class")
+        // let lesson : LessonInterface | undefined = lessons.filter(c => parseInt(getIdFromUrl(c.url)) === currentId).at(0)
+        // if(lesson === undefined)
+        //     return;
+        // // @ts-ignore
+        // setInProgressLessons(inProgressLessons => [...inProgressLessons, lesson])
+        // setPendingApprovalLessons(pendingApprovalLessons => pendingApprovalLessons?.filter(c => parseInt(getIdFromUrl(c.url)) !== currentId))
+    }
+
+    const finishStudent = async() => {
+        await apiChangeLesson(currentId,"FINISHED",undefined,undefined)
+        let lesson : LessonInterface | undefined = lessons.filter(c => parseInt(getIdFromUrl(c.url)) === currentId).at(0)
+        if(lesson === undefined)
+            return;
+        // @ts-ignore
+        setFinishedLessons(finishedLessons => [...finishedLessons, lesson])
+        setInProgressLessons(inProgressLessons => inProgressLessons?.filter(c => parseInt(getIdFromUrl(c.url)) !== currentId))
+    }
+
+    const deleteLesson = async(lessonUrl: string) => {
+        let lessonId = parseInt(getIdFromUrl(lessonUrl))
+        await apiDeleteLesson(lessonId);
+        setCancelledLessons(cancelledLessons => cancelledLessons.filter(c => parseInt(getIdFromUrl(c.url)) !== lessonId))
+    }
+
 
 
     const [openFinish, setOpenFinish] = React.useState(false);
@@ -126,8 +184,12 @@ export default function MyStudents() {
     const handleCloseFinish = () => {
       setOpenFinish(false);
     };
-  
+    const handleCloseFinishSuccess = async () => {
+        await finishStudent();
+        setOpenFinish(false);
+    };
 
+    // @ts-ignore
     return (
 
 <Container component="div" maxWidth="md" sx={{
@@ -157,12 +219,12 @@ export default function MyStudents() {
             {//requests
             value === 0 && (
               <List sx={{ pb: 2, pl: 2, pr: 2, width: '100%', bgcolor: 'background.paper' }}>
-                  {inProgressLessons && inProgressLessons.map(selectedLesson =>
+                  {pendingApprovalLessons && pendingApprovalLessons.map(selectedLesson =>
                       <DisplayLesson lesson={selectedLesson} isProfessor={isProfessor}>
                           <RedButton variant="outlined"  onClick={() => handleClickOpenReject(selectedLesson.url)} sx={{ mt: 1, ml: 2, }}>Reject Student</RedButton>
-                          <GreenButton variant="outlined" onClick={() => navigate("/class")}sx={{ mt: 1, ml: 2, }}>Accept Student</GreenButton>
+                          <GreenButton variant="outlined" onClick={() => acceptStudent(selectedLesson.url)}sx={{ mt: 1, ml: 2, }}>Accept Student</GreenButton>
                       </DisplayLesson>)}
-                  {(!inProgressLessons || inProgressLessons.length === 0) && <NothingHere/>}
+                  {(!pendingApprovalLessons || pendingApprovalLessons.length === 0) && <NothingHere/>}
               </List>
           )}
 
@@ -171,9 +233,8 @@ export default function MyStudents() {
                   <List sx={{ pb: 2, pl: 2, pr: 2, width: '100%', bgcolor: 'background.paper' }}>
                       {inProgressLessons && inProgressLessons.map(selectedLesson =>
                           <DisplayLesson lesson={selectedLesson} isProfessor={isProfessor}>
-                              <RedButton variant="outlined"  onClick={() => handleClickOpen(selectedLesson.url)} sx={{ mt: 1, ml: 2, }}>Cancel lesson</RedButton>
+                              <RedButton variant="outlined"  onClick={() => handleClickOpenReject(selectedLesson.url)} sx={{ mt: 1, ml: 2, }}>Cancel lesson</RedButton>
                               <BlueButton variant="outlined" onClick={() => handleClickOpenFinish(selectedLesson.url)} sx={{ mt: 1, ml: 2, }}>Finish lesson</BlueButton>
-
                               <GreenButton variant="outlined" onClick={() => navigate("/class")}sx={{ mt: 1, ml: 2, }}>Go to class</GreenButton>
                           </DisplayLesson>)}
                       {(!inProgressLessons || inProgressLessons.length === 0) && <NothingHere/>}
@@ -184,13 +245,20 @@ export default function MyStudents() {
                   <List sx={{ pb: 2, pl: 2, pr: 2, width: '100%', bgcolor: 'background.paper' }}>
                       {finishedLessons && finishedLessons.map(selectedLesson =>
                           <DisplayLesson lesson={selectedLesson} isProfessor={isProfessor}>
-                              <Typography gutterBottom component="div" sx={{ mb: 0, fontStyle:'italic' }}>
-                                  Left a review:
-                              </Typography>
-                              <Rating name="read-only" value={3} readOnly />
-                              <Typography gutterBottom component="div" sx={{ mb: 0 }}>
-                                  es muy mala
-                              </Typography> </DisplayLesson>)}
+                              {getReviewByLessonId(parseInt(getIdFromUrl(selectedLesson.url))) ?
+                                  <div>
+                                      <Typography gutterBottom component="div" sx={{ mb: 0, fontStyle:'italic' }}>
+                                          Left a review:
+                                      </Typography>
+                                      {/*//@ts-ignore*/}
+                                      <Rating name="read-only" value={getReviewByLessonId(parseInt(getIdFromUrl(selectedLesson.url))).rating} readOnly />
+                                      <Typography gutterBottom component="div" sx={{ mb: 0 }}>
+                                          {/*//@ts-ignore*/}
+                                          {getReviewByLessonId(parseInt(getIdFromUrl(selectedLesson.url))).message}
+                                      </Typography>
+                                  </div> : <span>User left no review yet.</span>}
+
+                          </DisplayLesson>)}
                       {(!finishedLessons || finishedLessons.length === 0) && <NothingHere/>}
                   </List>
           )}
@@ -199,7 +267,7 @@ export default function MyStudents() {
                   <List sx={{ pb: 2, pl: 2, pr: 2, width: '100%', bgcolor: 'background.paper' }}>
                       {cancelledLessons && cancelledLessons.map(selectedLesson =>
                           <DisplayLesson lesson={selectedLesson} isProfessor={isProfessor}>
-                              <RedButton variant="outlined" sx={{ mt: 1, ml: 2, }}>Delete lesson</RedButton>
+                              <RedButton onClick={() => deleteLesson(selectedLesson.url)}variant="outlined" sx={{ mt: 1, ml: 2, }}>Delete lesson</RedButton>
                           </DisplayLesson>)}
                       {(!cancelledLessons || cancelledLessons.length === 0) && <NothingHere/>}
                   </List>
@@ -245,7 +313,7 @@ export default function MyStudents() {
         </DialogContent>
         <DialogActions>
           <Button onClick={handleCloseReject}>no</Button>
-          <Button onClick={handleCloseReject} autoFocus>
+          <Button onClick={handleCloseRejectSuccess} autoFocus>
             yes
           </Button>
         </DialogActions>
@@ -268,7 +336,7 @@ export default function MyStudents() {
         </DialogContent>
         <DialogActions>
           <Button onClick={handleCloseFinish}>no</Button>
-          <Button onClick={handleCloseFinish} autoFocus>
+          <Button onClick={handleCloseFinishSuccess} autoFocus>
             yes
           </Button>
         </DialogActions>

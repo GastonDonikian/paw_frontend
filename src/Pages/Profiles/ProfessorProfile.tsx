@@ -1,32 +1,23 @@
 import Container from '@mui/material/Container';
-import Card from '@mui/material/Card';
 import List from '@mui/material/List';
 import Rating from '@mui/material/Rating';
 import Divider from '@mui/material/Divider';
-import CardContent from '@mui/material/CardContent';
-import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
-import {CardActionArea, Grid, Button, CardActions, CardHeader, CircularProgress} from '@mui/material';
+import {Button, CircularProgress, Grid} from '@mui/material';
 import '../../App.css'
 import DisplayListItem from '../../components/DisplayListItem';
-import { padding } from '@mui/system';
+import * as React from "react";
 import {useEffect, useState} from "react";
 import {ProfessorModel} from "../../Models/Users/User";
-import {getUserById, getUserFromToken, getUserId, isAuthenticated, isVerified} from "../../Services/AuthHelper";
-import * as React from "react";
-import {Subject} from "../../Models/Subject";
+import {getUserById, getUserFromToken, getUserId} from "../../Services/AuthHelper";
 import {useNavigate, useParams} from "react-router-dom";
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import DisplayReview from '../../components/DisplayReview';
-import Box from '@mui/material/Box';
-import {apiGetSubjects} from "../../Services/SubjectService";
-import {getContractsForProfessor, getIdFromUrl} from "../../Services/ContractService";
-import contractCard from "../../components/ContractCard";
+import {getContractsForProfessor} from "../../Services/ContractService";
 import {ContractCardInterface} from "../../Models/Contract";
 import ListItem from "@mui/material/ListItem";
 import ListItemText from "@mui/material/ListItemText";
-import {apiGetUserById} from "../../Services/UserService";
 import {apiRequestLesson} from "../../Services/LessonService";
 import {Review} from "../../Models/Review";
 import {apiGetReviews} from "../../Services/ReviewService";
@@ -62,8 +53,10 @@ export default function ProfessorProfile() {
         if(!id)
             setUser(await getUserFromToken());
         else {
-            //@ts-ignore
-            setUser(await getUserById(id));
+
+            let profId = id ? parseInt(id) : -1
+            let us = await getUserById(profId)
+            setUser(us);
         }
     }
 
@@ -83,13 +76,15 @@ export default function ProfessorProfile() {
         }
     }
     const loadContracts = async () => {
-        // @ts-ignore
-        setContracts(await getContractsForProfessor(id))
+        let profId = id ? parseInt(id) : -1
+        let cont = await getContractsForProfessor(profId);
+        setContracts(cont)
     }
 
     const loadReviews = async () => {
-        // @ts-ignore
-        setReviews(await apiGetReviews(undefined,undefined,id,undefined))
+        let profId = id ? parseInt(id) : -1
+        let rev = await apiGetReviews(undefined,undefined,profId,undefined)
+        setReviews(rev)
     }
 
     function getIdFromUrl(url: String){
@@ -98,9 +93,9 @@ export default function ProfessorProfile() {
     }
 
     const selectContract = (contract: ContractCardInterface) => {
+        setSelectedContracts(contract)
         let selectedRev = reviews?.filter(c => (getIdFromUrl(c.subjectUrl) === getIdFromUrl(contract.subject.url)))
         setSelectedReviews(selectedRev)
-        setSelectedContracts(contract)
     }
 
     useEffect( () => {
@@ -111,6 +106,7 @@ export default function ProfessorProfile() {
         },
         [])
 
+    // @ts-ignore
     return (
         <div>
              <Container component="div" maxWidth="xl" sx={{ pt: 1, pb: 1, mt: 0, bgcolor: 'white', boxShadow: '0 3px 10px rgb(0 0 0 / 0.2)'}} >
@@ -129,7 +125,7 @@ export default function ProfessorProfile() {
                         <Typography gutterBottom component="p" sx={{mb:0}}>
                             {user ? (user.email) : <CircularProgress/> }
                         </Typography>
-                        <Rating name="read-only" value={3} readOnly />
+                            {user ? <Rating name="read-only" value={user?.rating} readOnly /> : <CircularProgress/>}
                         </Grid>
                     </Grid>
              </Container>

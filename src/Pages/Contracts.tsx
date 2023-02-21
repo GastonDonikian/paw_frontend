@@ -1,24 +1,22 @@
 import * as React from 'react';
+import {useEffect, useState} from 'react';
 import FilterOrderBy from '../components/filter/FilterOrderBy';
 import FilterLevel from '../components/filter/FilterLevel';
 import Container from '@mui/material/Container';
-import Pagination from '@mui/material/Pagination';
 import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
 import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
 import Typography from '@mui/material/Typography';
-import { Grid, Button } from '@mui/material';
+import {Button, Grid} from '@mui/material';
 import '../App.css'
 import ContractCardComponent from '../components/ContractCard';
 import FilterModality from '../components/filter/FilterModality';
 import FilterCategory from '../components/filter/FilterCategory';
-import {useEffect, useState} from "react";
 import {getContractsByFilter, getContractsBySearch} from "../Services/ContractService";
 import {ContractCardInterface} from "../Models/Contract";
 import {useNavigate, useSearchParams} from "react-router-dom";
 import {getUserIdFromUrl} from "../Services/UserService";
 import NothingHere from '../components/nothingHere';
-
 
 
 export default function ProfessorProfile() {

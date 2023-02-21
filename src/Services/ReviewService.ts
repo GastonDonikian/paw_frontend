@@ -1,5 +1,4 @@
 import {apiPrivate} from "./ServiceUtils";
-import {getUserId} from "./AuthHelper"
 
 
 function buildQuery(baseUrl: string,reviewId?: number, lessonId?: number, professorId?: number,userId?: number){

@@ -1,8 +1,5 @@
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
-import Divider from '@mui/material/Divider';
-import ListItemText from '@mui/material/ListItemText';
-import { Button, Typography } from '@mui/material';
 import MyMessage from './myMessage';
 import UserMessage from './userMessage';
 

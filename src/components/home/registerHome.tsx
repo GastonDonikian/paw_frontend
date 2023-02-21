@@ -1,13 +1,9 @@
-
 import Card from '@mui/material/Card';
-import Link from '@mui/material/Link';
 import CardContent from '@mui/material/CardContent';
-import { Avatar } from '@mui/material';
+import {Avatar, CardActionArea} from '@mui/material';
 import Typography from '@mui/material/Typography';
 import LibraryBooksOutlinedIcon from '@mui/icons-material/LibraryBooksOutlined';
-import {CardActionArea, Grid, Button, CardActions} from '@mui/material';
 import '../../App.css';
-import { Container } from '@mui/system';
 
 export default function RegisterHome() {
     return (

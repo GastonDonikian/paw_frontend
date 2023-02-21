@@ -1,4 +1,5 @@
 import * as React from 'react';
+import {useEffect, useState} from 'react';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
@@ -6,21 +7,15 @@ import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
+import {createTheme, ThemeProvider} from '@mui/material/styles';
 import {useNavigate, useParams} from "react-router-dom";
-import {useEffect, useState} from "react";
-import {Alert, Select} from "@mui/material";
-import {RegisterStudentModel } from '../Models/Users/RegisterStudentModel'
+import {Alert} from "@mui/material";
 import * as Yup from 'yup';
-import {Form, Formik, Field, ErrorMessage} from "formik";
-import {apiRegisterProfessor, apiRegisterStudent} from "../Services/UserService";
-import {apiLogin} from "../Services/Auth";
+import {Field, Form, Formik} from "formik";
 import {CreateContractInterface} from "../Models/Contract";
-import {apiGetSubject, apiGetSubjects} from "../Services/SubjectService";
-import {RegisterProfessorModel} from "../Models/Users/RegisterProfessorModel";
+import {apiGetSubject} from "../Services/SubjectService";
 import {Subject} from "../Models/Subject";
 import {apiCreateContract} from "../Services/ContractService";
-import {CheckBox} from "@mui/icons-material";
 
 
 const theme = createTheme();

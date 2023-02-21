@@ -1,4 +1,5 @@
 import * as React from 'react';
+import {useEffect, useState} from 'react';
 import FilterLevel from '../components/filter/FilterLevel';
 
 import Container from '@mui/material/Container';
@@ -8,18 +9,14 @@ import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
 import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
 import Typography from '@mui/material/Typography';
-import { CardActionArea, Grid, Button, CardActions, CardHeader } from '@mui/material';
+import {Button, Grid} from '@mui/material';
 import '../App.css'
 import FilterCategory from '../components/filter/FilterCategory';
-import {useEffect, useState} from "react";
-import {getContractsByFilter} from "../Services/ContractService";
-import {ContractCardInterface} from "../Models/Contract";
 import DisplaySubject from '../components/DisplaySubject';
 import {useSearchParams} from "react-router-dom";
 import {apiGetSubjects} from "../Services/SubjectService";
 import {Subject} from "../Models/Subject";
 import {getUserId} from "../Services/AuthHelper";
-
 
 
 export default function Subjects() {

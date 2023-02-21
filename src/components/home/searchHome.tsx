@@ -1,20 +1,15 @@
 import * as React from 'react';
+import {useEffect, useState} from 'react';
 import TextField from '@mui/material/TextField';
-import Card from '@mui/material/Card';
 import Box from '@mui/material/Box';
 import Avatar from '@mui/material/Avatar';
-import CardContent from '@mui/material/CardContent';
 import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
 import Typography from '@mui/material/Typography';
-import {useEffect, useState} from "react";
-import {CardActionArea, Grid, Button, CardActions, CircularProgress} from '@mui/material';
+import {Button, CircularProgress, Grid} from '@mui/material';
 import '../../App.css';
-import { Container } from '@mui/system';
-import { Category } from '../../Models/Enums/Category';
+import {Container} from '@mui/system';
 import {getCategories} from "../../Services/EnumService";
 import {useNavigate} from "react-router-dom";
-
-
 
 
 export default function SearchHome() {

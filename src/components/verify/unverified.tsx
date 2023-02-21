@@ -1,11 +1,6 @@
 import * as React from 'react';
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
-import CardMedia from '@mui/material/CardMedia';
-import Typography from '@mui/material/Typography';
-import {CardActionArea, Grid, Button, CardActions} from '@mui/material';
+import {useEffect, useState} from 'react';
 import './verify.css';
-import {useEffect, useState} from "react";
 import {UserModel} from "../../Models/Users/User";
 import {getUserFromToken} from "../../Services/AuthHelper";
 

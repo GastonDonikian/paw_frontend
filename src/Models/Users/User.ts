@@ -12,4 +12,5 @@ export interface ProfessorModel extends UserModel {
     location: string;
     schedule: string;
     studies: string;
+    rating: number;
 }

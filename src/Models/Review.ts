@@ -4,5 +4,6 @@ export interface Review {
     rating: number,
     date: string
     url: string,
-    subjectUrl:string
+    subjectUrl:string,
+    lessonUrl: string
 }

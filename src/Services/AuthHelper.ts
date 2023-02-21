@@ -1,7 +1,7 @@
-import { apiLogin } from './Auth'
-import { apiGetUserById } from "./UserService";
+import {apiLogin} from './Auth'
+import {apiGetUserById} from "./UserService";
 import jwt from "jwt-decode";
-import {UserModel} from "../Models/Users/User";
+
 export async function login(username: string,password: string,rememberMe: boolean){
     console.log(username + " " + password + " " + rememberMe);
     let authenticationData;

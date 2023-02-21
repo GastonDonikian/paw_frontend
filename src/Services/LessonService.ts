@@ -1,5 +1,4 @@
-import {apiPrivate, apiPublic} from "./ServiceUtils";
-import {getUserId} from "./AuthHelper"
+import {apiPrivate} from "./ServiceUtils";
 
 
 function buildQuery(baseUrl: string, professorId?: number, studentId?: number, lessonId?: number, subjectId?: number, status?: string){
@@ -32,6 +31,11 @@ export async function apiGetLessons(professorId?: number, studentId?: number, le
 
 export async function apiRequestLesson(contractId: number){
     const response = await apiPrivate.post("/lessons",{"contractId": contractId})
+    return response.data;
+}
+
+export async function apiDeleteLesson(lessonId: number) {
+    const response = await apiPrivate.delete("/lessons/" + lessonId)
     return response.data;
 }
 

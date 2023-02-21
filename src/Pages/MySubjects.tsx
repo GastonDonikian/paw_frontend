@@ -1,26 +1,22 @@
 import Container from '@mui/material/Container';
-import Card from '@mui/material/Card';
 import List from '@mui/material/List';
 import Divider from '@mui/material/Divider';
-import CardContent from '@mui/material/CardContent';
-import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
-import {CardActionArea, Grid, Button, CardActions, CardHeader, CircularProgress} from '@mui/material';
+import {Button, Grid} from '@mui/material';
 import '../App.css'
 import * as React from "react";
+import {useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import DisplayMySubject from '../components/DisplayMySubject';
-import {useEffect, useState} from "react";
-import {apiGetSubjects} from "../Services/SubjectService";
-import {getUserId} from "../Services/AuthHelper";
-import { apiActivateContract,
+import {
+    apiActivateContract,
     apiDeleteContract,
-    apiGetContractsByStatus, apiPauseContract,
+    apiGetContractsByStatus,
+    apiPauseContract,
     getIdFromUrl
 } from "../Services/ContractService";
 import {Contract} from "../Models/Contract";
 import NothingHere from "../components/nothingHere";
-
 
 
 export default function MySubjects() {

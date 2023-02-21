@@ -1,17 +1,14 @@
 import Container from '@mui/material/Container';
-import Card from '@mui/material/Card';
 import List from '@mui/material/List';
 import Divider from '@mui/material/Divider';
-import CardContent from '@mui/material/CardContent';
-import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
-import {CardActionArea, Grid, Button, CardActions, CardHeader, CircularProgress} from '@mui/material';
+import {Button, CircularProgress, Grid} from '@mui/material';
 import '../../App.css'
 import DisplayListItem from '../../components/DisplayListItem';
-import {useEffect, useState} from "react";
-import {getUserFromToken, getUserId, isAuthenticated, isVerified} from "../../Services/AuthHelper";
-import {UserModel} from "../../Models/Users/User";
 import * as React from "react";
+import {useEffect, useState} from "react";
+import {getUserFromToken} from "../../Services/AuthHelper";
+import {UserModel} from "../../Models/Users/User";
 import {useNavigate} from "react-router-dom";
 
 

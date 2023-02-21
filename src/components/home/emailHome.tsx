@@ -1,10 +1,8 @@
-
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
-import { Avatar } from '@mui/material';
+import {Avatar, CardActionArea} from '@mui/material';
 import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined';
 import Typography from '@mui/material/Typography';
-import {CardActionArea, Grid, Button, CardActions} from '@mui/material';
 import '../../App.css';
 
 export default function EmailHome() {

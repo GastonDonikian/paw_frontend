@@ -1,21 +1,18 @@
 import * as React from 'react';
-import Avatar from '@mui/material/Avatar';
+import {useEffect, useState} from 'react';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { useNavigate } from "react-router-dom";
-import {isVerified, isAuthenticated, getUserFromToken} from '../../Services/AuthHelper'
-import {useEffect, useState} from "react";
+import {createTheme, ThemeProvider} from '@mui/material/styles';
+import {useNavigate} from "react-router-dom";
+import {getUserFromToken} from '../../Services/AuthHelper'
 import {Alert} from "@mui/material";
-import {RegisterStudentModel } from '../../Models/Users/RegisterStudentModel'
 import * as Yup from 'yup';
-import {Form, Formik, Field} from "formik";
-import {apiEditStudent, apiRegisterStudent} from "../../Services/UserService";
-import {apiLogin} from "../../Services/Auth";
+import {Field, Form, Formik} from "formik";
+import {apiEditStudent} from "../../Services/UserService";
 import {ProfessorModel} from "../../Models/Users/User";
 import {EditStudentModel} from "../../Models/Users/EditStudentModel";
 
