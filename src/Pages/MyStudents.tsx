@@ -18,6 +18,13 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
+import {LessonInterface} from "../Models/Lesson";
+import {apiGetLessons} from "../Services/LessonService";
+import {getUserId} from "../Services/AuthHelper";
+import {useEffect, useState} from "react";
+import {useNavigate} from "react-router-dom";
+import NothingHere from "../components/nothingHere";
+import {getIdFromUrl} from "../Services/ContractService";
 
 const BlueButton = styled(Button)<ButtonProps>(({ theme }) => ({
   color: lightBlue[600],
@@ -57,15 +64,37 @@ function a11yProps(index: number) {
 
 export default function MyStudents() {
     const [value, setValue] = React.useState(0);
-
+    const [lessons, setLessons] = useState<LessonInterface []>([]);
+    const [pendingApprovalLessons, setPendingApprovalLessons] = useState<LessonInterface []>([]);
+    const [inProgressLessons, setInProgressLessons] = useState<LessonInterface []>([]);
+    const [cancelledLessons, setCancelledLessons] = useState<LessonInterface []>([]);
+    const [finishedLessons, setFinishedLessons] = useState<LessonInterface []>([]);
+    let navigate = useNavigate();
+    const [currentId, setCurrentId] = useState(-1);
+    let isProfessor =true;
     const handleChange = (event: React.SyntheticEvent, newValue: number) => {
       setValue(newValue);
     };
 
+    useEffect(() => {
+        getStudents()
+
+    },[])
+    const getStudents = async () => {
+        let less : LessonInterface[];
+        less = await apiGetLessons(getUserId(),undefined,undefined,undefined,undefined)
+        setLessons(less)
+        setPendingApprovalLessons(less?.filter(c => c.lessonStatus === "PENDING_APPROVAL"))
+        setInProgressLessons(less?.filter(c => c.lessonStatus === "IN_PROCESS"))
+        setCancelledLessons(less?.filter(c => c.lessonStatus === "CANCELLED"))
+        setFinishedLessons(less?.filter(c => c.lessonStatus === "FINISHED"))
+    }
+
     const [open, setOpen] = React.useState(false);
 
-    const handleClickOpen = () => {
-      setOpen(true);
+    const handleClickOpen = (lessonUrl: string) => {
+        setCurrentId(parseInt(getIdFromUrl(lessonUrl)))
+        setOpen(true);
     };
   
     const handleClose = () => {
@@ -75,7 +104,9 @@ export default function MyStudents() {
 
     const [openReject, setOpenReject] = React.useState(false);
 
-    const handleClickOpenReject = () => {
+    const handleClickOpenReject = (lessonUrl: string) => {
+        setCurrentId(parseInt(getIdFromUrl(lessonUrl)))
+
       setOpenReject(true);
     };
   
@@ -87,7 +118,8 @@ export default function MyStudents() {
 
     const [openFinish, setOpenFinish] = React.useState(false);
 
-    const handleClickOpenFinish = () => {
+    const handleClickOpenFinish = (lessonUrl: string) => {
+        setCurrentId(parseInt(getIdFromUrl(lessonUrl)))
       setOpenFinish(true);
     };
   
@@ -115,65 +147,62 @@ export default function MyStudents() {
                     </Typography>
            
         <Tabs  value={value} onChange={handleChange} aria-label="basic tabs example">
-            
-          <Tab label="Requests" {...a11yProps(0)} />
-          <Tab label="In Progress" {...a11yProps(1)} />
-          <Tab label="Finished" {...a11yProps(2)} />
-          <Tab label="Cancelled" {...a11yProps(3)} />
+
+            <Tab label={"Requests (" + (pendingApprovalLessons ? pendingApprovalLessons.length : 0) + ")"}{...a11yProps(0)} />
+            <Tab label={"In Progress (" + (inProgressLessons ? inProgressLessons.length : 0) + ")"} {...a11yProps(1)} />
+            <Tab label={"Finished (" + (finishedLessons ? finishedLessons.length : 0) + ")"} {...a11yProps(2)} />
+            <Tab label={"Cancelled (" + (cancelledLessons ? cancelledLessons.length : 0) + ")"} {...a11yProps(3)} />
         </Tabs>
         
             {//requests
             value === 0 && (
               <List sx={{ pb: 2, pl: 2, pr: 2, width: '100%', bgcolor: 'background.paper' }}>
-
-                  <DisplayLesson name="juan" surname="perez" email="email">
-                      <RedButton variant="outlined"  onClick={handleClickOpenReject} sx={{ mt: 1, ml: 2, }}>Reject student</RedButton>
-                      <GreenButton variant="outlined" sx={{ mt: 1, ml: 2, }}>Accept student</GreenButton>
-                  
-                  </DisplayLesson>
-
-                  <DisplayLesson name="juan" surname="perez" email="email">
-                      <RedButton variant="outlined"  onClick={handleClickOpenReject} sx={{ mt: 1, ml: 2, }}>Reject student</RedButton>
-                      <GreenButton variant="outlined" sx={{ mt: 1, ml: 2, }}>Accept student</GreenButton>
-                  </DisplayLesson>
+                  {inProgressLessons && inProgressLessons.map(selectedLesson =>
+                      <DisplayLesson lesson={selectedLesson} isProfessor={isProfessor}>
+                          <RedButton variant="outlined"  onClick={() => handleClickOpenReject(selectedLesson.url)} sx={{ mt: 1, ml: 2, }}>Reject Student</RedButton>
+                          <GreenButton variant="outlined" onClick={() => navigate("/class")}sx={{ mt: 1, ml: 2, }}>Accept Student</GreenButton>
+                      </DisplayLesson>)}
+                  {(!inProgressLessons || inProgressLessons.length === 0) && <NothingHere/>}
               </List>
           )}
 
           {//in progress
           value === 1 && (
-              <List sx={{ pb: 2, pl: 2, pr: 2, width: '100%', bgcolor: 'background.paper' }}>
+                  <List sx={{ pb: 2, pl: 2, pr: 2, width: '100%', bgcolor: 'background.paper' }}>
+                      {inProgressLessons && inProgressLessons.map(selectedLesson =>
+                          <DisplayLesson lesson={selectedLesson} isProfessor={isProfessor}>
+                              <RedButton variant="outlined"  onClick={() => handleClickOpen(selectedLesson.url)} sx={{ mt: 1, ml: 2, }}>Cancel lesson</RedButton>
+                              <BlueButton variant="outlined" onClick={() => handleClickOpenFinish(selectedLesson.url)} sx={{ mt: 1, ml: 2, }}>Finish lesson</BlueButton>
 
-                  <DisplayLesson name="juan" surname="perez" email="email">
-                      <RedButton variant="outlined" onClick={handleClickOpen} sx={{ mt: 1, ml: 2, }}>Cancel lesson</RedButton>
-                      <BlueButton variant="outlined" onClick={handleClickOpenFinish} sx={{ mt: 1, ml: 2, }}>Finish lesson</BlueButton>
-                      <GreenButton variant="outlined" sx={{ mt: 1, ml: 2, }}>Go to class</GreenButton>
-                  </DisplayLesson>
-              </List>
+                              <GreenButton variant="outlined" onClick={() => navigate("/class")}sx={{ mt: 1, ml: 2, }}>Go to class</GreenButton>
+                          </DisplayLesson>)}
+                      {(!inProgressLessons || inProgressLessons.length === 0) && <NothingHere/>}
+                  </List>
           )}
           {//finished
           value === 2 && (
-              <List sx={{ pb: 2, pl: 2, pr: 2, width: '100%', bgcolor: 'background.paper' }}>
-
-                  <DisplayLesson name="juan" surname="perez" email="email">
-                  <Typography gutterBottom component="div" sx={{ mb: 0, fontStyle:'italic' }}>
-                            Left a review:
-                        </Typography>
-                        <Rating name="read-only" value={3} readOnly />
-                        <Typography gutterBottom component="div" sx={{ mb: 0 }}>
-                            es muy mala
-                        </Typography>
-                  </DisplayLesson>
-              </List>
+                  <List sx={{ pb: 2, pl: 2, pr: 2, width: '100%', bgcolor: 'background.paper' }}>
+                      {finishedLessons && finishedLessons.map(selectedLesson =>
+                          <DisplayLesson lesson={selectedLesson} isProfessor={isProfessor}>
+                              <Typography gutterBottom component="div" sx={{ mb: 0, fontStyle:'italic' }}>
+                                  Left a review:
+                              </Typography>
+                              <Rating name="read-only" value={3} readOnly />
+                              <Typography gutterBottom component="div" sx={{ mb: 0 }}>
+                                  es muy mala
+                              </Typography> </DisplayLesson>)}
+                      {(!finishedLessons || finishedLessons.length === 0) && <NothingHere/>}
+                  </List>
           )}
           { // cancelled
           value === 3 && (
-              <List sx={{ pb: 2, pl: 2, pr: 2, width: '100%', bgcolor: 'background.paper' }}>
-
-                  <DisplayLesson name="juan" surname="perez" email="email">
-                  <RedButton variant="outlined" sx={{ mt: 1, ml: 2, }}>Delete lesson</RedButton>
-                      <GreenButton variant="outlined" sx={{ mt: 1, ml: 2, }}>New lesson</GreenButton>
-                  </DisplayLesson>
-              </List>
+                  <List sx={{ pb: 2, pl: 2, pr: 2, width: '100%', bgcolor: 'background.paper' }}>
+                      {cancelledLessons && cancelledLessons.map(selectedLesson =>
+                          <DisplayLesson lesson={selectedLesson} isProfessor={isProfessor}>
+                              <RedButton variant="outlined" sx={{ mt: 1, ml: 2, }}>Delete lesson</RedButton>
+                          </DisplayLesson>)}
+                      {(!cancelledLessons || cancelledLessons.length === 0) && <NothingHere/>}
+                  </List>
           )}
 
 <Dialog

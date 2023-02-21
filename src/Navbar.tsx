@@ -14,6 +14,7 @@ import MenuItem from '@mui/material/MenuItem';
 import {isAuthenticated} from "./Services/AuthHelper";
 import "./App.css"
 import Grid from '@mui/material/Grid'
+import {useEffect, useState} from "react";
 
 const pagesLoggedOut = ['Professors'];
 const pagesLoggedIn =  ['Professors', 'MyLessons', 'MyStudents'];
@@ -24,8 +25,14 @@ const settingsLoggedOut = ['Register', 'Login'];
 function Navbar() {
     const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
     const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
-    let settings = isAuthenticated() ? settingsLoggedIn : settingsLoggedOut;
-    let pages = isAuthenticated() ? pagesLoggedIn : pagesLoggedOut;
+    const [settings, setSettings] = useState<string []>([]);
+    const [pages, setPages] = useState<string []>([])
+
+
+    useEffect(() => {
+        setSettings(isAuthenticated() ? settingsLoggedIn : settingsLoggedOut);
+        setPages(isAuthenticated() ? pagesLoggedIn : pagesLoggedOut);
+    },[])
     const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorElNav(event.currentTarget);
     };

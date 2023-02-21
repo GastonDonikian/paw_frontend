@@ -35,7 +35,13 @@ export async function apiRequestLesson(contractId: number){
     return response.data;
 }
 
-export async function apiCancelLesson(lessonId: number) {
-    const response = await apiPrivate.delete("/lessons/" + lessonId)
+export async function apiChangeLesson(lessonId: number,status?: string,meetingLink?: string, schedule?: string) {
+    const response = await apiPrivate.put("/lessons/" + lessonId,{
+        "status": status,
+        "meetingLink": meetingLink,
+        "schedule": schedule
+    });
     return response.data;
+
 }
+// export async function api

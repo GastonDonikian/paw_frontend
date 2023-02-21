@@ -37,12 +37,6 @@ export default function SignIn() {
     const [badCredentials, setBadCredentials] = useState(false);
     const navigate = useNavigate();
 
-    useEffect(() => {
-        if(isVerified())
-            navigate('/verify')
-        if((isAuthenticated()))
-            navigate('/')
-    }, [])
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);

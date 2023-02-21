@@ -19,6 +19,7 @@ import { apiActivateContract,
     getIdFromUrl
 } from "../Services/ContractService";
 import {Contract} from "../Models/Contract";
+import NothingHere from "../components/nothingHere";
 
 
 
@@ -79,15 +80,13 @@ export default function MySubjects() {
                             <Button onClick={() => {navigate('/addSubjects')}}>Add Subject</Button></Grid></Grid>
                         </Container>
                         <List sx={{ width: '100%', bgcolor: 'background.paper' }}>
-                            {activeContracts.length > 0 && activeContracts.map( (contract:any) => (
-                                <div><DisplayMySubject title={contract.title} description={contract.description} contract={contract}
+                            {activeContracts.length > 0 ? activeContracts.map( (contract:any) => (
+                                <div><DisplayMySubject title={contract.subject.name} description={contract.description} contract={contract}
                                                        changeStatus={sendOnHold} delete={deleteContract}
                                                   active={true}
                                 />
                                     <Divider variant="inset" component="li" sx={{ ml: 0 }} /></div>
-                            ))}
-
-                            <Divider variant="inset" component="li" sx={{ml:0}} />
+                            )) : <NothingHere/>}
                         </List>
                     </div>
                 </Grid>
@@ -104,13 +103,12 @@ export default function MySubjects() {
                             </Typography>
                         </Container>
                         <List sx={{ width: '100%', bgcolor: 'background.paper' }}>
-                            {onHoldContracts.length > 0 && onHoldContracts.map( (contract:any) => (
-                                <div><DisplayMySubject title={contract.title} description={contract.description}
+                            {onHoldContracts.length > 0 ? onHoldContracts.map( (contract:any) => (
+                                <div><DisplayMySubject title={contract.subject.name} description={contract.description}
                                                        changeStatus={sendActive} delete={deleteContract} contract={contract}
                                                        active={false}/>
                                     <Divider variant="inset" component="li" sx={{ ml: 0 }} /></div>
-                            ))}
-                        <Divider variant="inset" component="li" sx={{ ml: 0 }} />
+                            )) : <NothingHere/>}
                         </List>
                     </div>
                 </Grid>

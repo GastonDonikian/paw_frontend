@@ -1,7 +1,12 @@
 export interface Contract {
     name: string,
     surname: string,
-    subject: string,
+    subject: {
+        "url": string,
+        "category": string,
+        "level": string,
+        "name": string
+    }
     rating: number,
     price: string,
     url: string,

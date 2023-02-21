@@ -17,10 +17,13 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import {LessonInterface} from "../Models/Lesson";
-import {apiCancelLesson, apiGetLessons, apiRequestLesson} from "../Services/LessonService";
+import {apiChangeLesson, apiGetLessons, apiRequestLesson} from "../Services/LessonService";
 import {getUserId} from "../Services/AuthHelper";
 import {getIdFromUrl} from "../Services/ContractService";
 import {apiPostReview} from "../Services/ReviewService"
+import {useNavigate} from "react-router-dom";
+import {setIn} from "formik";
+import NothingHere from "../components/nothingHere";
 
 
 function a11yProps(index: number) {
@@ -62,38 +65,59 @@ const GreenButton = styled(Button)<ButtonProps>(({ theme }) => ({
 
 export default function MyLessons() {
     const [openRate, setOpenRate] = React.useState(false);
-    const [lessons, setLessons] = useState<LessonInterface []>();
+    const [lessons, setLessons] = useState<LessonInterface []>([]);
+    const [pendingApprovalLessons, setPendingApprovalLessons] = useState<LessonInterface []>([]);
+    const [inProgressLessons, setInProgressLessons] = useState<LessonInterface []>([]);
+    const [cancelledLessons, setCancelledLessons] = useState<LessonInterface []>([]);
+    const [finishedLessons, setFinishedLessons] = useState<LessonInterface []>([]);
     const [rating, setRating] = React.useState<number>(0);
     const [message, setMessage] = useState<string>('')
     const [value, setValue] = React.useState(0);
     const [currentId, setCurrentId] = useState(-1);
     let isProfessor = false
+    let navigate = useNavigate();
 
     useEffect(() => {
-        if(lessons === undefined){
-            getLessons()
-        }
+        getLessons()
 
     },[])
 
     const cancelLesson = async() => {
-        await apiCancelLesson(currentId)
-        setLessons(lessons => lessons?.filter(c => parseInt(getIdFromUrl(c.url)) !== currentId))
+        await apiChangeLesson(currentId,"CANCELLED",undefined,undefined)
+        let lesson : LessonInterface | undefined = lessons.filter(c => parseInt(getIdFromUrl(c.url)) === currentId).at(0)
+        if(lesson === undefined)
+            return;
+        // @ts-ignore
+        setCancelledLessons(cancelledLessons => [...cancelledLessons, lesson])
+        setInProgressLessons(inProgressLessons => inProgressLessons?.filter(c => parseInt(getIdFromUrl(c.url)) !== currentId))
+        setPendingApprovalLessons(pendingApprovalLessons => pendingApprovalLessons?.filter(c => parseInt(getIdFromUrl(c.url)) !== currentId))
+    }
+    //TODO: UPDATE LESSONS REAL TIME FROM STATE TO STATE
+    const requestReOpenLesson = async (lesson: LessonInterface) => {
+        await apiChangeLesson(parseInt(getIdFromUrl(lesson.url)),"PENDING_APPROVAL",undefined,undefined)
+
+        setPendingApprovalLessons(pendingApprovalLessons => [...pendingApprovalLessons,lesson])
+        // setFinishedLessons(finishedLessons => finishedLessons?.filter(c => getIdFromUrl(c.url) !== getIdFromUrl(lesson.url)))
+        // setCancelledLessons(cancelledLessons => cancelledLessons?.filter(c => getIdFromUrl(c.url) !== getIdFromUrl(lesson.url)))
     }
 
     const getLessons = async () => {
-        let less;
+        let less : LessonInterface[];
         if(isProfessor) {
             less = await apiGetLessons(getUserId(),undefined,undefined,undefined,undefined)
         } else {
             less = await apiGetLessons(undefined,getUserId(),undefined,undefined,undefined)
         }
         setLessons(less)
+        setPendingApprovalLessons(less?.filter(c => c.lessonStatus === "PENDING_APPROVAL"))
+        setInProgressLessons(less?.filter(c => c.lessonStatus === "IN_PROCESS"))
+        setCancelledLessons(less?.filter(c => c.lessonStatus === "CANCELLED"))
+        setFinishedLessons(less?.filter(c => c.lessonStatus === "FINISHED"))
     }
 
   const handleClickOpenRate = (lessonUrl: string) => {
         setCurrentId(parseInt(getIdFromUrl(lessonUrl)))
-    setOpenRate(true);
+      setOpenRate(true);
   };
 
   const handleCloseRate = () => {
@@ -152,40 +176,43 @@ export default function MyLessons() {
             </Typography>
             <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
 
-                <Tab label={"Requests (" + (lessons ? lessons?.filter(c => c.lessonStatus === "PENDING_APPROVAL").length : 0) + ")"}{...a11yProps(0)} />
-                <Tab label={"In Progress (" + (lessons ? lessons?.filter(c => c.lessonStatus === "IN_PROCESS").length : 0) + ")"} {...a11yProps(1)} />
-                <Tab label={"Finished (" + (lessons ?  lessons?.filter(c => c.lessonStatus === "FINISHED").length : 0) + ")"} {...a11yProps(2)} />
-                <Tab label={"Cancelled (" + (lessons ? lessons?.filter(c => c.lessonStatus === "CANCELLED").length : 0) + ")"} {...a11yProps(3)} />
+                <Tab label={"Requests (" + (pendingApprovalLessons ? pendingApprovalLessons.length : 0) + ")"}{...a11yProps(0)} />
+                <Tab label={"In Progress (" + (inProgressLessons ? inProgressLessons.length : 0) + ")"} {...a11yProps(1)} />
+                <Tab label={"Finished (" + (finishedLessons ? finishedLessons.length : 0) + ")"} {...a11yProps(2)} />
+                <Tab label={"Cancelled (" + (cancelledLessons ? cancelledLessons.length : 0) + ")"} {...a11yProps(3)} />
             </Tabs>
 
             {//requests
             value === 0 && (
                 <List sx={{ pb: 2, pl: 2, pr: 2, width: '100%', bgcolor: 'background.paper' }}>
-                    {lessons && lessons.filter(c => c.lessonStatus === "PENDING_APPROVAL").map(selectedLesson =>
+                    {pendingApprovalLessons && pendingApprovalLessons.map(selectedLesson =>
                         <DisplayLesson lesson={selectedLesson} isProfessor={isProfessor}>
                             <RedButton variant="outlined"  onClick={() => handleClickOpen(selectedLesson.url)} sx={{ mt: 1, ml: 2, }}>Cancel request</RedButton>
                         </DisplayLesson>)}
+                    {(!pendingApprovalLessons || pendingApprovalLessons.length === 0) && <NothingHere/>}
                 </List>
             )}
 
             {//in progress
             value === 1 && (
                 <List sx={{ pb: 2, pl: 2, pr: 2, width: '100%', bgcolor: 'background.paper' }}>
-                    {lessons && lessons.filter(c => c.lessonStatus === "IN_PROCESS").map(selectedLesson =>
+                    {inProgressLessons && inProgressLessons.map(selectedLesson =>
                         <DisplayLesson lesson={selectedLesson} isProfessor={isProfessor}>
                             <RedButton variant="outlined"  onClick={() => handleClickOpen(selectedLesson.url)} sx={{ mt: 1, ml: 2, }}>Cancel lesson</RedButton>
-                            <GreenButton variant="outlined" sx={{ mt: 1, ml: 2, }}>Go to class</GreenButton>
+                            <GreenButton variant="outlined" onClick={() => navigate("/class")}sx={{ mt: 1, ml: 2, }}>Go to class</GreenButton>
                         </DisplayLesson>)}
+                    {(!inProgressLessons || inProgressLessons.length === 0) && <NothingHere/>}
                 </List>
             )}
             {//finished
             value === 2 && (
                 <List sx={{ pb: 2, pl: 2, pr: 2, width: '100%', bgcolor: 'background.paper' }}>
-                    {lessons && lessons.filter(c => c.lessonStatus === "FINISHED").map(selectedLesson =>
+                    {finishedLessons && finishedLessons.map(selectedLesson =>
                         <DisplayLesson lesson={selectedLesson} isProfessor={isProfessor}>
                             <BlueButton variant="outlined" onClick={() => {handleClickOpenRate(selectedLesson.url)}} sx={{ mt: 1, ml: 2, }}>Rate</BlueButton>
-                            <GreenButton variant="outlined" sx={{ mt: 1, ml: 2, }}>Request new lesson</GreenButton>
+                            <GreenButton variant="outlined" onClick={() => {requestReOpenLesson(selectedLesson)}} sx={{ mt: 1, ml: 2, }}>Request new lesson</GreenButton>
                         </DisplayLesson>)}
+                    {(!finishedLessons || finishedLessons.length === 0) && <NothingHere/>}
                 </List>
             )}
 
@@ -220,10 +247,11 @@ export default function MyLessons() {
             { // cancelled
             value === 3 && (
                 <List sx={{ pb: 2, pl: 2, pr: 2, width: '100%', bgcolor: 'background.paper' }}>
-                    {lessons && lessons.filter(c => c.lessonStatus === "CANCELLED").map(selectedLesson =>
+                    {cancelledLessons && cancelledLessons.map(selectedLesson =>
                     <DisplayLesson lesson={selectedLesson} isProfessor={isProfessor}>
-                        <GreenButton variant="outlined" sx={{ mt: 1, ml: 2, }}>Request new lesson</GreenButton>
+                        <GreenButton variant="outlined" onClick={() => {requestReOpenLesson(selectedLesson)}} sx={{ mt: 1, ml: 2, }}>Request new lesson</GreenButton>
                     </DisplayLesson>)}
+                    {(!cancelledLessons || cancelledLessons.length === 0) && <NothingHere/>}
                 </List>
             )}
 
