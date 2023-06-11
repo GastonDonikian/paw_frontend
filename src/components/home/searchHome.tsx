@@ -10,6 +10,7 @@ import '../../App.css';
 import {Container} from '@mui/system';
 import {getCategories} from "../../Services/EnumService";
 import {useNavigate} from "react-router-dom";
+import {intl} from "../../i18n/i18n";
 
 
 export default function SearchHome() {
@@ -35,10 +36,10 @@ export default function SearchHome() {
                     <SearchOutlinedIcon/>
                 </Avatar>
                     <Typography gutterBottom variant="h5" component="div">
-                        Find specific professors for what you need
+                        {intl.formatMessage({ id: 'find_professor' })}
                     </Typography>
                     <Typography variant="body2" color="text.secondary">
-                        Find what subject you wanna learn
+                        {intl.formatMessage({ id: 'find_subject' })}
                     </Typography>
             </Container>
                 
