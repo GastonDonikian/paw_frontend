@@ -4,6 +4,7 @@ import {Avatar, CardActionArea} from '@mui/material';
 import Typography from '@mui/material/Typography';
 import LibraryBooksOutlinedIcon from '@mui/icons-material/LibraryBooksOutlined';
 import '../../App.css';
+import {intl} from "../../i18n/i18n";
 
 export default function RegisterHome() {
     return (
@@ -14,10 +15,10 @@ export default function RegisterHome() {
                 </Avatar>
                     <CardContent>
                         <Typography gutterBottom variant="h5" component="div">
-                            Want to be a proffessor or a student?
+                            {intl.formatMessage({ id: 'prof_or_student' })}
                         </Typography>
                         <Typography variant="body2" color="text.secondary">
-                            Register and start right away!
+                            {intl.formatMessage({ id: 'register_start' })}
                         </Typography>
                     </CardContent>                
                 </CardActionArea>

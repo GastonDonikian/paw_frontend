@@ -4,6 +4,7 @@ import {Avatar, CardActionArea} from '@mui/material';
 import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined';
 import Typography from '@mui/material/Typography';
 import '../../App.css';
+import {intl} from "../../i18n/i18n";
 
 export default function EmailHome() {
     return (
@@ -14,10 +15,10 @@ export default function EmailHome() {
                 </Avatar>
                 <CardContent>
                     <Typography gutterBottom variant="h5" component="div">
-                        Want to improve the page or give us feedback?
+                        {intl.formatMessage({ id: 'improve_feedback' })}
                     </Typography>
                     <Typography variant="body2" color="text.secondary">
-                        Send us an email
+                        {intl.formatMessage({ id: 'send_email' })}
                     </Typography>
                 </CardContent>
             </CardActionArea>
