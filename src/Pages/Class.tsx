@@ -16,6 +16,7 @@ import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
+import {intl} from "../i18n/i18n";
 
 const BlueButton = styled(Button)<ButtonProps>(({ theme }) => ({
     color: lightBlue[600],
@@ -107,7 +108,7 @@ export default function Class() {
 
 
                                 <BlueButton variant="outlined" onClick={handleClickOpen} sx={{ ml: 2, mb: 2, }}>
-                                    Schedule meeting
+                                    {intl.formatMessage({ id: 'schedule_meeting'})}
                                 </BlueButton>
                                 <Dialog open={open} onClose={handleClose}>
                                     <DialogTitle>Schedule meeting</DialogTitle>
@@ -116,7 +117,7 @@ export default function Class() {
                                             autoFocus
                                             margin="dense"
                                             id="name"
-                                            label="Schedule"
+                                            label={intl.formatMessage({ id: 'schedule'})}
                                             type="email"
                                             fullWidth
                                             size="small"
@@ -127,15 +128,15 @@ export default function Class() {
                                             margin="dense"
                                             id="name"
                                             size="small"
-                                            label="Meeting link"
+                                            label={intl.formatMessage({ id: 'meeting_link'})}
                                             type="email"
                                             fullWidth
                                             variant="outlined"
                                         />
                                     </DialogContent>
                                     <DialogActions>
-                                        <Button onClick={handleClose}>Cancel</Button>
-                                        <Button onClick={handleClose}>Save</Button>
+                                        <Button onClick={handleClose}>{intl.formatMessage({ id: 'cancel'})}</Button>
+                                        <Button onClick={handleClose}>{intl.formatMessage({ id: 'save'})}</Button>
                                     </DialogActions>
                                 </Dialog>
 

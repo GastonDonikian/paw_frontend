@@ -1,3 +1,4 @@
+import {intl} from "../i18n/i18n";
 
 
 export default function NothingHere(){
@@ -7,8 +8,8 @@ export default function NothingHere(){
         <div className="container" style={{textAlign: 'center'}}>
         <img draggable="false" className="man-icon" src="./nothing-here.png" height={120} />
         
-        <h3 className="title">Nothing here!</h3>
-        <p className="info">Come back later</p>
+        <h3 className="title">{intl.formatMessage({ id: 'nothing_here'})}</h3>
+        <p className="info">{intl.formatMessage({ id: 'come_back_later'})}</p>
     
 </div>
 

@@ -15,6 +15,7 @@ import {Field, Form, Formik} from "formik";
 import {apiEditStudent} from "../../Services/UserService";
 import {ProfessorModel} from "../../Models/Users/User";
 import {EditStudentModel} from "../../Models/Users/EditStudentModel";
+import {intl} from "../../i18n/i18n";
 
 
 const theme = createTheme();
@@ -37,12 +38,12 @@ export default function EditStudentProfile() {
         },
         validationSchema: Yup.object().shape({
             name: Yup.string()
-                .min(3, "Name should be longer")
-                .max(40, "Name should be shorter"),
+                .min(3, intl.formatMessage({ id: 'error_name_longer' }))
+                .max(40, intl.formatMessage({ id: 'error_name_shorter' })),
             surname: Yup.string()
-                .min(3, "Surname should be longer")
-                .max(40, "Surname should be shorter"),
-            phoneNumber: Yup.string().matches(phoneRegExp, 'Phone number is not valid')
+                .min(3, intl.formatMessage({ id: 'error_surname_longer' }))
+                .max(40, intl.formatMessage({ id: 'error_surname_shorter' })),
+            phoneNumber: Yup.string().matches(phoneRegExp, intl.formatMessage({ id: 'error_phone_invalid'}))
         })
     }
     const handleSubmit = async (values: EditStudentModel) => {
@@ -91,7 +92,7 @@ export default function EditStudentProfile() {
                                     fullWidth
                                     id="name"
                                     helperText={onError(errors['name'] || '')}
-                                    label="Name"
+                                    label={intl.formatMessage({ id: 'name' })}
                                     InputLabelProps={{ shrink: true }}
                                     placeholder={user?.name}
                                     name="name"
@@ -106,7 +107,7 @@ export default function EditStudentProfile() {
                                     helperText={onError(errors['surname'] || '')}
                                     InputLabelProps={{ shrink: true }}
                                     placeholder={user?.surname}
-                                    label="Surname"
+                                    label={intl.formatMessage({ id: 'surname' })}
                                     name="surname"
                                     size="small"
                                 />
@@ -118,7 +119,7 @@ export default function EditStudentProfile() {
                                     helperText={onError(errors['phoneNumber'] || '')}
                                     InputLabelProps={{ shrink: true }}
                                     placeholder={user?.phoneNumber}
-                                    label="Phone number"
+                                    label={intl.formatMessage({ id: 'phone_number' })}
                                     name="phoneNumber"
                                     size="small"
                                 />
@@ -132,7 +133,7 @@ export default function EditStudentProfile() {
                                     variant="contained"
                                     sx={{mb: 1, bgcolor: '#349AC2'}}
                                 >
-                                    Save changes
+                                    {intl.formatMessage({ id: 'save_changes' })}
                                 </Button></Grid></Grid>
                                 
                             </Form>)}

@@ -15,6 +15,7 @@ import {apiEditProfessor} from "../../Services/UserService";
 import {getUserFromToken} from "../../Services/AuthHelper";
 import {ProfessorModel} from "../../Models/Users/User";
 import {EditProfessorModel} from "../../Models/Users/EditProfessorModel";
+import {intl} from "../../i18n/i18n";
 
 
 const theme = createTheme();
@@ -43,19 +44,19 @@ export default function EditStudentProfile() {
         },
         validationSchema: Yup.object().shape({
             name: Yup.string()
-                .min(3, "Name should be longer")
-                .max(40, "Name should be shorter"),
+                .min(3, intl.formatMessage({ id: 'error_name_longer' }))
+                .max(40, intl.formatMessage({ id: 'error_name_shorter' })),
             surname: Yup.string()
-                .min(3, "Surname should be longer")
-                .max(40, "Surname should be shorter"),
-            phoneNumber: Yup.string().matches(phoneRegExp, 'Phone number is not valid'),
+                .min(3, intl.formatMessage({ id: 'error_surname_longer' }))
+                .max(40, intl.formatMessage({ id: 'error_surname_shorter' })),
+            phoneNumber: Yup.string().matches(phoneRegExp, intl.formatMessage({ id: 'error_phone_invalid' })),
             schedule: Yup.string()
-                .max(30, "Schedule shouls be shorter"),
+                .max(30, intl.formatMessage({ id: 'error_schedule_shorter' })),
             studies: Yup.string()
-                .min(4, "Studies should be longer")
-                .max(40, "Studies should be shorter"),
+                .min(4, intl.formatMessage({ id: 'error_studies_longer' }))
+                .max(40, intl.formatMessage({ id: 'error_studies_shorter' })),
             description: Yup.string()
-                .max(200, "Description should be shorter")
+                .max(200, intl.formatMessage({ id: 'error_description_shorter' }))
         })
     }
     const handleSubmit = async (values: EditProfessorModel) => {
@@ -104,7 +105,7 @@ export default function EditStudentProfile() {
                                     fullWidth
                                     id="name"
                                     helperText={onError(errors['name'] || '')}
-                                    label="Name"
+                                    label={intl.formatMessage({ id: 'name' })}
                                     InputLabelProps={{ shrink: true }}
                                     placeholder={user?.name}
                                     name="name"
@@ -119,7 +120,7 @@ export default function EditStudentProfile() {
                                     helperText={onError(errors['surname'] || '')}
                                     InputLabelProps={{ shrink: true }}
                                     placeholder={user?.surname}
-                                    label="Surname"
+                                    label={intl.formatMessage({ id: 'surname' })}
                                     name="surname"
                                     size="small"
                                 />
@@ -134,7 +135,7 @@ export default function EditStudentProfile() {
                                     value={user?.email}
                                     disabled
                                     helperText={onError( '')}
-                                    label="Email Address"
+                                    label={intl.formatMessage({ id: 'email_address' })}
                                     name="email"
                                 />
                                 <Field
@@ -145,7 +146,7 @@ export default function EditStudentProfile() {
                                     InputLabelProps={{ shrink: true }}
                                     placeholder={user?.phoneNumber}
                                     helperText={onError(errors['phoneNumber'] || '')}
-                                    label="Phone number"
+                                    label={intl.formatMessage({ id: 'phone_number' })}
                                     name="phoneNumber"
                                     size="small"
                                 />
@@ -155,7 +156,7 @@ export default function EditStudentProfile() {
                                     fullWidth
                                     id="schedule"
                                     helperText={onError(errors['schedule'] || '')}
-                                    label="Schedule"
+                                    label={intl.formatMessage({ id: 'schedule' })}
                                     InputLabelProps={{ shrink: true }}
                                     placeholder={user?.schedule}
                                     name="schedule"
@@ -167,7 +168,7 @@ export default function EditStudentProfile() {
                                     fullWidth
                                     id="studies"
                                     helperText={onError(errors['studies'] || '')}
-                                    label="Studies"
+                                    label={intl.formatMessage({ id: 'studies' })}
                                     InputLabelProps={{ shrink: true }}
                                     placeholder={user?.studies}
                                     name="studies"
@@ -179,7 +180,7 @@ export default function EditStudentProfile() {
                                     fullWidth
                                     id="description"
                                     helperText={onError(errors['description'] || '')}
-                                    label="Description"
+                                    label={intl.formatMessage({ id: 'description' })}
                                     InputLabelProps={{ shrink: true }}
                                     placeholder={user?.description}
                                     name="description"
@@ -194,7 +195,7 @@ export default function EditStudentProfile() {
                                     variant="contained"
                                     sx={{ mb: 1, bgcolor: '#349AC2'}}
                                 >
-                                    Save changes
+                                    {intl.formatMessage({ id: 'save_changes' })}
                                 </Button></Grid></Grid>
                             
                             </Form>)}

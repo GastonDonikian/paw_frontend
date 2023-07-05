@@ -53,7 +53,7 @@ export default function SearchHome() {
                                 id="search" 
                                 name="search"
                                 fullWidth 
-                                label="Search" 
+                                label={intl.formatMessage({ id: 'search' })}
                                 variant="outlined" 
                                 size="small"
                                 sx={{mt:2, mb: 2}}

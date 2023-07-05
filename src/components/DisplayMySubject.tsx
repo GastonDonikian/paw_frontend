@@ -2,6 +2,7 @@ import * as React from 'react';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import {Button} from '@mui/material';
+import {intl} from "../i18n/i18n";
 
 const DisplayMySubject = (props: any) => {
   
@@ -24,11 +25,11 @@ const DisplayMySubject = (props: any) => {
         
             {active ?
             <Button variant="contained" onClick={() => changeStatus(contract)} sx={{mt: 1,color: 'white', display: 'block', bgcolor: '#349AC2'}}>
-                Put On Hold</Button> :
+                {intl.formatMessage({ id: 'put_on_hold'})}</Button> :
             <Button variant="contained" onClick={() => changeStatus(contract)}  sx={{mt:1, color: 'white', display: 'block', bgcolor: '#349AC2'}}>
-                Restore subject</Button>}
+                {intl.formatMessage({ id: 'restore_subject'})}</Button>}
         
-        <Button variant="contained" onClick={() => deleteContract(contract)} sx={{mt:1, ml:2, color: 'white', display: 'block', bgcolor: '#DC3545'}}>Stop Teaching</Button>
+        <Button variant="contained" onClick={() => deleteContract(contract)} sx={{mt:1, ml:2, color: 'white', display: 'block', bgcolor: '#DC3545'}}>{intl.formatMessage({ id: 'stop_teaching'})}</Button>
       </ListItem>
       
       /*<Divider variant="inset" component="li" sx={{ml:0}} /> */

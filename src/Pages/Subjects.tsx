@@ -17,6 +17,7 @@ import {useSearchParams} from "react-router-dom";
 import {apiGetSubjects} from "../Services/SubjectService";
 import {Subject} from "../Models/Subject";
 import {getUserId} from "../Services/AuthHelper";
+import {intl} from "../i18n/i18n";
 
 
 export default function Subjects() {
@@ -70,7 +71,7 @@ export default function Subjects() {
                                 id="search"
                                 name="search"
                                 fullWidth
-                                label="Search"
+                                label={intl.formatMessage({ id: 'search'})}
                                 variant="outlined"
                                 size="small"
                                 sx={{ mt: 2, mb: 2 }}
@@ -120,7 +121,7 @@ export default function Subjects() {
                                     mb: 0, backgroundColor: 'rgba(0,0,0,.03)', borderBottom: '1px solid rgba(0,0,0,.125)'
                                 }}>
                                     <Typography variant="h6" gutterBottom component="div" sx={{ mb: 0 }} >
-                                        Filters
+                                        {intl.formatMessage({ id: 'filters'})}
                                     </Typography>
                                 </Container>
                                 <Grid container sx={{ display: 'flex', flexDirection: 'column', mr: 4, m:2,}}>
@@ -132,7 +133,7 @@ export default function Subjects() {
                                     onClick={fetchSubjects}
                                     sx={{ mr: 8, mt: 1, mb: 1, bgcolor: '#349AC2', alignSelf: 'flex-end'}}
                                 >
-                                    Filter
+                                    {intl.formatMessage({ id: 'filter'})}
                                 </Button>
                                 </Grid>
                             </div>
@@ -148,7 +149,7 @@ export default function Subjects() {
 
                         <Container component="div" sx={{alignContent: 'center', p: '0.75rem 1.25rem', mb:0, backgroundColor: 'rgba(0,0,0,.03)', borderBottom: '1px solid rgba(0,0,0,.125)' }}>
                             <Typography variant="h5" gutterBottom component="div" sx={{mb:0}} >
-                                 Subjects
+                                {intl.formatMessage({ id: 'subjects'})}
                             </Typography>
                         </Container>
                         <List sx={{pb:2, pl:2, pr:2, width: '100%', bgcolor: 'background.paper' }}>

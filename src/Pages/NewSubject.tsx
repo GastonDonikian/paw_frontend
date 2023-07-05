@@ -18,6 +18,7 @@ import {NewSubjectModel} from "../Models/Subject";
 import {apiRequestNewSubject} from "../Services/SubjectService";
 import MenuItem from "@mui/material/MenuItem";
 import ListItemText from "@mui/material/ListItemText";
+import {intl} from "../i18n/i18n";
 
 
 const theme = createTheme();
@@ -83,12 +84,12 @@ export default function NewSubject() {
                     }}
                 >
                     <Typography component="h1" variant="h5">
-                        New subject
+                        {intl.formatMessage({ id: 'new_subject'})}
                     </Typography>
                     <Formik {...newSubjectFormik} onSubmit={handleSubmit}>
                         {({values, errors}) => (
                             <Form>
-                                {badCredentials ? <Alert severity="error">Something went wrong!</Alert> :
+                                {badCredentials ? <Alert severity="error">{intl.formatMessage({ id: 'error_something_wrong'})}</Alert> :
                                     <div></div>}
                                 <Field
                                     as={TextField}
@@ -96,7 +97,7 @@ export default function NewSubject() {
                                     fullWidth
                                     id="name"
                                     helperText={onError(errors['name'] || '')}
-                                    label="Subject"
+                                    label={intl.formatMessage({ id: 'subject'})}
                                     name="name"
                                     size="small"
                                 />
@@ -105,7 +106,7 @@ export default function NewSubject() {
                                     margin="none"
                                     fullWidth
                                     id="level"
-                                    label="Level"
+                                    label={intl.formatMessage({ id: 'level'})}
                                     name="level"
                                     size="small"
                                     sx={{mb:2}}
@@ -121,7 +122,7 @@ export default function NewSubject() {
                                     margin="none"
                                     fullWidth
                                     id="category"
-                                    label="Category"
+                                    label={intl.formatMessage({ id: 'category'})}
                                     name="category"
                                     size="small"
                                     sx={{mb:2}}
@@ -137,7 +138,7 @@ export default function NewSubject() {
                                     fullWidth
                                     id="description"
                                     helperText={onError(errors['description'] || '')}
-                                    label="Description"
+                                    label={intl.formatMessage({ id: 'description'})}
                                     name="description"
                                     size="small"
                                 />
@@ -151,7 +152,7 @@ export default function NewSubject() {
                                     variant="contained"
                                     sx={{ mb: 1, bgcolor: '#349AC2'}}
                                 >
-                                    Send
+                                    {intl.formatMessage({ id: 'send'})}
                                 </Button></Grid></Grid>
                                 
                             </Form>)}

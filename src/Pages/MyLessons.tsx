@@ -23,6 +23,7 @@ import {getIdFromUrl} from "../Services/ContractService";
 import {apiPostReview} from "../Services/ReviewService"
 import {useNavigate} from "react-router-dom";
 import NothingHere from "../components/nothingHere";
+import {intl} from "../i18n/i18n";
 
 
 function a11yProps(index: number) {
@@ -171,14 +172,14 @@ export default function MyLessons() {
             boxShadow: '0 3px 10px rgb(0 0 0 / 0.2)'
         }}>
             <Typography component="h1" variant="h5">
-                MY LESSONS
+                {intl.formatMessage({ id: 'my_lessons'})}
             </Typography>
             <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
 
-                <Tab label={"Requests (" + (pendingApprovalLessons ? pendingApprovalLessons.length : 0) + ")"}{...a11yProps(0)} />
-                <Tab label={"In Progress (" + (inProgressLessons ? inProgressLessons.length : 0) + ")"} {...a11yProps(1)} />
-                <Tab label={"Finished (" + (finishedLessons ? finishedLessons.length : 0) + ")"} {...a11yProps(2)} />
-                <Tab label={"Cancelled (" + (cancelledLessons ? cancelledLessons.length : 0) + ")"} {...a11yProps(3)} />
+                <Tab label={intl.formatMessage({ id: 'requests'}) + "(" + (pendingApprovalLessons ? pendingApprovalLessons.length : 0) + ")"}{...a11yProps(0)} />
+                <Tab label={intl.formatMessage({ id: 'in_process'}) + "(" + (inProgressLessons ? inProgressLessons.length : 0) + ")"} {...a11yProps(1)} />
+                <Tab label={intl.formatMessage({ id: 'finished'}) + "(" + (finishedLessons ? finishedLessons.length : 0) + ")"} {...a11yProps(2)} />
+                <Tab label={intl.formatMessage({ id: 'cancelled'}) + "(" + (cancelledLessons ? cancelledLessons.length : 0) + ")"} {...a11yProps(3)} />
             </Tabs>
 
             {//requests
@@ -186,7 +187,7 @@ export default function MyLessons() {
                 <List sx={{ pb: 2, pl: 2, pr: 2, width: '100%', bgcolor: 'background.paper' }}>
                     {pendingApprovalLessons && pendingApprovalLessons.map(selectedLesson =>
                         <DisplayLesson lesson={selectedLesson} isProfessor={isProfessor}>
-                            <RedButton variant="outlined"  onClick={() => handleClickOpen(selectedLesson.url)} sx={{ mt: 1, ml: 2, }}>Cancel request</RedButton>
+                            <RedButton variant="outlined"  onClick={() => handleClickOpen(selectedLesson.url)} sx={{ mt: 1, ml: 2, }}>{intl.formatMessage({ id: 'cancel_request'})}</RedButton>
                         </DisplayLesson>)}
                     {(!pendingApprovalLessons || pendingApprovalLessons.length === 0) && <NothingHere/>}
                 </List>
@@ -197,8 +198,8 @@ export default function MyLessons() {
                 <List sx={{ pb: 2, pl: 2, pr: 2, width: '100%', bgcolor: 'background.paper' }}>
                     {inProgressLessons && inProgressLessons.map(selectedLesson =>
                         <DisplayLesson lesson={selectedLesson} isProfessor={isProfessor}>
-                            <RedButton variant="outlined"  onClick={() => handleClickOpen(selectedLesson.url)} sx={{ mt: 1, ml: 2, }}>Cancel lesson</RedButton>
-                            <GreenButton variant="outlined" onClick={() => navigate("/class")}sx={{ mt: 1, ml: 2, }}>Go to class</GreenButton>
+                            <RedButton variant="outlined"  onClick={() => handleClickOpen(selectedLesson.url)} sx={{ mt: 1, ml: 2, }}>{intl.formatMessage({ id: 'cancel_lesson'})}</RedButton>
+                            <GreenButton variant="outlined" onClick={() => navigate("/class")}sx={{ mt: 1, ml: 2, }}>{intl.formatMessage({ id: 'go_to_class'})}</GreenButton>
                         </DisplayLesson>)}
                     {(!inProgressLessons || inProgressLessons.length === 0) && <NothingHere/>}
                 </List>
@@ -208,18 +209,18 @@ export default function MyLessons() {
                 <List sx={{ pb: 2, pl: 2, pr: 2, width: '100%', bgcolor: 'background.paper' }}>
                     {finishedLessons && finishedLessons.map(selectedLesson =>
                         <DisplayLesson lesson={selectedLesson} isProfessor={isProfessor}>
-                            <BlueButton variant="outlined" onClick={() => {handleClickOpenRate(selectedLesson.url)}} sx={{ mt: 1, ml: 2, }}>Rate</BlueButton>
-                            <GreenButton variant="outlined" onClick={() => {requestReOpenLesson(selectedLesson)}} sx={{ mt: 1, ml: 2, }}>Request new lesson</GreenButton>
+                            <BlueButton variant="outlined" onClick={() => {handleClickOpenRate(selectedLesson.url)}} sx={{ mt: 1, ml: 2, }}>{intl.formatMessage({ id: 'rate'})}</BlueButton>
+                            <GreenButton variant="outlined" onClick={() => {requestReOpenLesson(selectedLesson)}} sx={{ mt: 1, ml: 2, }}>{intl.formatMessage({ id: 'request_new_lesson'})}</GreenButton>
                         </DisplayLesson>)}
                     {(!finishedLessons || finishedLessons.length === 0) && <NothingHere/>}
                 </List>
             )}
 
 <Dialog open={openRate} onClose={handleCloseRate}>
-        <DialogTitle>Rate lesson</DialogTitle>
+        <DialogTitle>{intl.formatMessage({ id: 'rate_lesson'})}</DialogTitle>
         <DialogContent>
           <DialogContentText>
-            Rating:
+              {intl.formatMessage({ id: 'subject_rating'})}
           </DialogContentText>
           <Rating
         value={rating}
@@ -237,8 +238,8 @@ export default function MyLessons() {
         />
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleCloseRate}>Close</Button>
-          <Button onClick={() => {handleCloseRateSuccess()}}>Rate</Button>
+          <Button onClick={handleCloseRate}>{intl.formatMessage({ id: 'close'})}</Button>
+          <Button onClick={() => {handleCloseRateSuccess()}}>{intl.formatMessage({ id: 'rate'})}</Button>
         </DialogActions>
       </Dialog>
 
@@ -248,7 +249,7 @@ export default function MyLessons() {
                 <List sx={{ pb: 2, pl: 2, pr: 2, width: '100%', bgcolor: 'background.paper' }}>
                     {cancelledLessons && cancelledLessons.map(selectedLesson =>
                     <DisplayLesson lesson={selectedLesson} isProfessor={isProfessor}>
-                        <GreenButton variant="outlined" onClick={() => {requestReOpenLesson(selectedLesson)}} sx={{ mt: 1, ml: 2, }}>Request new lesson</GreenButton>
+                        <GreenButton variant="outlined" onClick={() => {requestReOpenLesson(selectedLesson)}} sx={{ mt: 1, ml: 2, }}>{intl.formatMessage({ id: 'request_new_lesson'})}</GreenButton>
                     </DisplayLesson>)}
                     {(!cancelledLessons || cancelledLessons.length === 0) && <NothingHere/>}
                 </List>
@@ -264,17 +265,17 @@ export default function MyLessons() {
         aria-describedby="alert-dialog-description"
       >
         <DialogTitle id="alert-dialog-title">
-          {"Are you sure you want to cancel this lesson?"}
+            {intl.formatMessage({ id: 'sure_cancel_lesson'})}
         </DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-            This action is permanent, and to undo it you will have to request another lesson.
+              {intl.formatMessage({ id: 'action_permanent_you'})}
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose}>no</Button>
+          <Button onClick={handleClose}>{intl.formatMessage({ id: 'no'})}</Button>
           <Button onClick={() => {handleClose(); cancelLesson()}} autoFocus>
-            yes
+              {intl.formatMessage({ id: 'yes'})}
           </Button>
         </DialogActions>
       </Dialog>

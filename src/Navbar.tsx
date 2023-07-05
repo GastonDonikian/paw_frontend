@@ -15,12 +15,19 @@ import {isAuthenticated} from "./Services/AuthHelper";
 import "./App.css"
 import Grid from '@mui/material/Grid'
 import {useEffect, useState} from "react";
+import {intl} from "./i18n/i18n";
 
 const pagesLoggedOut = ['Professors'];
 const pagesLoggedIn =  ['Professors', 'MyLessons', 'MyStudents'];
 const rightLoggedOut = ['Register', 'Login'];
 const settingsLoggedIn = ['Profile' ,'mySubjects', 'Logout'];
 const settingsLoggedOut = ['Register', 'Login'];
+
+// const pagesLoggedOut = [intl.formatMessage({ id: 'professors'})];
+// const pagesLoggedIn =  [intl.formatMessage({ id: 'professors'}), intl.formatMessage({ id: 'my_lessons'}), intl.formatMessage({ id: 'my_students'})];
+// const rightLoggedOut = [intl.formatMessage({ id: 'register'}), intl.formatMessage({ id: 'login'})];
+// const settingsLoggedIn = [intl.formatMessage({ id: 'profile'}) ,intl.formatMessage({ id: 'my_subjects'}), intl.formatMessage({ id: 'logout'})];
+// const settingsLoggedOut = [intl.formatMessage({ id: 'register'}), intl.formatMessage({ id: 'login'})];
 
 function Navbar() {
     const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);

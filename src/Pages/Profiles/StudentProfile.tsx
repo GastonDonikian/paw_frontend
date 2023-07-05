@@ -10,6 +10,7 @@ import {useEffect, useState} from "react";
 import {getUserFromToken} from "../../Services/AuthHelper";
 import {UserModel} from "../../Models/Users/User";
 import {useNavigate} from "react-router-dom";
+import {intl} from "../../i18n/i18n";
 
 
 export default function StudentProfile() {
@@ -55,7 +56,7 @@ export default function StudentProfile() {
                             variant="contained"
                             sx={{ mt: 3, mb: 2, bgcolor: '#349AC2',   }}
                         >
-                            Edit Profile
+                            {intl.formatMessage({ id: 'edit_profile' })}
                         </Button>
                         </Grid>
                     </Grid>
@@ -70,7 +71,7 @@ export default function StudentProfile() {
                        alignItems: 'flex-start', paddingBottom: 2}}>
                         <Container component="div" sx={{alignContent: 'center', p: '0.75rem 1.25rem', mb:0, backgroundColor: 'rgba(0,0,0,.03)', borderBottom: '1px solid rgba(0,0,0,.125)' }}>
                             <Typography variant="h5" gutterBottom component="div" sx={{mb:0}} >
-                                Contact information
+                                {intl.formatMessage({ id: 'contact_information' })}
                             </Typography>
                         </Container>
                         <List sx={{ width: '100%', bgcolor: 'background.paper' }}>
