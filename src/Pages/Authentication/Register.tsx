@@ -5,6 +5,7 @@ import Typography from '@mui/material/Typography';
 import {CardActionArea, Grid} from '@mui/material';
 import '../../App.css';
 import {useNavigate} from "react-router-dom";
+import {intl} from "../../i18n/i18n";
 
 
 export default function Register() {
@@ -28,11 +29,11 @@ export default function Register() {
                                 <img src="./book.png" height={80} />
                                 <CardContent>
                                     <Typography variant="body2" color="white" sx={{p: '4px 10px', mb: 2, background: '#00579E', borderRadius: '30px', display: 'inline-block'}}>
-                                        Professor
+                                        {intl.formatMessage({ id: 'professor' })}
                                     </Typography>
 
                                     <Typography variant="body2" color="text.secondary">
-                                        Want to teach, sell courses and more?
+                                        {intl.formatMessage({ id: 'want_teach' })}
                                     </Typography>
                                 </CardContent>
                             </CardActionArea>
@@ -44,10 +45,10 @@ export default function Register() {
                                 <img src="./book.png" height={80} />
                                 <CardContent>
                                     <Typography variant="body2" color="white" sx={{p: '4px 10px', mb: 2, background: '#00579E', borderRadius: '30px', display: 'inline-block'}}>
-                                        Student
+                                        {intl.formatMessage({ id: 'student' })}
                                     </Typography>
                                     <Typography variant="body2" color="text.secondary">
-                                        Want to find professors and learn from them?
+                                        {intl.formatMessage({ id: 'want_find_professor' })}
                                     </Typography>
                                 </CardContent>
                             </CardActionArea>

@@ -3,6 +3,7 @@ import {useEffect, useState} from 'react';
 import './verify.css';
 import {UserModel} from "../../Models/Users/User";
 import {getUserFromToken} from "../../Services/AuthHelper";
+import {intl} from "../../i18n/i18n";
 
 export default function Verified() {
     const [user, setUser] = useState<UserModel>();
@@ -18,7 +19,7 @@ export default function Verified() {
         <div className="container-fluid py-5">
     <div className="container">
             
-                <h3 className="text-center">Your account is not verified, check your email!</h3>
+                <h3 className="text-center">{intl.formatMessage({ id: 'account_not_verified'})}</h3>
             
 
             <div className="row my-5 justify-content-center">
@@ -30,8 +31,8 @@ export default function Verified() {
                         </div>
                         <ul className="signature-content">
                             <li><h3 className="title"> {user?.name} {user?.surname}</h3></li>
-                            <li>Email: {user?.email}</li>
-                            <li>Mobile: {user?.phoneNumber}</li>
+                            <li>{intl.formatMessage({ id: 'email'})}: {user?.email}</li>
+                            <li>{intl.formatMessage({ id: 'phone_number'})}: {user?.phoneNumber}</li>
                         </ul>
                         <div>
                                 <form action="" method="post">

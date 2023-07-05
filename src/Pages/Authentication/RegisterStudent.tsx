@@ -19,6 +19,7 @@ import * as Yup from 'yup';
 import {Field, Form, Formik} from "formik";
 import {apiRegisterStudent} from "../../Services/UserService";
 import {apiLogin} from "../../Services/Auth";
+import {intl} from "../../i18n/i18n";
 
 
 function Copyright(props: any) {
@@ -58,19 +59,19 @@ export default function RegisterStudent() {
         validationSchema: Yup.object().shape({
             email: Yup.string().email("Not an email"),
             password: Yup.string()
-                .min(8, "Password should be longer than 8 characters")
-                .max(40, "Password should be shorter than 40 characters")
-                .required("Password is required!"),
-            repeatPassword: Yup.string().oneOf([Yup.ref('password'), null], 'Passwords must match'),
+                .min(8, intl.formatMessage({ id: 'error_password_longer'}))
+                .max(40, intl.formatMessage({ id: 'error_password_shorter'}))
+                .required(intl.formatMessage({ id: 'error_password_required'})),
+            repeatPassword: Yup.string().oneOf([Yup.ref('password'), null], intl.formatMessage({ id: 'error_password_match'})),
             name: Yup.string()
-                .min(3, "Name should be longer")
-                .max(40, "Name should be shorter")
-                .required("Name is required!"),
+                .min(3, intl.formatMessage({ id: 'error_name_longer'}))
+                .max(40, intl.formatMessage({ id: 'error_name_shorter'}))
+                .required(intl.formatMessage({ id: 'error_name_required'})),
             surname: Yup.string()
-                .min(3, "Surname should be longer")
-                .max(40, "Surname should be shorter")
-                .required("Surname is required!"),
-            phoneNumber: Yup.string().matches(phoneRegExp, 'Phone number is not valid')
+                .min(3, intl.formatMessage({ id: 'error_surname_longer'}))
+                .max(40, intl.formatMessage({ id: 'error_surname_shorter'}))
+                .required(intl.formatMessage({ id: 'error_surname_required'})),
+            phoneNumber: Yup.string().matches(phoneRegExp, intl.formatMessage({ id: 'error_phone_invalid'}))
         })
     }
     const handleSubmit = async (values: RegisterStudentModel) => {
@@ -112,7 +113,7 @@ export default function RegisterStudent() {
                         <LockOutlinedIcon/>
                     </Avatar>
                     <Typography component="h1" variant="h5" sx={{mb:3}}>
-                        Register
+                        {intl.formatMessage({ id: 'register'})}
                     </Typography>
                     <Formik {...registerStudentFormik} onSubmit={handleSubmit}>
                         {({values, errors}) => (
@@ -125,7 +126,7 @@ export default function RegisterStudent() {
                                     fullWidth
                                     id="email"
                                     helperText={onError(errors['email'] || '')}
-                                    label="Email Address"
+                                    label={intl.formatMessage({ id: 'email_address'})}
                                     name="email"
                                     autoFocus
                                     size="small"
@@ -136,7 +137,7 @@ export default function RegisterStudent() {
                                     fullWidth
                                     name="password"
                                     helperText={onError(errors['password'] || '')}
-                                    label="Password"
+                                    label={intl.formatMessage({ id: 'password'})}
                                     type="password"
                                     id="password"
                                     size="small"
@@ -147,7 +148,7 @@ export default function RegisterStudent() {
                                     fullWidth
                                     name="repeatPassword"
                                     helperText={onError(errors['repeatPassword'] || '')}
-                                    label="Repeat password"
+                                    label={intl.formatMessage({ id: 'repeat_password'})}
                                     type="password"
                                     id="repeatPassword"
                                     size="small"
@@ -158,7 +159,7 @@ export default function RegisterStudent() {
                                     fullWidth
                                     id="name"
                                     helperText={onError(errors['name'] || '')}
-                                    label="Name"
+                                    label={intl.formatMessage({ id: 'name'})}
                                     name="name"
                                     size="small"
                                 />
@@ -168,7 +169,7 @@ export default function RegisterStudent() {
                                     fullWidth
                                     id="surname"
                                     helperText={onError(errors['surname'] || '')}
-                                    label="Surname"
+                                    label={intl.formatMessage({ id: 'surname'})}
                                     name="surname"
                                     size="small"
                                 />
@@ -178,7 +179,7 @@ export default function RegisterStudent() {
                                     fullWidth
                                     id="phoneNumber"
                                     helperText={onError(errors['phoneNumber'] || '')}
-                                    label="Phone number"
+                                    label={intl.formatMessage({ id: 'phone_number'})}
                                     name="phoneNumber"
                                     size="small"
                                 />
@@ -188,12 +189,12 @@ export default function RegisterStudent() {
                                     variant="contained"
                                     sx={{mt: 2, mb: 2, bgcolor: '#349AC2'}}
                                 >
-                                    Register
+                                    {intl.formatMessage({ id: 'register'})}
                                 </Button>
                                 <Grid container>
                                     <Grid item>
                                         <Link href="/registerProfessor" variant="body2">
-                                            {"Want to teach? Click here"}
+                                            {intl.formatMessage({ id: 'want_to_teach'})}
                                         </Link>
                                     </Grid>
                                 </Grid>

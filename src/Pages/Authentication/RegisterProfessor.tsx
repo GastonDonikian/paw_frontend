@@ -18,6 +18,7 @@ import {Field, Form, Formik} from "formik";
 import {apiRegisterProfessor} from "../../Services/UserService";
 import {apiLogin} from "../../Services/Auth";
 import {RegisterProfessorModel} from "../../Models/Users/RegisterProfessorModel";
+import {intl} from "../../i18n/i18n";
 
 
 function Copyright(props: any) {
@@ -131,7 +132,7 @@ export default function RegisterProfessor() {
                                     size="small"
                                     id="email"
                                     helperText={onError(errors['email'] || '')}
-                                    label="Email Address"
+                                    label={intl.formatMessage({ id: 'email_address' })}
                                     name="email"
                                     autoFocus
                                 />
@@ -141,7 +142,7 @@ export default function RegisterProfessor() {
                                     fullWidth
                                     name="password"
                                     helperText={onError(errors['password'] || '')}
-                                    label="Password"
+                                    label={intl.formatMessage({ id: 'password' })}
                                     type="password"
                                     id="password"
                                     size="small"
@@ -152,7 +153,7 @@ export default function RegisterProfessor() {
                                     fullWidth
                                     name="repeatPassword"
                                     helperText={onError(errors['repeatPassword'] || '')}
-                                    label="Repeat password"
+                                    label={intl.formatMessage({ id: 'repeat_password' })}
                                     type="password"
                                     id="repeatPassword"
                                     size="small"
@@ -163,7 +164,7 @@ export default function RegisterProfessor() {
                                     fullWidth
                                     id="name"
                                     helperText={onError(errors['name'] || '')}
-                                    label="Name"
+                                    label={intl.formatMessage({ id: 'name' })}
                                     name="name"
                                     size="small"
                                 />
@@ -173,7 +174,7 @@ export default function RegisterProfessor() {
                                     fullWidth
                                     id="surname"
                                     helperText={onError(errors['surname'] || '')}
-                                    label="Surname"
+                                    label={intl.formatMessage({ id: 'surname' })}
                                     name="surname"
                                     size="small"
                                 />
@@ -183,7 +184,7 @@ export default function RegisterProfessor() {
                                     fullWidth
                                     id="phoneNumber"
                                     helperText={onError(errors['phoneNumber'] || '')}
-                                    label="Phone number"
+                                    label={intl.formatMessage({ id: 'phone_number' })}
                                     name="phoneNumber"
                                     size="small"
                                 />
@@ -193,7 +194,7 @@ export default function RegisterProfessor() {
                                     fullWidth
                                     id="schedule"
                                     helperText={onError(errors['schedule'] || '')}
-                                    label="Schedule"
+                                    label={intl.formatMessage({ id: 'schedule' })}
                                     name="schedule"
                                     size="small"
                                 />
@@ -203,7 +204,7 @@ export default function RegisterProfessor() {
                                     fullWidth
                                     id="studies"
                                     helperText={onError(errors['studies'] || '')}
-                                    label="Studies"
+                                    label={intl.formatMessage({ id: 'studies' })}
                                     name="studies"
                                     size="small"
                                 />
@@ -213,7 +214,7 @@ export default function RegisterProfessor() {
                                     fullWidth
                                     id="description"
                                     helperText={onError(errors['description'] || '')}
-                                    label="Description"
+                                    label={intl.formatMessage({ id: 'description' })}
                                     name="description"
                                     size="small"
                                 />
@@ -223,7 +224,7 @@ export default function RegisterProfessor() {
                                     fullWidth
                                     id="location"
                                     helperText={onError(errors['location'] || '')}
-                                    label="Location"
+                                    label={intl.formatMessage({ id: 'location' })}
                                     name="location"
                                     size="small"
                                 />
@@ -233,12 +234,12 @@ export default function RegisterProfessor() {
                                     variant="contained"
                                     sx={{mt: 2, mb: 2, bgcolor: '#349AC2'}}
                                 >
-                                    Register
+                                    {intl.formatMessage({ id: 'register' })}
                                 </Button>
                                 <Grid container>
                                     <Grid item>
                                         <Link href="/registerStudent" variant="body2">
-                                            {"Want to learn only? Click here"}
+                                            {intl.formatMessage({ id: 'want_to_learn' })}
                                         </Link>
                                     </Grid>
                                 </Grid>

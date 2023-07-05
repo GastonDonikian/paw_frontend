@@ -2,6 +2,7 @@ import Container from '@mui/material/Container';
 import TextField from '@mui/material/TextField';
 import {Button, Divider, Grid, Typography} from '@mui/material';
 import ChatMessages from './ChatMessages';
+import {intl} from "../../i18n/i18n";
 
 
 export default function Chat(){
@@ -51,7 +52,7 @@ export default function Chat(){
                                 id="search"
                                 name="search"
                                 fullWidth
-                                placeholder='Type your message'
+                                placeholder={intl.formatMessage({ id: 'type_message'})}
                                 variant="outlined"
                                 size="small"
                                 sx={{ mt: 2, mb: 2 }}
@@ -64,7 +65,7 @@ export default function Chat(){
                                 variant="contained"
                                 sx={{ bgcolor: '#349AC2' }}
                             >
-                                Send
+                                {intl.formatMessage({ id: 'send'})}
                             </Button>
                         </Grid>
                     </Grid>

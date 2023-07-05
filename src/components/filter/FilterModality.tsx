@@ -6,6 +6,7 @@ import FormControl from '@mui/material/FormControl';
 import ListItemText from '@mui/material/ListItemText';
 import Select, {SelectChangeEvent} from '@mui/material/Select';
 import Checkbox from '@mui/material/Checkbox';
+import {intl} from "../../i18n/i18n";
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -18,7 +19,7 @@ const MenuProps = {
   },
 };
 
-const modalities = ['Remote', 'In person'];
+const modalities = [intl.formatMessage({ id: 'remote' }), intl.formatMessage({ id: 'in_person' })];
 
 export default function FilterModality(props: any) {
   const [mod, setModality] = React.useState<string[]>(props.initalModality || []);
@@ -36,7 +37,7 @@ export default function FilterModality(props: any) {
 
   return (
       <FormControl size='small' sx={{ m: 1, width: 250 }}>
-        <InputLabel id="demo-multiple-checkbox-label">Modality</InputLabel>
+        <InputLabel id="demo-multiple-checkbox-label">{intl.formatMessage({ id: 'modality' })}</InputLabel>
         <Select
           labelId="demo-multiple-checkbox-label"
           id="demo-multiple-checkbox"

@@ -17,6 +17,7 @@ import {ContractCardInterface} from "../Models/Contract";
 import {useNavigate, useSearchParams} from "react-router-dom";
 import {getUserIdFromUrl} from "../Services/UserService";
 import NothingHere from '../components/nothingHere';
+import {intl} from "../i18n/i18n";
 
 
 export default function ProfessorProfile() {
@@ -91,7 +92,7 @@ export default function ProfessorProfile() {
                                 id="search"
                                 name="search"
                                 fullWidth
-                                label="Search"
+                                label={intl.formatMessage({ id: 'search' })}
                                 placeholder={search}
                                 InputLabelProps={{ shrink: true }}
                                 variant="outlined"
@@ -143,7 +144,7 @@ export default function ProfessorProfile() {
                                     mb: 0, backgroundColor: 'rgba(0,0,0,.03)', borderBottom: '1px solid rgba(0,0,0,.125)'
                                 }}>
                                     <Typography variant="h6" gutterBottom component="div" sx={{ mb: 0 }} >
-                                        Filters
+                                        {intl.formatMessage({ id: 'filters' })}
                                     </Typography>
                                 </Container>
                                 <Grid container sx={{ display: 'flex', flexDirection: 'column', mr: 4, m:2,}}>
@@ -157,7 +158,7 @@ export default function ProfessorProfile() {
                                     onClick={fetchContracts}
                                     sx={{ mr: 8, mt: 1, mb: 1, bgcolor: '#349AC2', alignSelf: 'flex-end'}}
                                 >
-                                    Filter
+                                    {intl.formatMessage({ id: 'filter' })}
                                 </Button>
                                 </Grid>
                             </div>

@@ -17,6 +17,7 @@ import {
 } from "../Services/ContractService";
 import {Contract} from "../Models/Contract";
 import NothingHere from "../components/nothingHere";
+import {intl} from "../i18n/i18n";
 
 
 export default function MySubjects() {
@@ -73,7 +74,7 @@ export default function MySubjects() {
                                <Grid item><Typography variant="h5" gutterBottom component="div" sx={{mb:0}} >
                                 Subjects
                             </Typography></Grid> <Grid item>
-                            <Button onClick={() => {navigate('/addSubjects')}}>Add Subject</Button></Grid></Grid>
+                            <Button onClick={() => {navigate('/addSubjects')}}>{intl.formatMessage({ id: 'add_subject'})}</Button></Grid></Grid>
                         </Container>
                         <List sx={{ width: '100%', bgcolor: 'background.paper' }}>
                             {activeContracts.length > 0 ? activeContracts.map( (contract:any) => (
@@ -95,7 +96,7 @@ export default function MySubjects() {
                        alignItems: 'flex-start', paddingBottom: 2}}>
                         <Container component="div" sx={{alignContent: 'center', p: '0.75rem 1.25rem', mb:0, backgroundColor: 'rgba(0,0,0,.03)', borderBottom: '1px solid rgba(0,0,0,.125)' }}>
                             <Typography variant="h5" gutterBottom component="div" sx={{mb:0}} >
-                                Subjects on hold 
+                                {intl.formatMessage({ id: 'subject_on_hold'})}
                             </Typography>
                         </Container>
                         <List sx={{ width: '100%', bgcolor: 'background.paper' }}>

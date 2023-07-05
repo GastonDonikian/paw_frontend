@@ -22,6 +22,7 @@ import {apiRequestLesson} from "../../Services/LessonService";
 import {Review} from "../../Models/Review";
 import {apiGetReviews} from "../../Services/ReviewService";
 import NothingHere from "../../components/nothingHere";
+import {intl} from "../../i18n/i18n";
 
 function a11yProps(index: number) {
     return {
@@ -143,7 +144,7 @@ export default function ProfessorProfile() {
                 
                 <Container sx={{boxShadow: '0 3px 10px rgb(0 0 0 / 0.2)', mb:5, bgcolor: 'white', flexDirection: 'column', borderRadius: '5px', p:2, display: 'flex', alignItems: 'flex-start'}}>
                     <Typography gutterBottom variant="h6" component="div" sx={{mb:0}}>
-                            About {user ? (user.name + ' ' + user.surname) : <CircularProgress/> }
+                        {intl.formatMessage({ id: 'about' })} {user ? (user.name + ' ' + user.surname) : <CircularProgress/> }
                         </Typography>
                    <Typography>{user ? (user.description) : <CircularProgress/> }</Typography>
                 </Container>
@@ -158,7 +159,7 @@ export default function ProfessorProfile() {
 
                         <Container component="div" sx={{alignContent: 'center', p: '0.75rem 1.25rem', mb:0, backgroundColor: 'rgba(0,0,0,.03)', borderBottom: '1px solid rgba(0,0,0,.125)' }}>
                             <Typography variant="h5" gutterBottom component="div" sx={{mb:0}} >
-                                Subjects {contracts?.length}
+                                {intl.formatMessage({ id: 'subjects' })} {contracts?.length}
                             </Typography>
                         </Container>
                         <List sx={{pb:2, pl:2, pr:2, width: '100%', bgcolor: 'background.paper' }}>
@@ -206,7 +207,7 @@ export default function ProfessorProfile() {
                                             <DisplayListItem title="Modality" description={selectedContract.local + ' ' + selectedContract.remote} />
                                             <Divider variant="inset" component="li" sx={{ ml: 0 }} />
                                             {!isCurrentProfile && <Button variant="contained" onClick={() => {createContract(selectedContract)}
-                                            }>Request a lesson</Button>}
+                                            }>{intl.formatMessage({ id: 'request_lesson' })}</Button>}
                                         </div>:
                                     <div>
                                         <DisplayListItem title="Mail" description={user?.email} />
@@ -232,7 +233,7 @@ export default function ProfessorProfile() {
                         <Container>
                             {isCurrentProfile && <Button variant="contained" onClick={() => {
                             navigate('/editProfessorProfile')}
-                            }>Edit profile</Button>}
+                            }>{intl.formatMessage({ id: 'edit_profile' })}</Button>}
                         </Container>
                     </div>
                 </Grid>

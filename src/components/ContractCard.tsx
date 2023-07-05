@@ -5,6 +5,7 @@ import Grid from '@mui/material/Grid';
 // @ts-ignore
 import Flippy, {BackSide, FrontSide} from 'react-flippy';
 import {ContractCardInterface} from "../Models/Contract";
+import {intl} from "../i18n/i18n";
 
 
 const ContractCardComponent = (props: any) => {
@@ -49,7 +50,7 @@ const ContractCardComponent = (props: any) => {
                 <Rating name="read-only" value={rating} readOnly />
             </Grid>
             <Grid item>
-                <Typography >Price: {price}</Typography>
+                <Typography >{intl.formatMessage({ id: 'price'})}: {price}</Typography>
                 
             </Grid>
             
@@ -59,10 +60,10 @@ const ContractCardComponent = (props: any) => {
     </FrontSide>
     <BackSide
       style={{ backgroundColor: 'white', borderRadius:'8px'}}>
-        <Typography >Description: {description}</Typography>
-        <Typography >Studies: {studies}</Typography>
-        <Typography >Location: {location}</Typography>
-        <Typography >Modality: {modality}</Typography>
+        <Typography >{intl.formatMessage({ id: 'description'})}: {description}</Typography>
+        <Typography >{intl.formatMessage({ id: 'studies'})}: {studies}</Typography>
+        <Typography >{intl.formatMessage({ id: 'location'})}: {location}</Typography>
+        <Typography >{intl.formatMessage({ id: 'modality'})}: {modality}</Typography>
            
     </BackSide>
   </Flippy>

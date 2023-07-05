@@ -16,6 +16,7 @@ import {CreateContractInterface} from "../Models/Contract";
 import {apiGetSubject} from "../Services/SubjectService";
 import {Subject} from "../Models/Subject";
 import {apiCreateContract} from "../Services/ContractService";
+import {intl} from "../i18n/i18n";
 
 
 const theme = createTheme();
@@ -44,8 +45,8 @@ export default function NewContract() {
         validationSchema: Yup.
         object().shape({
             description: Yup.string()
-                .required("Description is required!"),
-            price: Yup.number().required("Your lessons need a price!")})
+                .required(intl.formatMessage({ id: 'error_description_required'})),
+            price: Yup.number().required(intl.formatMessage({ id: 'error_lesson_price'}))})
     }
     const handleSubmit = async (values: CreateContractInterface) => {
         try {
@@ -82,12 +83,12 @@ export default function NewContract() {
                     }}
                 >
                     <Typography component="h1" variant="h5">
-                        Teach subject
+                        {intl.formatMessage({ id: 'teach_subject'})}
                     </Typography>
                     <Formik {...newContractFormik} onSubmit={handleSubmit}>
                         {({values, errors}) => (
                             <Form>
-                                {badCredentials ? <Alert severity="error">Something went wrong!</Alert> :
+                                {badCredentials ? <Alert severity="error">{intl.formatMessage({ id: 'error_something_wrong'})}</Alert> :
                                     <div></div>}
                                  <Field
                                     as={TextField}
@@ -95,7 +96,7 @@ export default function NewContract() {
                                     fullWidth
                                     id="subject"
                                     helperText={onError( '')}
-                                    label="Subject"
+                                    label={intl.formatMessage({ id: 'subject'})}
                                     name="subject"
                                     InputLabelProps={{ shrink: true }}
                                     value={subject?.name}
@@ -107,17 +108,17 @@ export default function NewContract() {
                                     fullWidth
                                     id="description"
                                     helperText={onError(errors['description'] || '')}
-                                    label="Description"
+                                    label={intl.formatMessage({ id: 'description'})}
                                     name="description"
                                     size="small"
                                 />
                                 <label>
                                     <Field fullWidth type="checkbox" id="local" name="local"/>
-                                    Local
+                                    {intl.formatMessage({ id: 'local'})}
                                 </label>
                                 <label>
                                     <Field fullWidth type="checkbox" id="remote" name="remote"/>
-                                    Remote
+                                    {intl.formatMessage({ id: 'remote'})}
                                 </label>
                                 <Field
                                     as={TextField}
@@ -125,7 +126,7 @@ export default function NewContract() {
                                     fullWidth
                                     id="price"
                                     helperText={onError(errors['price'] || '')}
-                                    label="Price per hour"
+                                    label={intl.formatMessage({ id: 'price_per_hour'})}
                                     name="price"
                                     size="small"
                                 />
@@ -139,7 +140,7 @@ export default function NewContract() {
                                     variant="contained"
                                     sx={{ mb: 1, bgcolor: '#349AC2'}}
                                 >
-                                    Send
+                                    {intl.formatMessage({ id: 'send'})}
                                 </Button></Grid></Grid>
                                 
                             </Form>)}

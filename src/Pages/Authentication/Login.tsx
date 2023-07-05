@@ -16,6 +16,7 @@ import {createTheme, ThemeProvider} from '@mui/material/styles';
 import {useNavigate} from "react-router-dom";
 import {isVerified, login} from '../../Services/AuthHelper'
 import {Alert} from "@mui/material";
+import {intl} from "../../i18n/i18n";
 
 function Copyright(props: any) {
     return (
@@ -86,7 +87,7 @@ export default function SignIn() {
                         <LockOutlinedIcon />
                     </Avatar>
                     <Typography component="h1" variant="h5">
-                        Sign in
+                        {intl.formatMessage({ id: 'sign_in' })}
                     </Typography>
                     <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
                         {badCredentials ? (<Alert severity="error">User or password is invalid!</Alert>) : userNotVerified ? (
@@ -96,7 +97,7 @@ export default function SignIn() {
                             required
                             fullWidth
                             id="email"
-                            label="Email Address"
+                            label={intl.formatMessage({ id: 'email' })}
                             name="email"
                             autoComplete="email"
                             autoFocus
@@ -106,7 +107,7 @@ export default function SignIn() {
                             required
                             fullWidth
                             name="password"
-                            label="Password"
+                            label={intl.formatMessage({ id: 'password' })}
                             type="password"
                             id="password"
                             autoComplete="current-password"
@@ -114,7 +115,7 @@ export default function SignIn() {
                         <FormControlLabel
                             onChange={() => setRememberMe(!rememberMe)}
                             control={<Checkbox value="remember" color="primary" />}
-                            label="Remember me"
+                            label={intl.formatMessage({ id: 'remember_me' })}
                         />
                         <Button
                             type="submit"
@@ -128,12 +129,14 @@ export default function SignIn() {
                         <Grid container>
                             <Grid item xs>
                                 <Link href="src/Pages#" variant="body2">
-                                    Forgot password?
+                                    {intl.formatMessage({ id: 'forgot_password' })}
                                 </Link>
                             </Grid>
+                        </Grid>
+                        <Grid container>
                             <Grid item>
                                 <Link href="src/Pages#" variant="body2">
-                                    {"Don't have an account? Sign Up"}
+                                    {intl.formatMessage({ id: 'dont_have_account' })}
                                 </Link>
                             </Grid>
                         </Grid>

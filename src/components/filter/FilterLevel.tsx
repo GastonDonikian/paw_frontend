@@ -8,6 +8,7 @@ import ListItemText from '@mui/material/ListItemText';
 import Select, {SelectChangeEvent} from '@mui/material/Select';
 import Checkbox from '@mui/material/Checkbox';
 import {getLevels} from "../../Services/EnumService";
+import {intl} from "../../i18n/i18n";
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -43,14 +44,14 @@ export default function FilterLevel(props: any) {
 
   return ( 
       <FormControl size='small' sx={{ m: 1, width: 250 }}>
-        <InputLabel id="demo-multiple-checkbox-label">Level</InputLabel>
+        <InputLabel id="demo-multiple-checkbox-label">{intl.formatMessage({ id: 'level' })}</InputLabel>
         <Select
           labelId="demo-multiple-checkbox-label"
           id="demo-multiple-checkbox"
           multiple
           value={lev}
           onChange={handleChange}
-          input={<OutlinedInput label="Category" />}
+          input={<OutlinedInput label="Level" />}
           renderValue={(selected) => selected.join(', ')}
           MenuProps={MenuProps}
         >

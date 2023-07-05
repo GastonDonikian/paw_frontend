@@ -4,6 +4,7 @@ import {Avatar, CardActionArea} from '@mui/material';
 import Typography from '@mui/material/Typography';
 import LibraryBooksOutlinedIcon from '@mui/icons-material/LibraryBooksOutlined';
 import '../../App.css';
+import {intl} from "../../i18n/i18n";
 
 export default function MissingSubject() {
     return (
@@ -14,10 +15,10 @@ export default function MissingSubject() {
                 </Avatar>
                     <CardContent>
                         <Typography gutterBottom variant="h5" component="div">
-                           Want to teach or learn a new subject?
+                            {intl.formatMessage({ id: 'teach_new_subject'})}
                         </Typography>
                         <Typography variant="body2" color="text.secondary">
-                            If you think a subject is missing, fill in this form
+                            {intl.formatMessage({ id: 'subject_missing'})}
                         </Typography>
                     </CardContent>                
                 </CardActionArea>

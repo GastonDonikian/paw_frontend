@@ -23,6 +23,7 @@ import NothingHere from "../components/nothingHere";
 import {getIdFromUrl} from "../Services/ContractService";
 import {Review} from "../Models/Review";
 import {apiGetReviews} from "../Services/ReviewService";
+import {intl} from "../i18n/i18n";
 
 const BlueButton = styled(Button)<ButtonProps>(({ theme }) => ({
   color: lightBlue[600],
@@ -221,8 +222,8 @@ export default function MyStudents() {
               <List sx={{ pb: 2, pl: 2, pr: 2, width: '100%', bgcolor: 'background.paper' }}>
                   {pendingApprovalLessons && pendingApprovalLessons.map(selectedLesson =>
                       <DisplayLesson lesson={selectedLesson} isProfessor={isProfessor}>
-                          <RedButton variant="outlined"  onClick={() => handleClickOpenReject(selectedLesson.url)} sx={{ mt: 1, ml: 2, }}>Reject Student</RedButton>
-                          <GreenButton variant="outlined" onClick={() => acceptStudent(selectedLesson.url)}sx={{ mt: 1, ml: 2, }}>Accept Student</GreenButton>
+                          <RedButton variant="outlined"  onClick={() => handleClickOpenReject(selectedLesson.url)} sx={{ mt: 1, ml: 2, }}>{intl.formatMessage({ id: 'accept_student'})}</RedButton>
+                          <GreenButton variant="outlined" onClick={() => acceptStudent(selectedLesson.url)}sx={{ mt: 1, ml: 2, }}>{intl.formatMessage({ id: 'reject_student'})}</GreenButton>
                       </DisplayLesson>)}
                   {(!pendingApprovalLessons || pendingApprovalLessons.length === 0) && <NothingHere/>}
               </List>
@@ -233,9 +234,9 @@ export default function MyStudents() {
                   <List sx={{ pb: 2, pl: 2, pr: 2, width: '100%', bgcolor: 'background.paper' }}>
                       {inProgressLessons && inProgressLessons.map(selectedLesson =>
                           <DisplayLesson lesson={selectedLesson} isProfessor={isProfessor}>
-                              <RedButton variant="outlined"  onClick={() => handleClickOpenReject(selectedLesson.url)} sx={{ mt: 1, ml: 2, }}>Cancel lesson</RedButton>
-                              <BlueButton variant="outlined" onClick={() => handleClickOpenFinish(selectedLesson.url)} sx={{ mt: 1, ml: 2, }}>Finish lesson</BlueButton>
-                              <GreenButton variant="outlined" onClick={() => navigate("/class")}sx={{ mt: 1, ml: 2, }}>Go to class</GreenButton>
+                              <RedButton variant="outlined"  onClick={() => handleClickOpenReject(selectedLesson.url)} sx={{ mt: 1, ml: 2, }}>{intl.formatMessage({ id: 'cancel_lesson'})}</RedButton>
+                              <BlueButton variant="outlined" onClick={() => handleClickOpenFinish(selectedLesson.url)} sx={{ mt: 1, ml: 2, }}>{intl.formatMessage({ id: 'finish_lesson'})}</BlueButton>
+                              <GreenButton variant="outlined" onClick={() => navigate("/class")}sx={{ mt: 1, ml: 2, }}>{intl.formatMessage({ id: 'go_to_class'})}</GreenButton>
                           </DisplayLesson>)}
                       {(!inProgressLessons || inProgressLessons.length === 0) && <NothingHere/>}
                   </List>
@@ -248,7 +249,7 @@ export default function MyStudents() {
                               {getReviewByLessonId(parseInt(getIdFromUrl(selectedLesson.url))) ?
                                   <div>
                                       <Typography gutterBottom component="div" sx={{ mb: 0, fontStyle:'italic' }}>
-                                          Left a review:
+                                          {intl.formatMessage({ id: 'left_a_review'})}
                                       </Typography>
                                       {/*//@ts-ignore*/}
                                       <Rating name="read-only" value={getReviewByLessonId(parseInt(getIdFromUrl(selectedLesson.url))).rating} readOnly />
@@ -256,7 +257,7 @@ export default function MyStudents() {
                                           {/*//@ts-ignore*/}
                                           {getReviewByLessonId(parseInt(getIdFromUrl(selectedLesson.url))).message}
                                       </Typography>
-                                  </div> : <span>User left no review yet.</span>}
+                                  </div> : <span>{intl.formatMessage({ id: 'user_left_no_review'})}</span>}
 
                           </DisplayLesson>)}
                       {(!finishedLessons || finishedLessons.length === 0) && <NothingHere/>}
@@ -267,7 +268,7 @@ export default function MyStudents() {
                   <List sx={{ pb: 2, pl: 2, pr: 2, width: '100%', bgcolor: 'background.paper' }}>
                       {cancelledLessons && cancelledLessons.map(selectedLesson =>
                           <DisplayLesson lesson={selectedLesson} isProfessor={isProfessor}>
-                              <RedButton onClick={() => deleteLesson(selectedLesson.url)}variant="outlined" sx={{ mt: 1, ml: 2, }}>Delete lesson</RedButton>
+                              <RedButton onClick={() => deleteLesson(selectedLesson.url)}variant="outlined" sx={{ mt: 1, ml: 2, }}>{intl.formatMessage({ id: 'delete_lesson'})}</RedButton>
                           </DisplayLesson>)}
                       {(!cancelledLessons || cancelledLessons.length === 0) && <NothingHere/>}
                   </List>
@@ -280,17 +281,19 @@ export default function MyStudents() {
         aria-describedby="alert-dialog-description"
       >
         <DialogTitle id="alert-dialog-title">
-          {"Are you sure you want to cancel this lesson?"}
+            {intl.formatMessage({ id: 'sure_cancel_lesson'})}
         </DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-            This action is permanent, and to undo it the student will have to request another lesson.
+              {intl.formatMessage({ id: 'action_permanent'})}
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose}>no</Button>
+          <Button onClick={handleClose}>
+              {intl.formatMessage({ id: 'no'})}
+          </Button>
           <Button onClick={handleClose} autoFocus>
-            yes
+              {intl.formatMessage({ id: 'yes'})}
           </Button>
         </DialogActions>
       </Dialog>
@@ -304,17 +307,17 @@ export default function MyStudents() {
         aria-describedby="alert-dialog-description"
       >
         <DialogTitle id="alert-dialog-title">
-          {"Are you sure you want to reject this student?"}
+            {intl.formatMessage({ id: 'sure_reject_student'})}
         </DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-            This action is permanent, and to undo it the student will have to request another lesson.
+              {intl.formatMessage({ id: 'action_permanent'})}
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleCloseReject}>no</Button>
+          <Button onClick={handleCloseReject}>{intl.formatMessage({ id: 'no'})}</Button>
           <Button onClick={handleCloseRejectSuccess} autoFocus>
-            yes
+              {intl.formatMessage({ id: 'yes'})}
           </Button>
         </DialogActions>
       </Dialog>
@@ -327,17 +330,17 @@ export default function MyStudents() {
         aria-describedby="alert-dialog-description"
       >
         <DialogTitle id="alert-dialog-title">
-          {"Are you sure you want to finish this lesson?"}
+            {intl.formatMessage({ id: 'sure_finish_lesson'})}
         </DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-            This action is permanent, but the student can request another lesson.
+              {intl.formatMessage({ id: 'action_permanent'})}
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleCloseFinish}>no</Button>
+          <Button onClick={handleCloseFinish}>{intl.formatMessage({ id: 'no'})}</Button>
           <Button onClick={handleCloseFinishSuccess} autoFocus>
-            yes
+              {intl.formatMessage({ id: 'yes'})}
           </Button>
         </DialogActions>
       </Dialog>
