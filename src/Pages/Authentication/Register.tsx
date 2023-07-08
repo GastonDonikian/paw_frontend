@@ -9,10 +9,6 @@ import {intl} from "../../i18n/i18n";
 
 
 export default function Register() {
-
-    const navigate = useNavigate();
-
-
     return (
         <Container component="main" maxWidth="xl" sx={{mt: 5,}} >
             <Grid item xs={12}>

@@ -54,29 +54,29 @@ export default function RegisterProfessor() {
             location: "",
         },
         validationSchema: Yup.object().shape({
-            email: Yup.string().email("Not an email"),
+            email: Yup.string().email(intl.formatMessage({id: 'error_email_invalid'})),
             password: Yup.string()
-                .min(8, "Password should be longer than 8 characters")
-                .max(40, "Password should be shorter than 40 characters")
-                .required("Password is required!"),
-            repeatPassword: Yup.string().oneOf([Yup.ref('password'), null], 'Passwords must match'),
+                .min(8, intl.formatMessage({id: 'error_password_longer'}, { password_min: '8' }))
+                .max(40, intl.formatMessage({id: 'error_password_shorter'}, {password_max: '40'}))
+                .required(intl.formatMessage({id: 'error_password_required'})),
+            repeatPassword: Yup.string().oneOf([Yup.ref('password'), null], intl.formatMessage({id: 'error_password_match'})),
             name: Yup.string()
-                .min(3, "Name should be longer")
-                .max(40, "Name should be shorter")
-                .required("Name is required!"),
+                .min(3, intl.formatMessage({id: 'error_name_longer'}))
+                .max(40, intl.formatMessage({id: 'error_name_shorter'}))
+                .required(intl.formatMessage({id: 'error_name_required'})),
             surname: Yup.string()
-                .min(3, "Surname should be longer")
-                .max(40, "Surname should be shorter")
-                .required("Surname is required!"),
-            phoneNumber: Yup.string().matches(phoneRegExp, 'Phone number is not valid'),
+                .min(3, intl.formatMessage({id: 'error_surname_longer'}))
+                .max(40, intl.formatMessage({id: 'error_surname_shorter'}))
+                .required(intl.formatMessage({id: 'error_surname_required'})),
+            phoneNumber: Yup.string().matches(phoneRegExp, intl.formatMessage({id: 'error_phone_invalid'})),
             schedule: Yup.string()
-                .max(30, "Schedule shouls be shorter"),
+                .max(30, intl.formatMessage({id: 'error_schedule_shorter'})),
             studies: Yup.string()
-                .min(4, "Studies should be longer")
-                .max(40, "Studies should be shorter")
+                .min(4, intl.formatMessage({id: 'error_studies_longer'}))
+                .max(40, intl.formatMessage({id: 'error_studies_shorter'}))
                 .required(),
             description: Yup.string()
-                .max(200, "Description should be shorter")
+                .max(200, intl.formatMessage({id: 'error_description_shorter'}))
         })
     }
     const handleSubmit = async (values: RegisterProfessorModel) => {
@@ -118,7 +118,7 @@ export default function RegisterProfessor() {
                         <LockOutlinedIcon/>
                     </Avatar>
                     <Typography component="h1" variant="h5" sx={{mb:3}}>
-                        Register
+                        {intl.formatMessage({id: 'register'})}
                     </Typography>
                     <Formik {...registerProfessorFormik} onSubmit={handleSubmit}>
                         {({values, errors}) => (
