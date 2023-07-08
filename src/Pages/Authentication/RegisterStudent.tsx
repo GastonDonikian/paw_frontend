@@ -59,8 +59,8 @@ export default function RegisterStudent() {
         validationSchema: Yup.object().shape({
             email: Yup.string().email("Not an email"),
             password: Yup.string()
-                .min(8, intl.formatMessage({ id: 'error_password_longer'}))
-                .max(40, intl.formatMessage({ id: 'error_password_shorter'}))
+                .min(8, intl.formatMessage({id: 'error_password_longer'}, { password_min: '8' }))
+                .max(40, intl.formatMessage({id: 'error_password_shorter'}, { password_max: '40' }))
                 .required(intl.formatMessage({ id: 'error_password_required'})),
             repeatPassword: Yup.string().oneOf([Yup.ref('password'), null], intl.formatMessage({ id: 'error_password_match'})),
             name: Yup.string()

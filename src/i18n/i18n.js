@@ -1,7 +1,7 @@
 import { createIntl, createIntlCache } from 'react-intl';
 
-import translationEN from '../locales/en.json'; // Example English translation file
-import translationES from '../locales/es.json'; // Example Spanish translation file
+import translationEN from '../locales/en.json';
+import translationES from '../locales/es.json';
 
 const cache = createIntlCache();
 
