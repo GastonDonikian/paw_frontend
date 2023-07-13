@@ -20,6 +20,10 @@ import {apiLogin} from "../../Services/Auth";
 import {RegisterProfessorModel} from "../../Models/Users/RegisterProfessorModel";
 import {intl} from "../../i18n/i18n";
 
+import { InputAdornment, IconButton } from "@mui/material";
+import Visibility from "@mui/icons-material/Visibility";
+import VisibilityOff from "@mui/icons-material/VisibilityOff";
+
 
 function Copyright(props: any) {
     return (
@@ -38,6 +42,16 @@ const theme = createTheme();
 
 export default function RegisterProfessor() {
     const navigate = useNavigate();
+
+
+    const [showPassword, setShowPassword] = useState(false);
+    const handleClickShowPassword = () => setShowPassword(!showPassword);
+    const handleMouseDownPassword = () => setShowPassword(!showPassword);
+
+    const [showPassword2, setShowPassword2] = useState(false);
+    const handleClickShowPassword2 = () => setShowPassword2(!showPassword2);
+    const handleMouseDownPassword2 = () => setShowPassword2(!showPassword2);
+
     const [badCredentials, setBadCredentials] = useState(false);
     const phoneRegExp = /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/
     const registerProfessorFormik = {
@@ -143,9 +157,23 @@ export default function RegisterProfessor() {
                                     name="password"
                                     helperText={onError(errors['password'] || '')}
                                     label={intl.formatMessage({ id: 'password' })}
-                                    type="password"
+                                    
                                     id="password"
                                     size="small"
+                                    type={showPassword ? "text" : "password"}
+                                    InputProps={{ // <-- This is where the toggle button is added.
+                                        endAdornment: (
+                                          <InputAdornment position="end">
+                                            <IconButton
+                                              aria-label="toggle password visibility"
+                                              onClick={handleClickShowPassword}
+                                              onMouseDown={handleMouseDownPassword}
+                                            >
+                                              {showPassword ? <Visibility /> : <VisibilityOff />}
+                                            </IconButton>
+                                          </InputAdornment>
+                                        )
+                                      }}
                                 />
                                 <Field
                                     as={TextField}
@@ -154,9 +182,23 @@ export default function RegisterProfessor() {
                                     name="repeatPassword"
                                     helperText={onError(errors['repeatPassword'] || '')}
                                     label={intl.formatMessage({ id: 'repeat_password' })}
-                                    type="password"
+                                    
                                     id="repeatPassword"
                                     size="small"
+                                    type={showPassword2 ? "text" : "password"}
+                                    InputProps={{ // <-- This is where the toggle button is added.
+                                        endAdornment: (
+                                          <InputAdornment position="end">
+                                            <IconButton
+                                              aria-label="toggle password visibility"
+                                              onClick={handleClickShowPassword2}
+                                              onMouseDown={handleMouseDownPassword2}
+                                            >
+                                              {showPassword2 ? <Visibility /> : <VisibilityOff />}
+                                            </IconButton>
+                                          </InputAdornment>
+                                        )
+                                      }}
                                 />
                                 <Field
                                     as={TextField}
