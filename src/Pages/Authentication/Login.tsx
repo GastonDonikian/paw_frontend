@@ -18,6 +18,12 @@ import {isVerified, login} from '../../Services/AuthHelper'
 import {Alert} from "@mui/material";
 import {intl} from "../../i18n/i18n";
 
+
+import { InputAdornment, IconButton } from "@mui/material";
+import Visibility from "@mui/icons-material/Visibility";
+import VisibilityOff from "@mui/icons-material/VisibilityOff";
+
+
 function Copyright(props: any) {
     return (
         <Typography variant="body2" color="text.secondary" align="center" {...props}>
@@ -38,6 +44,11 @@ export default function SignIn() {
     const [userNotVerified, setUserNotVerified] = useState(false);
     const [badCredentials, setBadCredentials] = useState(false);
     const navigate = useNavigate();
+
+
+    const [showPassword, setShowPassword] = useState(false);
+    const handleClickShowPassword = () => setShowPassword(!showPassword);
+    const handleMouseDownPassword = () => setShowPassword(!showPassword);
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -108,9 +119,23 @@ export default function SignIn() {
                             fullWidth
                             name="password"
                             label={intl.formatMessage({ id: 'password' })}
-                            type="password"
+                            
                             id="password"
                             autoComplete="current-password"
+                            type={showPassword ? "text" : "password"}
+                            InputProps={{ // <-- This is where the toggle button is added.
+                                endAdornment: (
+                                  <InputAdornment position="end">
+                                    <IconButton
+                                      aria-label="toggle password visibility"
+                                      onClick={handleClickShowPassword}
+                                      onMouseDown={handleMouseDownPassword}
+                                    >
+                                      {showPassword ? <Visibility /> : <VisibilityOff />}
+                                    </IconButton>
+                                  </InputAdornment>
+                                )
+                              }}
                         />
                         <FormControlLabel
                             onChange={() => setRememberMe(!rememberMe)}

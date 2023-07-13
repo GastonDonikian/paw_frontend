@@ -21,6 +21,10 @@ import {apiRegisterStudent} from "../../Services/UserService";
 import {apiLogin} from "../../Services/Auth";
 import {intl} from "../../i18n/i18n";
 
+import { InputAdornment, IconButton } from "@mui/material";
+import Visibility from "@mui/icons-material/Visibility";
+import VisibilityOff from "@mui/icons-material/VisibilityOff";
+
 
 function Copyright(props: any) {
     return (
@@ -39,12 +43,21 @@ const theme = createTheme();
 
 export default function RegisterStudent() {
     const navigate = useNavigate();
-    useEffect(() => {
-        if(!isVerified())
-            navigate('/verify')
-        if((isAuthenticated()))
-            navigate('/')
-    }, [])
+    //TODO: preguntar si esto hacia algo :
+    //useEffect(() => {
+      //  if(!isVerified())
+        //    navigate('/verify')
+        //if((isAuthenticated()))
+          //  navigate('/')
+    //}, [])
+    const [showPassword, setShowPassword] = useState(false);
+    const handleClickShowPassword = () => setShowPassword(!showPassword);
+    const handleMouseDownPassword = () => setShowPassword(!showPassword);
+
+    const [showPassword2, setShowPassword2] = useState(false);
+    const handleClickShowPassword2 = () => setShowPassword2(!showPassword2);
+    const handleMouseDownPassword2 = () => setShowPassword2(!showPassword2);
+
     const [badCredentials, setBadCredentials] = useState(false);
     const phoneRegExp = /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/
     const registerStudentFormik = {
@@ -138,9 +151,23 @@ export default function RegisterStudent() {
                                     name="password"
                                     helperText={onError(errors['password'] || '')}
                                     label={intl.formatMessage({ id: 'password'})}
-                                    type="password"
+                                    //type="password"
                                     id="password"
                                     size="small"
+                                    type={showPassword ? "text" : "password"}
+                                    InputProps={{ // <-- This is where the toggle button is added.
+                                        endAdornment: (
+                                          <InputAdornment position="end">
+                                            <IconButton
+                                              aria-label="toggle password visibility"
+                                              onClick={handleClickShowPassword}
+                                              onMouseDown={handleMouseDownPassword}
+                                            >
+                                              {showPassword ? <Visibility /> : <VisibilityOff />}
+                                            </IconButton>
+                                          </InputAdornment>
+                                        )
+                                      }}
                                 />
                                 <Field
                                     as={TextField}
@@ -149,9 +176,22 @@ export default function RegisterStudent() {
                                     name="repeatPassword"
                                     helperText={onError(errors['repeatPassword'] || '')}
                                     label={intl.formatMessage({ id: 'repeat_password'})}
-                                    type="password"
                                     id="repeatPassword"
                                     size="small"
+                                    type={showPassword2 ? "text" : "password"}
+                                    InputProps={{ // <-- This is where the toggle button is added.
+                                        endAdornment: (
+                                          <InputAdornment position="end">
+                                            <IconButton
+                                              aria-label="toggle password visibility"
+                                              onClick={handleClickShowPassword2}
+                                              onMouseDown={handleMouseDownPassword2}
+                                            >
+                                              {showPassword2 ? <Visibility /> : <VisibilityOff />}
+                                            </IconButton>
+                                          </InputAdornment>
+                                        )
+                                      }}
                                 />
                                 <Field
                                     as={TextField}
