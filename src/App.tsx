@@ -49,7 +49,7 @@ function App() {
                 <Route path="/newContract/:id/" element={<NewContract/>}/>
                 <Route path="/myStudents" element={<MyStudents/>}/>
                 <Route path="/myLessons" element={<MyLessons/>}/>
-                <Route path="/class" element={<Class/>}/>
+                <Route path="/classroom/:id/" element={<Class/>}/>
             </Routes>
       </Router>
       <MainBackground />

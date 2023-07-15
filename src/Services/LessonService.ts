@@ -48,4 +48,13 @@ export async function apiChangeLesson(lessonId: number,status?: string,meetingLi
     return response.data;
 
 }
-// export async function api
+
+export async function apiGetChat(lessonId: number) {
+    const response = await apiPrivate.get("/lessons/" + lessonId + "/messages")
+    return response.data
+}
+
+export async function apiGetFiles(lessonId: number) {
+    const response = await apiPrivate.get("/lessons/" + lessonId + "/files")
+    return response.data
+}

@@ -19,8 +19,8 @@ import { intl } from "./i18n/i18n";
 const pagesLoggedOut = [{ text: intl.formatMessage({ id: 'professors' }), href: 'professors' }];
 const pagesLoggedIn = [
     { text: intl.formatMessage({ id: 'professors' }), href: 'professors' },
-    { text: intl.formatMessage({ id: 'my_lessons' }), href: 'my_lessons' },
-    { text: intl.formatMessage({ id: 'my_students' }), href: 'my_students' }
+    { text: intl.formatMessage({ id: 'my_lessons' }), href: 'myLessons' },
+    { text: intl.formatMessage({ id: 'my_students' }), href: 'myStudents' }
 ];
 const rightLoggedOut = [
     { text: intl.formatMessage({ id: 'register' }), href: 'register' },
