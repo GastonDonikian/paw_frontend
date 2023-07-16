@@ -17,6 +17,7 @@ import {styled} from '@mui/material/styles';
 import {lightBlue, red} from '@mui/material/colors';
 import {ButtonProps} from '@mui/material/Button';
 import {Container} from '@mui/system';
+import {intl} from "../../i18n/i18n";
 
 const BlueButton = styled(Button)<ButtonProps>(({ theme }) => ({
     backgroundColor: lightBlue[600],
@@ -51,26 +52,26 @@ export default function Files() {
             <Table sx={{ minWidth: 650, mb: 0 }} aria-label="simple table">
                 <TableHead>
                     <TableRow>
-                        <TableCell> <Typography sx={{ fontWeight: 'bold' }}> File name</Typography></TableCell>
-                        <TableCell align="right"><Typography sx={{ fontWeight: 'bold' }}> Actions</Typography></TableCell>
+                        <TableCell> <Typography sx={{ fontWeight: 'bold' }}>{intl.formatMessage({ id: 'file_name'})}</Typography></TableCell>
+                        <TableCell align="right"><Typography sx={{ fontWeight: 'bold' }}>{intl.formatMessage({ id: 'actions'})}</Typography></TableCell>
                     </TableRow>
                 </TableHead></Table>
             <List sx={{ width: '100%', bgcolor: 'background.paper', minHeight: '200px' }}>
                 <ListItem alignItems="flex-start" sx={{ mt: 1, mb: 1 }}>
                     <ListItemText primary={"file name xdxd"} />
                     <BlueButton variant="contained" >
-                        Download</BlueButton>
-                    <RedButton onClick={handleClickOpen} variant="contained" sx={{ ml: 2, }}>
-                        Delete</RedButton>
+                        {intl.formatMessage({ id: 'download'})}</BlueButton>
+                    <RedButton data-testid="delete" onClick={handleClickOpen} variant="contained" sx={{ ml: 2, }}>
+                        {intl.formatMessage({ id: 'delete'})}</RedButton>
                 </ListItem>
                 <Divider variant="inset" component="li" sx={{ ml: 0 }} />
 
                 <ListItem alignItems="flex-start" sx={{ mt: 1, mb: 1 }}>
                     <ListItemText primary={"file name xdxd"} />
                     <BlueButton variant="contained" >
-                        Download</BlueButton>
+                        {intl.formatMessage({ id: 'download'})}</BlueButton>
                     <RedButton onClick={handleClickOpen} variant="contained" sx={{ ml: 2, }}>
-                        Delete</RedButton>
+                        {intl.formatMessage({ id: 'delete'})}</RedButton>
                 </ListItem>
 
                 <Divider variant="inset" component="li" sx={{ ml: 0 }} />
@@ -87,14 +88,14 @@ export default function Files() {
         </DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-            The file will be permanently deleted and this action cannot be undone. 
-            You will need to upload the file again.
+              {intl.formatMessage({ id: 'file_permanent_delete'})}
+              {intl.formatMessage({ id: 'upload_file_again'})}
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose}>cancel</Button>
+          <Button onClick={handleClose}>{intl.formatMessage({ id: 'cancel'})}</Button>
           <Button onClick={handleClose} autoFocus sx={{color: 'red'}}>
-            delete
+              {intl.formatMessage({ id: 'delete'})}
           </Button>
         </DialogActions>
       </Dialog>
@@ -125,7 +126,7 @@ export default function Files() {
                                 variant="contained"
                                 sx={{ bgcolor: '#349AC2' }}
                             >
-                                Subir
+                    {intl.formatMessage({ id: 'upload'})}
                             </Button>
                 </Grid>
                 </Grid>

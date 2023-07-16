@@ -108,6 +108,8 @@
   "error_lesson_price": "¡Tus clases necesitan un precio!",
   "error_something_wrong": "¡Algo a salido mal!",
   "error_email_invalid": "Email no es valido",
+  "error_user_password": "Usuario o contraseña invalido",
+  "error_user_not_verified": "Usuario no verificado!",
   "nothing_here": "¡Nada por aqui!",
   "come_back_later": "Vuelva mas tarde",
   "put_on_hold": "Poner en espera",
@@ -117,5 +119,12 @@
   "account_not_verified": "Su cuenta no fue verificada, revise el correo",
   "teach_new_subject": "¿Quiere enseñar o aprender una nueva materia?",
   "subject_missing": "Si cree que falta una materia, complete este formulario",
-  "type_message": "Escriba su mensaje"
+  "type_message": "Escriba su mensaje",
+  "file_name": "Nombre de Archivo",
+  "actions": "Acciones",
+  "download": "Descargar",
+  "delete": "Borrar",
+  "upload": "Subir",
+  "file_permanent_delete": "El archivo se borrara de manera permamente y no se puede deshacer esta acción.",
+  "upload_file_again": "Va a tener que subir el archivo nuevamente"
 }

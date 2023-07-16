@@ -40,9 +40,9 @@ export default function Chat(){
 
 <Divider></Divider>
 
-<div id="chatMessages" className="chat-messages p-4" style={{display: 'flex', flexDirection: 'column', maxHeight: '350px', minHeight: '350px' , overflowY: 'scroll'}}>
+<div id="chatMessages" data-testid="chatMessages" className="chat-messages p-4" style={{display: 'flex', flexDirection: 'column', maxHeight: '350px', minHeight: '350px' , overflowY: 'scroll'}}>
                                                                         
-                            <ChatMessages></ChatMessages>      
+                            <ChatMessages></ChatMessages>
                                                         </div>
 
                 <Container component="form" noValidate onSubmit={handleSearchSubmit} sx={{ flexDirection: 'row', mt: 1 }}>

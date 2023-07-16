@@ -4,7 +4,6 @@ import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 import {CardActionArea, Grid} from '@mui/material';
 import '../../App.css';
-import {useNavigate} from "react-router-dom";
 import {intl} from "../../i18n/i18n";
 
 
@@ -21,7 +20,7 @@ export default function Register() {
                 >
                     <Grid item xs={3}>
                         <Card sx={{height: 230}}>
-                            <CardActionArea href="/registerProfessor" sx={{ p:2, textAlign: 'center',display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
+                            <CardActionArea data-testid="link-professor" href="/registerProfessor" sx={{ p:2, textAlign: 'center',display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
                                 <img src="./book.png" height={80} />
                                 <CardContent>
                                     <Typography variant="body2" color="white" sx={{p: '4px 10px', mb: 2, background: '#00579E', borderRadius: '30px', display: 'inline-block'}}>
@@ -37,7 +36,7 @@ export default function Register() {
                     </Grid>
                     <Grid item xs={3}>
                         <Card sx={{height: 230}}>
-                            <CardActionArea href="/registerStudent" sx={{ p:2, textAlign: 'center',display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
+                            <CardActionArea data-testid="link-student" href="/registerStudent" sx={{ p:2, textAlign: 'center',display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
                                 <img src="./book.png" height={80} />
                                 <CardContent>
                                     <Typography variant="body2" color="white" sx={{p: '4px 10px', mb: 2, background: '#00579E', borderRadius: '30px', display: 'inline-block'}}>

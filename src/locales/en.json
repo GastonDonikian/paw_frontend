@@ -108,6 +108,8 @@
   "error_lesson_price": "Your lessons need a price!",
   "error_something_wrong": "Something went wrong!",
   "error_email_invalid": "Email not valid",
+  "error_user_password": "User or password is invalid!",
+  "error_user_not_verified": "User not verified!",
   "nothing_here": "Nothing here!",
   "come_back_later": "Come back later",
   "put_on_hold": "Put on Hold",
@@ -117,5 +119,12 @@
   "account_verified": "Your account has been verified!",
   "teach_new_subject": "Want to teach or learn a new subject?",
   "subject_missing": "If you think a subject is missing, fill in this form",
-  "type_message": "Type your message"
+  "type_message": "Type your message",
+  "file_name": "File Name",
+  "actions": "Actions",
+  "download": "Download",
+  "delete": "Delete",
+  "upload": "Upload",
+  "file_permanent_delete": "The file will be permanently deleted and this action cannot be undone.",
+  "upload_file_again": "You will need to upload the file again."
 }

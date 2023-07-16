@@ -145,6 +145,7 @@ export default function RegisterProfessor() {
                                     fullWidth
                                     size="small"
                                     id="email"
+                                    data-testid="email"
                                     helperText={onError(errors['email'] || '')}
                                     label={intl.formatMessage({ id: 'email_address' })}
                                     name="email"
@@ -155,6 +156,7 @@ export default function RegisterProfessor() {
                                     margin="none"
                                     fullWidth
                                     name="password"
+                                    data-testid="password"
                                     helperText={onError(errors['password'] || '')}
                                     label={intl.formatMessage({ id: 'password' })}
                                     
@@ -180,6 +182,7 @@ export default function RegisterProfessor() {
                                     margin="none"
                                     fullWidth
                                     name="repeatPassword"
+                                    data-testid="re-password"
                                     helperText={onError(errors['repeatPassword'] || '')}
                                     label={intl.formatMessage({ id: 'repeat_password' })}
                                     
@@ -205,6 +208,7 @@ export default function RegisterProfessor() {
                                     margin="none"
                                     fullWidth
                                     id="name"
+                                    data-testid="name"
                                     helperText={onError(errors['name'] || '')}
                                     label={intl.formatMessage({ id: 'name' })}
                                     name="name"
@@ -215,6 +219,7 @@ export default function RegisterProfessor() {
                                     margin="none"
                                     fullWidth
                                     id="surname"
+                                    data-testid="surname"
                                     helperText={onError(errors['surname'] || '')}
                                     label={intl.formatMessage({ id: 'surname' })}
                                     name="surname"
@@ -225,6 +230,7 @@ export default function RegisterProfessor() {
                                     margin="none"
                                     fullWidth
                                     id="phoneNumber"
+                                    data-testid="phone"
                                     helperText={onError(errors['phoneNumber'] || '')}
                                     label={intl.formatMessage({ id: 'phone_number' })}
                                     name="phoneNumber"
@@ -235,6 +241,7 @@ export default function RegisterProfessor() {
                                     margin="none"
                                     fullWidth
                                     id="schedule"
+                                    data-testid="schedule"
                                     helperText={onError(errors['schedule'] || '')}
                                     label={intl.formatMessage({ id: 'schedule' })}
                                     name="schedule"
@@ -245,6 +252,7 @@ export default function RegisterProfessor() {
                                     margin="none"
                                     fullWidth
                                     id="studies"
+                                    data-testid="studies"
                                     helperText={onError(errors['studies'] || '')}
                                     label={intl.formatMessage({ id: 'studies' })}
                                     name="studies"
@@ -255,6 +263,7 @@ export default function RegisterProfessor() {
                                     margin="none"
                                     fullWidth
                                     id="description"
+                                    data-testid="description"
                                     helperText={onError(errors['description'] || '')}
                                     label={intl.formatMessage({ id: 'description' })}
                                     name="description"
@@ -265,6 +274,7 @@ export default function RegisterProfessor() {
                                     margin="none"
                                     fullWidth
                                     id="location"
+                                    data-testid="location"
                                     helperText={onError(errors['location'] || '')}
                                     label={intl.formatMessage({ id: 'location' })}
                                     name="location"

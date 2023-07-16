@@ -10,10 +10,10 @@ export default function EmailHome() {
     return (
         <Card>
             <CardActionArea sx={{ p:2, textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
-                <Avatar sx={{ m: 1, bgcolor: '#349AC2' }}>
+                <Avatar data-testid="avatar" sx={{ m: 1, bgcolor: '#349AC2' }}>
                     <EmailOutlinedIcon />
                 </Avatar>
-                <CardContent>
+                <CardContent data-testid="card-content">
                     <Typography gutterBottom variant="h5" component="div">
                         {intl.formatMessage({ id: 'improve_feedback' })}
                     </Typography>
