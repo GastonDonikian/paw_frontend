@@ -22,12 +22,16 @@ import NewContract from './Pages/NewContract';
 import MyStudents from './Pages/MyStudents';
 import MyLessons from './Pages/MyLessons';
 import Class from './Pages/Class';
+import Error500 from './Pages/Errors/Error500';
+import Error404 from './Pages/Errors/Error404';
+import Error403 from './Pages/Errors/Error403';
 
 
 function App() {
+
   return (
       <div>
-        <Navbar/>
+       {!isErrorRoute() && <Navbar />}
         <Router>
             <Routes>
                 <Route path="/" element={<Home/>}/>
@@ -49,12 +53,28 @@ function App() {
                 <Route path="/newContract/:id/" element={<NewContract/>}/>
                 <Route path="/myStudents" element={<MyStudents/>}/>
                 <Route path="/myLessons" element={<MyLessons/>}/>
+                <Route path="/classroom/:id/" element={<Class/>}/>
                 <Route path="/class" element={<Class/>}/>
+                <Route path="/error404" element={<Error404 />} />
+                <Route path="/error403" element={<Error403 />} />
+                <Route path="/error500" element={<Error500 />} />
             </Routes>
       </Router>
-      <MainBackground />
+      
+      {!isErrorRoute() && <MainBackground />}
+      
       </div>
   );
+}
+
+function isErrorRoute() {
+  const currentPath = window.location.pathname;
+
+  const is404Error = currentPath === "/error404";
+  const is403Error = currentPath === "/error403";
+  const is500Error = currentPath === "/error500";
+
+  return (is404Error || is500Error || is403Error);
 }
 
 export default App;

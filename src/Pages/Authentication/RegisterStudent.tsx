@@ -43,13 +43,7 @@ const theme = createTheme();
 
 export default function RegisterStudent() {
     const navigate = useNavigate();
-    //TODO: preguntar si esto hacia algo :
-    //useEffect(() => {
-      //  if(!isVerified())
-        //    navigate('/verify')
-        //if((isAuthenticated()))
-          //  navigate('/')
-    //}, [])
+  
     const [showPassword, setShowPassword] = useState(false);
     const handleClickShowPassword = () => setShowPassword(!showPassword);
     const handleMouseDownPassword = () => setShowPassword(!showPassword);

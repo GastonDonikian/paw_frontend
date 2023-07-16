@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
 import {styled} from '@mui/material/styles';
 import {lightBlue} from '@mui/material/colors';
 import {ButtonProps} from '@mui/material/Button';
@@ -17,6 +17,13 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import {intl} from "../i18n/i18n";
+import {useNavigate, useParams} from "react-router-dom";
+import {ProfessorModel} from "../Models/Users/User";
+import {ChatModel} from "../Models/Chat";
+import {FilesModel} from "../Models/Files";
+import {LessonInterface} from "../Models/Lesson";
+import {apiGetChat, apiGetFiles, apiGetLessons} from "../Services/LessonService";
+import {getUserById, getUserFromToken} from "../Services/AuthHelper";
 
 const BlueButton = styled(Button)<ButtonProps>(({ theme }) => ({
     color: lightBlue[600],
@@ -37,9 +44,16 @@ function a11yProps(index: number) {
 
 export default function Class() {
 
+    let navigate = useNavigate()
+    let {id} = useParams();
+
     const [tab1, setTab] = useState(true);
     const [value, setValue] = React.useState(0);
 
+    const [user, setUser] = useState<ProfessorModel>();
+    const [chat, setChat] = useState<ChatModel>();
+    const [files, setFiles] = useState<FilesModel>();
+    const [lesson, setLesson] = useState<LessonInterface>();
     const handleChange = (event: React.SyntheticEvent, newValue: number) => {
         setValue(newValue);
     };
@@ -53,6 +67,31 @@ export default function Class() {
     const handleClose = () => {
         setOpen(false);
     };
+
+    const loadLesson = async () => {
+        let lessonId = id ? parseInt(id) : -1
+        let lesson = await apiGetLessons(undefined, undefined, lessonId)
+        setLesson(lesson)
+    }
+
+    const loadChat = async () => {
+        let lessonId = id ? parseInt(id) : -1
+        let chat = await apiGetChat(lessonId)
+        setChat(chat)
+    }
+
+    const loadFiles = async () => {
+        let lessonId = id ? parseInt(id) : -1
+        let files = await apiGetFiles(lessonId)
+        setFiles(files)
+    }
+
+    useEffect(() => {
+        loadLesson()
+        loadChat()
+        loadFiles()
+    }, [])
+
 
 
     return (

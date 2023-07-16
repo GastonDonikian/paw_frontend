@@ -54,7 +54,6 @@ export default function ProfessorProfile() {
         if(!id)
             setUser(await getUserFromToken());
         else {
-
             let profId = id ? parseInt(id) : -1
             let us = await getUserById(profId)
             setUser(us);
