@@ -135,7 +135,7 @@ export default function Class() {
                                
                                 
                                 <Typography sx={{pl:2 }}>
-                                    <span style={{ }}>Student:</span> <Typography component="a" href="/studentProfile" sx={{
+                                    <span style={{ }}>{intl.formatMessage({ id: 'student'})}:</span> <Typography component="a" href="/studentProfile" sx={{
                                      color: 'black',
                                     textDecoration: 'none', '&:hover': {
                                         color: 'black',
@@ -146,11 +146,11 @@ export default function Class() {
                                 <Typography component="p" sx={{ pl: 2, pb: 2 }}>student@itba.edu.ar </Typography>
 
 
-                                <BlueButton variant="outlined" onClick={handleClickOpen} sx={{ ml: 2, mb: 2, }}>
+                                <BlueButton data-testid="schedule" variant="outlined" onClick={handleClickOpen} sx={{ ml: 2, mb: 2, }}>
                                     {intl.formatMessage({ id: 'schedule_meeting'})}
                                 </BlueButton>
                                 <Dialog open={open} onClose={handleClose}>
-                                    <DialogTitle>Schedule meeting</DialogTitle>
+                                    <DialogTitle>{intl.formatMessage({ id: 'schedule_meeting'})}</DialogTitle>
                                     <DialogContent>
                                         <TextField
                                             autoFocus
@@ -195,8 +195,8 @@ export default function Class() {
 
                                 <Container component="div" sx={{ alignItems: 'center', p: '0.75rem 1.25rem', mb: 0, backgroundColor: 'rgba(0,0,0,.03)', borderBottom: '1px solid rgba(0,0,0,.125)' }}>
                                     <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
-                                        <Tab label="Chat" {...a11yProps(0)} onClick={() => {if(tab1===false) {setTab(s => !s)} }}/>
-                                        <Tab label="Files" {...a11yProps(1)} onClick={() =>  {if(tab1===true) {setTab(s => !s)} }} />
+                                        <Tab label="ChatTest" {...a11yProps(0)} onClick={() => {if(tab1===false) {setTab(s => !s)} }}/>
+                                        <Tab label="FilesTest" {...a11yProps(1)} onClick={() =>  {if(tab1===true) {setTab(s => !s)} }} />
                                     </Tabs>
                                 </Container>
                                 {tab1 ?

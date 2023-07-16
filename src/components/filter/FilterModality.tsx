@@ -29,14 +29,13 @@ export default function FilterModality(props: any) {
       target: { value },
     } = event;
     setModality(
-      // On autofill we get a stringified value.
       typeof value === 'string' ? value.split(',') : value,
     );
     props.childToParent(value)
   };
 
   return (
-      <FormControl size='small' sx={{ m: 1, width: 250 }}>
+      <FormControl data-testid="form" size='small' sx={{ m: 1, width: 250 }}>
         <InputLabel id="demo-multiple-checkbox-label">{intl.formatMessage({ id: 'modality' })}</InputLabel>
         <Select
           labelId="demo-multiple-checkbox-label"

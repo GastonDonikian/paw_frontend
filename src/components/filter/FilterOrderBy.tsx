@@ -15,7 +15,7 @@ export default function FilterOrderBy(props : any) {
 
   return (
 
-  <FormControl size="small"  sx={{ m: 1, width: 250 }}>
+  <FormControl data-testid="form" size="small"  sx={{ m: 1, width: 250 }}>
       <InputLabel id="demo-simple-select-helper-label">{intl.formatMessage({ id: 'order_by' })}</InputLabel>
       <Select
         labelId="demo-simple-select-helper-label"

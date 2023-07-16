@@ -132,6 +132,7 @@ export default function RegisterStudent() {
                                     margin="none"
                                     fullWidth
                                     id="email"
+                                    data-testid="email"
                                     helperText={onError(errors['email'] || '')}
                                     label={intl.formatMessage({ id: 'email_address'})}
                                     name="email"
@@ -147,6 +148,7 @@ export default function RegisterStudent() {
                                     label={intl.formatMessage({ id: 'password'})}
                                     //type="password"
                                     id="password"
+                                    data-testid="password"
                                     size="small"
                                     type={showPassword ? "text" : "password"}
                                     InputProps={{ // <-- This is where the toggle button is added.
@@ -168,6 +170,7 @@ export default function RegisterStudent() {
                                     margin="none"
                                     fullWidth
                                     name="repeatPassword"
+                                    data-testid="re-password"
                                     helperText={onError(errors['repeatPassword'] || '')}
                                     label={intl.formatMessage({ id: 'repeat_password'})}
                                     id="repeatPassword"
@@ -192,6 +195,7 @@ export default function RegisterStudent() {
                                     margin="none"
                                     fullWidth
                                     id="name"
+                                    data-testid="name"
                                     helperText={onError(errors['name'] || '')}
                                     label={intl.formatMessage({ id: 'name'})}
                                     name="name"
@@ -202,6 +206,7 @@ export default function RegisterStudent() {
                                     margin="none"
                                     fullWidth
                                     id="surname"
+                                    data-testid="surname"
                                     helperText={onError(errors['surname'] || '')}
                                     label={intl.formatMessage({ id: 'surname'})}
                                     name="surname"
@@ -212,6 +217,7 @@ export default function RegisterStudent() {
                                     margin="none"
                                     fullWidth
                                     id="phoneNumber"
+                                    data-testid="phone"
                                     helperText={onError(errors['phoneNumber'] || '')}
                                     label={intl.formatMessage({ id: 'phone_number'})}
                                     name="phoneNumber"

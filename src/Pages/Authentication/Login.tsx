@@ -97,16 +97,17 @@ export default function SignIn() {
                     <Avatar sx={{ m: 1, bgcolor: '#349AC2' }}>
                         <LockOutlinedIcon />
                     </Avatar>
-                    <Typography component="h1" variant="h5">
+                    <Typography component="h1" variant="h5" data-testid="login">
                         {intl.formatMessage({ id: 'sign_in' })}
                     </Typography>
                     <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
-                        {badCredentials ? (<Alert severity="error">User or password is invalid!</Alert>) : userNotVerified ? (
-                            <Alert severity="error">User not verified!</Alert>) : (<></>)}
+                        {badCredentials ? (<Alert severity="error">{intl.formatMessage({ id: 'error_user_password' })}</Alert>) : userNotVerified ? (
+                            <Alert severity="error">{intl.formatMessage({ id: 'user_not_verified' })}</Alert>) : (<></>)}
                         <TextField
                             margin="normal"
                             required
                             fullWidth
+                            data-testid="email"
                             id="email"
                             label={intl.formatMessage({ id: 'email' })}
                             name="email"
@@ -117,6 +118,7 @@ export default function SignIn() {
                             margin="normal"
                             required
                             fullWidth
+                            data-testid="password"
                             name="password"
                             label={intl.formatMessage({ id: 'password' })}
                             
@@ -149,7 +151,7 @@ export default function SignIn() {
                             sx={{ mt: 3, mb: 2, bgcolor: '#349AC2' }}
                             
                         >
-                            Sign In
+                            {intl.formatMessage({ id: 'sign_in' })}
                         </Button>
                         <Grid container>
                             <Grid item xs>

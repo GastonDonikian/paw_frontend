@@ -10,6 +10,7 @@ export default function UserMessage() {
             <div className="flex-shrink-1  rounded py-2 px-3 ml-3" style={{ backgroundColor: '#DDDDDD'}}>
                 <div className="font-weight-bold mb-1">Nombre usuario</div>
                 Mensaje
+
             </div>
         </div>
 
