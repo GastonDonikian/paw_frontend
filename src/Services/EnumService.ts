@@ -1,21 +1,26 @@
 import {apiPublic} from "./ServiceUtils";
+import {preferredLanguage} from "../i18n/i18n";
 
 
 export async function getLocations(){
-    const response = await apiPublic.get('/locations')
+    const url = "/locations?language=" + preferredLanguage.toString()
+    const response = await apiPublic.get(url)
     return response.data;
 }
 
 export async function getLevels(){
-    const response = await apiPublic.get('/levels')
+    const url = "/levels?language=" + preferredLanguage.toString()
+    const response = await apiPublic.get(url)
     return response.data;
 }
 export async function getCategories(){
-    const response = await apiPublic.get('/categories')
+    const url = "/categories?language=" + preferredLanguage.toString()
+    const response = await apiPublic.get(url)
     return response.data;
 }
 
 export async function getContractStatus(){
-    const response = await apiPublic.get('/contractStatus')
+    const url = "/contractStatus?language=" + preferredLanguage.toString()
+    const response = await apiPublic.get(url)
     return response.data;
 }

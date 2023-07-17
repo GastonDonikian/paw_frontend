@@ -1,5 +1,6 @@
 import {apiPrivate} from "./ServiceUtils";
 import {NewSubjectModel} from "../Models/Subject";
+import {preferredLanguage} from "../i18n/i18n";
 
 export function getIdFromSubjectUrl(url: String){
     const splitUrl = url.split('/');
@@ -25,6 +26,7 @@ export async function apiGetSubjects(id?: number,page?: number, taught?: boolean
             baseUrl = baseUrl + "levels=" + level + '&'
         }
     }
+    baseUrl = baseUrl + "language=" + preferredLanguage.toString()
     const response = await apiPrivate.get(baseUrl)
     return response.data;
 }
