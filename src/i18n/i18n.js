@@ -26,7 +26,7 @@ function detectPreferredLanguage() {
     return 'en'; // Fallback to default language
 }
 
-const preferredLanguage = detectPreferredLanguage();
+export const preferredLanguage = detectPreferredLanguage();
 
 export const intl = createIntl(
     {
