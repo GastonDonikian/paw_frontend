@@ -28,7 +28,7 @@ const rightLoggedOut = [
 ];
 const settingsLoggedIn = [
     { text: intl.formatMessage({ id: 'profile' }), href: 'profile' },
-    { text: intl.formatMessage({ id: 'my_subjects' }), href: 'my_subjects' },
+    { text: intl.formatMessage({ id: 'my_subjects' }), href: 'mySubjects' },
     { text: intl.formatMessage({ id: 'logout' }), href: 'logout' }
 ];
 const settingsLoggedOut = [
