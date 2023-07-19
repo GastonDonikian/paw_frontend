@@ -23,6 +23,10 @@ import {intl} from "../../i18n/i18n";
 import { InputAdornment, IconButton } from "@mui/material";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
+import MenuItem from "@mui/material/MenuItem";
+import Select from "@mui/material/Select";
+import InputLabel from "@mui/material/InputLabel";
+import {red} from "@mui/material/colors";
 
 
 function Copyright(props: any) {
@@ -108,6 +112,58 @@ export default function RegisterProfessor() {
             return (<div>{error}</div>)
         return (<br/>)
     }
+
+    const locationOptions = [
+        { value: 'All', label: intl.formatMessage({id: 'all'}) },
+        { value: 'Agronomia', label: 'Agronomia' },
+        { value: 'Almagro', label: 'Almagro' },
+        { value: 'Balvanera', label: 'Balvanera' },
+        { value: 'Barracas', label: 'Barracas' },
+        { value: 'Belgrano', label: 'Belgrano' },
+        { value: 'Boedo', label: 'Boedo' },
+        { value: 'Caballito', label: 'Caballito' },
+        { value: 'Chacarita', label: 'Chacarita' },
+        { value: 'Coghlan', label: 'Coghlan' },
+        { value: 'Colegiales', label: 'Colegiales' },
+        { value: 'Constitucion', label: 'Constitucion' },
+        { value: 'Flores', label: 'Flores' },
+        { value: 'Floresta', label: 'Floresta' },
+        { value: 'LaBoca', label: 'La Boca' },
+        { value: 'LaPaternal', label: 'La Paternal' },
+        { value: 'Liniers', label: 'Liniers' },
+        { value: 'Mataderos', label: 'Mataderos' },
+        { value: 'MonteCastro', label: 'Monte Castro' },
+        { value: 'Montserrat', label: 'Montserrat' },
+        { value: 'NuevaPompeya', label: 'Nueva Pompeya' },
+        { value: 'Nunez', label: 'Nunez' },
+        { value: 'Palermo', label: 'Palermo' },
+        { value: 'ParqueAvellaneda', label: 'Parque Avellaneda' },
+        { value: 'ParqueChacabuco', label: 'Parque Chacabuco' },
+        { value: 'ParqueChas', label: 'Parque Chas' },
+        { value: 'ParquePatricios', label: 'Parque Patricios' },
+        { value: 'PuertoMadero', label: 'Puerto Madero' },
+        { value: 'Recoleta', label: 'Recoleta' },
+        { value: 'Retiro', label: 'Retiro' },
+        { value: 'Saavedra', label: 'Saavedra' },
+        { value: 'SanCristobal', label: 'San Cristobal' },
+        { value: 'SanNicolas', label: 'San Nicolas' },
+        { value: 'SanTelmo', label: 'San Telmo' },
+        { value: 'VelezSarsfield', label: 'Velez Sarsfield' },
+        { value: 'Versalles', label: 'Versalles' },
+        { value: 'VillaCrespo', label: 'Villa Crespo' },
+        { value: 'VillaDelParque', label: 'Villa Del Parque' },
+        { value: 'VillaDevoto', label: 'Villa Devoto' },
+        { value: 'VillaGeneralMitre', label: 'Villa General Mitre' },
+        { value: 'VillaLugano', label: 'Villa Lugano' },
+        { value: 'VillaLuro', label: 'Villa Luro' },
+        { value: 'VillaOrtuzar', label: 'Villa Ortuzar' },
+        { value: 'VillaPueyrredon', label: 'Villa Pueyrredon' },
+        { value: 'VillaReal', label: 'Villa Real' },
+        { value: 'VillaRiachuelo', label: 'Villa Riachuelo' },
+        { value: 'VillaSantaRita', label: 'Villa Santa Rita' },
+        { value: 'VillaSoldati', label: 'Villa Soldati' },
+        { value: 'VillaUrquiza', label: 'Villa Urquiza' },
+    ];
 
     return (
         <ThemeProvider theme={theme}>
@@ -269,17 +325,26 @@ export default function RegisterProfessor() {
                                     name="description"
                                     size="small"
                                 />
+                                <InputLabel>
+                                    {intl.formatMessage({ id: 'location' })}
+                                </InputLabel>
                                 <Field
-                                    as={TextField}
+                                    as={Select}
                                     margin="none"
                                     fullWidth
                                     id="location"
                                     data-testid="location"
                                     helperText={onError(errors['location'] || '')}
-                                    label={intl.formatMessage({ id: 'location' })}
                                     name="location"
                                     size="small"
-                                />
+                                >
+                                    <MenuItem disabled>{intl.formatMessage({ id: 'location' })}</MenuItem>
+                                    {locationOptions.map(option => (
+                                        <MenuItem key={option.value} value={option.value}>
+                                            {option.label}
+                                        </MenuItem>
+                                    ))}
+                                </Field>
                                 <Button
                                     type="submit"
                                     fullWidth

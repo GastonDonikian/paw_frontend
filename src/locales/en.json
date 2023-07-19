@@ -14,6 +14,7 @@
   "rating": "Rating",
   "modality": "Modality",
   "local": "Local",
+  "all": "All",
   "remote": "Remote",
   "in_person": "In Person",
   "level": "Level",
