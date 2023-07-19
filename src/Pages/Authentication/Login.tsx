@@ -155,14 +155,14 @@ export default function SignIn() {
                         </Button>
                         <Grid container>
                             <Grid item xs>
-                                <Link href="src/Pages#" variant="body2">
+                                <Link href="forgotpassword" variant="body2">
                                     {intl.formatMessage({ id: 'forgot_password' })}
                                 </Link>
                             </Grid>
                         </Grid>
                         <Grid container>
                             <Grid item>
-                                <Link href="src/Pages#" variant="body2">
+                                <Link href="register" variant="body2">
                                     {intl.formatMessage({ id: 'dont_have_account' })}
                                 </Link>
                             </Grid>
