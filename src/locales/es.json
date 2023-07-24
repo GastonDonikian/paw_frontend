@@ -101,6 +101,7 @@
   "error_surname_shorter": "Apellido debe ser mas corto",
   "error_surname_required": "Apellido es requerido",
   "error_phone_invalid": "Telefono es invalido",
+  "error_phone_shorter": "Telefono debe ser mas corto que {phone_max} caracteres",
   "error_schedule_shorter": "Cronograma debe ser mas corto",
   "error_studies_longer":"Estudios debe ser mas largo",
   "error_studies_shorter": "Estudios debe ser mas corto",

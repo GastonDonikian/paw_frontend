@@ -101,6 +101,7 @@
   "error_surname_shorter": "Surname should be shorter",
   "error_surname_required": "Surname is required",
   "error_phone_invalid": "Phone number is not valid",
+  "error_phone_shorter": "Phone should be shorter than {phone_max} characters",
   "error_schedule_shorter": "Schedule should be shorter",
   "error_studies_longer":"Studies should be longer",
   "error_studies_shorter": "Studies should be shorter",

@@ -26,7 +26,6 @@ import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
 import InputLabel from "@mui/material/InputLabel";
-import {red} from "@mui/material/colors";
 
 
 function Copyright(props: any) {
@@ -86,7 +85,8 @@ export default function RegisterProfessor() {
                 .min(3, intl.formatMessage({id: 'error_surname_longer'}))
                 .max(40, intl.formatMessage({id: 'error_surname_shorter'}))
                 .required(intl.formatMessage({id: 'error_surname_required'})),
-            phoneNumber: Yup.string().matches(phoneRegExp, intl.formatMessage({id: 'error_phone_invalid'})),
+            phoneNumber: Yup.string().matches(phoneRegExp, intl.formatMessage({id: 'error_phone_invalid'}))
+                .max(10, intl.formatMessage({id: 'error_phone_shorter'}, {phone_max: '10'})),
             schedule: Yup.string()
                 .max(30, intl.formatMessage({id: 'error_schedule_shorter'})),
             studies: Yup.string()
