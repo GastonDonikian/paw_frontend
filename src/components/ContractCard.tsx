@@ -10,13 +10,15 @@ const ContractCardComponent = (props: any) => {
     const [isFlipped, setIsFlipped] = useState(false);
 
     const handleCardHover = () => {
-        setIsFlipped(true);
+        setTimeout(() => {
+            setIsFlipped(true);
+        }, 500);
     };
 
     const handleCardLeave = () => {
         setTimeout(() => {
             setIsFlipped(false);
-        }, 1000);
+        }, 500);
     };
 
     let contract: ContractCardInterface = props.contract;
@@ -28,8 +30,8 @@ const ContractCardComponent = (props: any) => {
     let description: string = contract.description;
     let studies: string = contract.summaryProfessor.studies;
     let location: string = contract.summaryProfessor.location;
-    let modality: string = contract.remote + ' ' + contract.local;
-    let url: string = contract.url;
+    let isRemote: boolean = contract.remote;
+    let isLocal: boolean = contract.local;
 
     const cardFrontStyle = {
         backgroundColor: 'white',
@@ -91,10 +93,21 @@ const ContractCardComponent = (props: any) => {
                     onMouseLeave={handleCardLeave}
                     style={cardBackStyle}
                 >
-                    <Typography>{intl.formatMessage({ id: 'description' })}: {description}</Typography>
-                    <Typography>{intl.formatMessage({ id: 'studies' })}: {studies}</Typography>
-                    <Typography>{intl.formatMessage({ id: 'location' })}: {location}</Typography>
-                    <Typography>{intl.formatMessage({ id: 'modality' })}: {modality}</Typography>
+                    <Typography>
+                        {intl.formatMessage({ id: 'description' })}: {description}
+                    </Typography>
+                    <Typography>
+                        {intl.formatMessage({ id: 'studies' })}: {studies}
+                    </Typography>
+                    <Typography>
+                        {intl.formatMessage({ id: 'location' })}: {location}
+                    </Typography>
+                    <Typography>
+                        {intl.formatMessage({ id: 'modality_remote' })}: {intl.formatMessage({ id: isRemote ? 'yes' : 'no' })}
+                    </Typography>
+                    <Typography>
+                        {intl.formatMessage({ id: 'modality_local' })}: {intl.formatMessage({ id: isLocal ? 'yes' : 'no' })}
+                    </Typography>
                 </div>
             </ReactCardFlip>
         </div>
