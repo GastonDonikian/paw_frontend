@@ -13,6 +13,8 @@
   "price": "Precio",
   "rating": "Clasificacion",
   "modality": "Modo",
+  "modality_local": "Presencial",
+  "modality_remote": "Remoto",
   "local": "Local",
   "all": "Todos",
   "remote": "Remoto",

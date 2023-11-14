@@ -13,6 +13,8 @@
   "price": "Price",
   "rating": "Rating",
   "modality": "Modality",
+  "modality_local": "Local",
+  "modality_remote": "Remote",
   "local": "Local",
   "all": "All",
   "remote": "Remote",
