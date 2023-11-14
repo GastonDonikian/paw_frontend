@@ -4,6 +4,7 @@ import './verify.css';
 import {UserModel} from "../../Models/Users/User";
 import {getUserFromToken} from "../../Services/AuthHelper";
 import {intl} from "../../i18n/i18n";
+import Link from "@mui/material/Link";
 
 export default function Verified() {
     const [user, setUser] = useState<UserModel>();
@@ -36,13 +37,7 @@ export default function Verified() {
                             <li>{intl.formatMessage({ id: 'phone_number'})}: {user?.phoneNumber}</li>
                         </ul>
                         <div>
-                                <form action="" method="post">
-                                    <input type="submit"
-                                           style={{backgroundColor: '#009AC2'}}
-                                           className="text-white btn float-right login_btn" value="Start">
-                                            </input>
-                                </form>
-
+                            <Link href="/" style={{backgroundColor: '#009AC2'}} className="text-white btn float-right login_btn">{intl.formatMessage({ id: 'start' })}</Link>
                         </div>
                     </div>
                 </div>

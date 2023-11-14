@@ -24,7 +24,6 @@ export async function login(username: string,password: string,rememberMe: boolea
 }
 
 export async function getUserFromToken(){
-    // TODO: Set user in local storage
     let token = localStorage.getItem('token') === null ? sessionStorage.getItem('token') : localStorage.getItem('token');
     if(token === null)
         return undefined;

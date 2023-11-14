@@ -8,8 +8,15 @@ import { intl } from '../i18n/i18n';
 
 const ContractCardComponent = (props: any) => {
     const [isFlipped, setIsFlipped] = useState(false);
-    const handleCardFlip = () => {
-        setIsFlipped(!isFlipped);
+
+    const handleCardHover = () => {
+        setIsFlipped(true);
+    };
+
+    const handleCardLeave = () => {
+        setTimeout(() => {
+            setIsFlipped(false);
+        }, 1000);
     };
 
     let contract: ContractCardInterface = props.contract;
@@ -24,16 +31,34 @@ const ContractCardComponent = (props: any) => {
     let modality: string = contract.remote + ' ' + contract.local;
     let url: string = contract.url;
 
+    const cardFrontStyle = {
+        backgroundColor: 'white',
+        borderRadius: '8px',
+        cursor: 'pointer',
+        width: '250px',
+        height: '250px',
+    };
+
+    const cardBackStyle = {
+        backgroundColor: 'white',
+        borderRadius: '8px',
+        cursor: 'pointer',
+        width: '250px',
+        height: '250px',
+        'align-content': 'center',
+        display: 'flex',
+        'flex-direction': 'column',
+        'justify-content': 'center',
+        'align-items': 'center',
+    };
+
     return (
         <div>
             <ReactCardFlip isFlipped={isFlipped} flipDirection="horizontal">
                 <div
-                    onClick={handleCardFlip}
-                    style={{
-                        backgroundColor: 'white',
-                        borderRadius: '8px',
-                        cursor: 'pointer',
-                    }}
+                    onMouseEnter={handleCardHover}
+                    onMouseLeave={handleCardLeave}
+                    style={cardFrontStyle}
                 >
                     <Grid
                         sx={{
@@ -62,12 +87,9 @@ const ContractCardComponent = (props: any) => {
                     </Grid>
                 </div>
                 <div
-                    onClick={handleCardFlip}
-                    style={{
-                        backgroundColor: 'white',
-                        borderRadius: '8px',
-                        cursor: 'pointer',
-                    }}
+                    onMouseEnter={handleCardHover}
+                    onMouseLeave={handleCardLeave}
+                    style={cardBackStyle}
                 >
                     <Typography>{intl.formatMessage({ id: 'description' })}: {description}</Typography>
                     <Typography>{intl.formatMessage({ id: 'studies' })}: {studies}</Typography>
