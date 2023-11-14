@@ -12,6 +12,13 @@ export default function Unverified() {
         setUser(await getUserFromToken());
     }
 
+    const imageStyle = {
+        display: 'flex',
+        'flex-direction': 'column',
+        'justify-content': 'center',
+        'align-items': 'center',
+    };
+
     useEffect( () => {loadUser()}, [])
 
     return (
@@ -25,7 +32,7 @@ export default function Unverified() {
             <div className="row my-5 justify-content-center">
                 <div className="col-lg-offset-3 col-lg-6 col-md-offset-2 col-md-8 col-sm-offset-1 col-sm-10">
                     <div className="email-signature5">
-                        <div className="signature-icon">
+                        <div className="signature-icon" style={imageStyle}>
                             
                         <img src="./profilePhoto.jpeg" height={80} style={{width: '100px', height: '100px', borderRadius: '100px', margin: '10%'}} />
                         </div>
