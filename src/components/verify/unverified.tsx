@@ -5,7 +5,7 @@ import {UserModel} from "../../Models/Users/User";
 import {getUserFromToken} from "../../Services/AuthHelper";
 import {intl} from "../../i18n/i18n";
 
-export default function Verified() {
+export default function Unverified() {
     const [user, setUser] = useState<UserModel>();
 
     const loadUser = async () => {
@@ -35,6 +35,7 @@ export default function Verified() {
                             <li>{intl.formatMessage({ id: 'phone_number'})}: {user?.phoneNumber}</li>
                         </ul>
                         <div>
+                                {/*TODO corregir*/}
                                 <form action="" method="post">
                                     <input type="submit"
                                            style={{backgroundColor: '#009AC2'}}
