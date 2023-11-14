@@ -33,15 +33,7 @@ const ContractCardComponent = (props: any) => {
     let isRemote: boolean = contract.remote;
     let isLocal: boolean = contract.local;
 
-    const cardFrontStyle = {
-        backgroundColor: 'white',
-        borderRadius: '8px',
-        cursor: 'pointer',
-        width: '250px',
-        height: '250px',
-    };
-
-    const cardBackStyle = {
+    const cardStyle = {
         backgroundColor: 'white',
         borderRadius: '8px',
         cursor: 'pointer',
@@ -60,7 +52,7 @@ const ContractCardComponent = (props: any) => {
                 <div
                     onMouseEnter={handleCardHover}
                     onMouseLeave={handleCardLeave}
-                    style={cardFrontStyle}
+                    style={cardStyle}
                 >
                     <Grid
                         sx={{
@@ -91,7 +83,7 @@ const ContractCardComponent = (props: any) => {
                 <div
                     onMouseEnter={handleCardHover}
                     onMouseLeave={handleCardLeave}
-                    style={cardBackStyle}
+                    style={cardStyle}
                 >
                     <Typography>
                         {intl.formatMessage({ id: 'description' })}: {description}
