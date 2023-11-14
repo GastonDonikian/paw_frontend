@@ -17,6 +17,7 @@ import {apiGetSubject} from "../Services/SubjectService";
 import {Subject} from "../Models/Subject";
 import {apiCreateContract} from "../Services/ContractService";
 import {intl} from "../i18n/i18n";
+import Checkbox from "@mui/material/Checkbox";
 
 
 const theme = createTheme();
@@ -35,6 +36,11 @@ export default function NewContract() {
     },[])
 
     const [badCredentials, setBadCredentials] = useState(false);
+    const ModalityStyle = {
+        display: 'flex',
+        'justify-content': 'space-around',
+        'margin-bottom': 10
+    }
     const newContractFormik = {
         initialValues: {
             description: "",
@@ -112,14 +118,6 @@ export default function NewContract() {
                                     name="description"
                                     size="small"
                                 />
-                                <label>
-                                    <Field fullWidth type="checkbox" id="local" name="local"/>
-                                    {intl.formatMessage({ id: 'local'})}
-                                </label>
-                                <label>
-                                    <Field fullWidth type="checkbox" id="remote" name="remote"/>
-                                    {intl.formatMessage({ id: 'remote'})}
-                                </label>
                                 <Field
                                     as={TextField}
                                     margin="none"
@@ -130,6 +128,16 @@ export default function NewContract() {
                                     name="price"
                                     size="small"
                                 />
+                                <div style={ModalityStyle}>
+                                    <label>
+                                        <Checkbox id="local" name="local"/>
+                                        {intl.formatMessage({ id: 'local'})}
+                                    </label>
+                                    <label>
+                                        <Checkbox id="remote" name="remote"/>
+                                        {intl.formatMessage({ id: 'remote'})}
+                                    </label>
+                                </div>
                                 <Grid direction="row" justifyContent="flex-end"
   alignItems="center" sx={{display: 'flex'}}>
 
