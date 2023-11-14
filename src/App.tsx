@@ -25,6 +25,7 @@ import Class from './Pages/Class';
 import Error500 from './Pages/Errors/Error500';
 import Error404 from './Pages/Errors/Error404';
 import Error403 from './Pages/Errors/Error403';
+import ForgotPassword from "./Pages/Authentication/ForgotPassword";
 
 
 function App() {
@@ -46,6 +47,7 @@ function App() {
                 <Route path="/professorProfile/:id/" element={<ProfessorProfile/>}/>
                 <Route path="/professorProfile" element={<ProfessorProfile/>}/>
                 <Route path="/mySubjects" element={<MySubjects/>}/>
+                <Route path="/forgotpassword" element={<ForgotPassword/>}/>
                 <Route path="/editProfessorProfile" element={<EditProfessorProfile/>}/>
                 <Route path="/editStudentProfile" element={<EditStudentProfile/>}/>
                 <Route path="/newSubject" element={<NewSubject/>}/>
