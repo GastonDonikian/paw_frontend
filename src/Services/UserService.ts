@@ -7,7 +7,7 @@ import {EditStudentModel} from "../Models/Users/EditStudentModel";
 
 export async function apiGetUserById(id: number){
     let userById = "/users/" + id;
-    const response = await apiPrivate.get(userById)
+    const response = await apiPrivate.get(userById);
     return response.data;
 }
 
