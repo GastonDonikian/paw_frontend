@@ -26,6 +26,7 @@ import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
 import InputLabel from "@mui/material/InputLabel";
+import {login} from "../../Services/AuthHelper";
 
 
 function Copyright(props: any) {
@@ -100,8 +101,9 @@ export default function RegisterProfessor() {
     const handleSubmit = async (values: RegisterProfessorModel) => {
         try {
             await apiRegisterProfessor(values);
-            await apiLogin(values.email,values.password);
+            await login(values.email as string, values.password as string, false as boolean);
             navigate('/verify');
+            window.location.reload()
         } catch (error: any) {
             setBadCredentials(true);
             navigate('/register')
