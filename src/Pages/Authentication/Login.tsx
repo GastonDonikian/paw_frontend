@@ -53,18 +53,23 @@ export default function SignIn() {
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
-        let authenticationData;
+
         try {
             await login(data.get('email') as string, data.get('password') as string, rememberMe as boolean);
-            if(isVerified())
-                navigate('/');
-            else navigate('/verify');
-        } catch(error: any) {
-            if(error.response){
-                if(error.response.status === 401){
+
+                const verified = isVerified();
+                if (verified) {
+                    navigate('/');
+                } else {
+                    navigate('/verify');
+                }
+        } catch (error: any) {
+            console.error('Login error:', error);
+            if (error.response) {
+                if (error.response.status === 401) {
                     setBadCredentials(true);
                     setUserNotVerified(false);
-                } else if(error.response.status ===  403){
+                } else if (error.response.status === 403) {
                     setUserNotVerified(true);
                     setBadCredentials(false);
                     navigate("/verify");

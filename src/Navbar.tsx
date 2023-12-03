@@ -10,25 +10,34 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
-import { isAuthenticated } from "./Services/AuthHelper";
+import {getUserFromToken, isAuthenticated} from "./Services/AuthHelper";
 import "./App.css"
 import Grid from '@mui/material/Grid'
 import { useEffect, useState } from "react";
 import { intl } from "./i18n/i18n";
 
 const pagesLoggedOut = [{ text: intl.formatMessage({ id: 'professors' }), href: 'professors' }];
-const pagesLoggedIn = [
+const pagesLoggedInProfessor = [
     { text: intl.formatMessage({ id: 'professors' }), href: 'professors' },
     { text: intl.formatMessage({ id: 'my_lessons' }), href: 'myLessons' },
     { text: intl.formatMessage({ id: 'my_students' }), href: 'myStudents' }
+];
+const pagesLoggedInStudent = [
+    { text: intl.formatMessage({ id: 'professors' }), href: 'professors' },
+    { text: intl.formatMessage({ id: 'my_classes' }), href: 'myLessons' },
 ];
 const rightLoggedOut = [
     { text: intl.formatMessage({ id: 'register' }), href: 'register' },
     { text: intl.formatMessage({ id: 'login' }), href: 'login' }
 ];
-const settingsLoggedIn = [
+const settingsLoggedInProfessor = [
     { text: intl.formatMessage({ id: 'profile' }), href: 'profile' },
     { text: intl.formatMessage({ id: 'my_subjects' }), href: 'mySubjects' },
+    { text: intl.formatMessage({ id: 'logout' }), href: 'logout' }
+];
+const settingsLoggedInStudent = [
+    { text: intl.formatMessage({ id: 'profile' }), href: 'profile' },
+    { text: intl.formatMessage({ id: 'my_classes' }), href: 'mySubjects' },
     { text: intl.formatMessage({ id: 'logout' }), href: 'logout' }
 ];
 const settingsLoggedOut = [
@@ -43,9 +52,19 @@ function Navbar() {
     const [pages, setPages] = useState<{ text: string, href: string }[]>([])
 
     useEffect(() => {
-        setSettings(isAuthenticated() ? settingsLoggedIn : settingsLoggedOut);
-        setPages(isAuthenticated() ? pagesLoggedIn : pagesLoggedOut);
-    }, [])
+        getUserFromToken().then((user) => {
+            // TODO CHANGE TO user.is_professor WHEN field is_professor is being sent
+            if (isAuthenticated()) {
+                setSettings(user ? settingsLoggedInProfessor : settingsLoggedInStudent);
+                setPages(user ? pagesLoggedInProfessor : pagesLoggedInStudent);
+            } else {
+                setSettings(settingsLoggedOut);
+                setPages(pagesLoggedOut);
+            }
+        });
+    }, []);
+
+
 
     const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorElNav(event.currentTarget);

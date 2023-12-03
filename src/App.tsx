@@ -26,6 +26,7 @@ import Error500 from './Pages/Errors/Error500';
 import Error404 from './Pages/Errors/Error404';
 import Error403 from './Pages/Errors/Error403';
 import ForgotPassword from "./Pages/Authentication/ForgotPassword";
+import ErrorBoundary from "./ErrorBoundary";
 
 
 function App() {
@@ -35,31 +36,32 @@ function App() {
        {!isErrorRoute() && <Navbar />}
         <Router>
             <Routes>
-                <Route path="/" element={<Home/>}/>
-                <Route path="/professors" element={<Contracts/>}/>
-                <Route path="/login" element={<Login/>}/>
-                <Route path="/logout" element={<Logout/>}/>
-                <Route path="/register" element={<Register/>}/>
-                <Route path="/registerStudent" element={<RegisterStudent/>}/>
-                <Route path="/registerProfessor" element={<RegisterProfessor/>}/>
-                <Route path="/verify" element={<Verify/>}/>
-                <Route path="/profile" element={<StudentProfile/>}/>
-                <Route path="/professorProfile/:id/" element={<ProfessorProfile/>}/>
-                <Route path="/professorProfile" element={<ProfessorProfile/>}/>
-                <Route path="/mySubjects" element={<MySubjects/>}/>
-                <Route path="/forgotpassword" element={<ForgotPassword/>}/>
-                <Route path="/editProfessorProfile" element={<EditProfessorProfile/>}/>
-                <Route path="/editStudentProfile" element={<EditStudentProfile/>}/>
-                <Route path="/newSubject" element={<NewSubject/>}/>
-                <Route path="/addSubjects" element={<Subjects/>}/>
-                <Route path="/newContract/:id/" element={<NewContract/>}/>
-                <Route path="/myStudents" element={<MyStudents/>}/>
-                <Route path="/myLessons" element={<MyLessons/>}/>
-                <Route path="/classroom/:id/" element={<Class/>}/>
-                <Route path="/class" element={<Class/>}/>
-                <Route path="/error404" element={<Error404 />} />
-                <Route path="/error403" element={<Error403 />} />
-                <Route path="/error500" element={<Error500 />} />
+                    <Route path="/" element={<Home/>}/>
+                    <Route path="/professors" element={<Contracts/>}/>
+                    <Route path="/login" element={<Login/>}/>
+                    <Route path="/logout" element={<Logout/>}/>
+                    <Route path="/register" element={<Register/>}/>
+                    <Route path="/registerStudent" element={<RegisterStudent/>}/>
+                    <Route path="/registerProfessor" element={<RegisterProfessor/>}/>
+                    <Route path="/verify" element={<Verify/>}/>
+                    <Route path="/profile" element={<StudentProfile/>}/>
+                    <Route path="/professorProfile/:id/" element={<ProfessorProfile/>}/>
+                    <Route path="/professorProfile" element={<ProfessorProfile/>}/>
+                    <Route path="/mySubjects" element={<MySubjects/>}/>
+                    <Route path="/forgotpassword" element={<ForgotPassword/>}/>
+                    <Route path="/editProfessorProfile" element={<EditProfessorProfile/>}/>
+                    <Route path="/editStudentProfile" element={<EditStudentProfile/>}/>
+                    <Route path="/newSubject" element={<NewSubject/>}/>
+                    <Route path="/addSubjects" element={<Subjects/>}/>
+                    <Route path="/newContract/:id/" element={<NewContract/>}/>
+                    <Route path="/myStudents" element={<MyStudents/>}/>
+                    <Route path="/myLessons" element={<MyLessons/>}/>
+                    <Route path="/classroom/:id/" element={<Class/>}/>
+                    <Route path="/class" element={<Class/>}/>
+                    <Route path="/error404" element={<Error404 />} />
+                    <Route path="/error403" element={<Error403 />} />
+                    <Route path="/error500" element={<Error500 />} />
+                    <Route path="*" element={<Error404 />} />
             </Routes>
       </Router>
       

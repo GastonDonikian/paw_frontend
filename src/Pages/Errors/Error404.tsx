@@ -30,7 +30,7 @@ export default function Error404(){
                         </div>
                     </div>
                     <h4>{intl.formatMessage({ id: 'error_problem'})}</h4>
-                    <p>{intl.formatMessage({ id: 'error_removed'})}</p>
+                    <p style={{ color: 'black' }}>{intl.formatMessage({ id: 'error_removed'})}</p>
                     <a href="/" className="btn btn-primary btn-round">{intl.formatMessage({ id: 'error_back'})}</a>
                 </div>
             </div>
