@@ -7,15 +7,33 @@ export const apiPublic = axios.create({
 export const apiPrivate = axios.create({
     baseURL: `${process.env.PUBLIC_URL}/`,
     headers: {
-        Authorization: "Bearer " + (window.localStorage.getItem('token') === null ? window.sessionStorage.getItem('token') : window.localStorage.getItem("token")),
         "Content-Type": "application/json",
     },
+});
+
+apiPrivate.interceptors.request.use((config) => {
+    const token = window.localStorage.getItem('token') || window.sessionStorage.getItem('token');
+
+    if (token) {
+        config.headers.Authorization = `Bearer ${token}`;
+    }
+
+    return config;
 });
 
 export const axiosPrivate = axios.create({
     baseURL: "",
     headers: {
-        Authorization: "Bearer " + (window.localStorage.getItem('token') === null ? window.sessionStorage.getItem('token') : window.localStorage.getItem("token")),
         "Content-Type": "application/json",
     },
+});
+
+axiosPrivate.interceptors.request.use((config) => {
+    const token = window.localStorage.getItem('token') || window.sessionStorage.getItem('token');
+
+    if (token) {
+        config.headers.Authorization = `Bearer ${token}`;
+    }
+
+    return config;
 });

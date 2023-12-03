@@ -56,13 +56,13 @@ export default function SignIn() {
 
         try {
             await login(data.get('email') as string, data.get('password') as string, rememberMe as boolean);
-
                 const verified = isVerified();
                 if (verified) {
                     navigate('/');
                 } else {
                     navigate('/verify');
                 }
+            window.location.reload()
         } catch (error: any) {
             console.error('Login error:', error);
             if (error.response) {

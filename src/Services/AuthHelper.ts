@@ -3,10 +3,8 @@ import {apiGetUserById} from "./UserService";
 import jwt from "jwt-decode";
 
 export async function login(username: string,password: string,rememberMe: boolean){
-    console.log(username + " " + password + " " + rememberMe);
     let authenticationData;
     authenticationData = await apiLogin(username, password);
-    console.log(authenticationData)
     let token;
     if(authenticationData.headers.authorization !== undefined)
         token = authenticationData.headers.authorization.substring("Bearer ".length);
@@ -27,8 +25,8 @@ export async function getUserFromToken(){
     let token = localStorage.getItem('token') === null ? sessionStorage.getItem('token') : localStorage.getItem('token');
     if(token === null)
         return undefined;
-    //@ts-ignore
-    let user = await apiGetUserById(jwt(token)['id']);
+    const id = (jwt(token) as { id: number })['id'];
+    let user = await apiGetUserById(id);
     return user
 
 }
@@ -60,8 +58,16 @@ export function logout() {
 
 export function isAuthenticated(){
     let token = localStorage.getItem('token') === null ? sessionStorage.getItem('token') : localStorage.getItem('token');
-    // @ts-ignore
-    return token && jwt(token)['exp'] <= Date.now();
+    console.log(localStorage.getItem('token') === null)
+    console.log(sessionStorage.getItem('token'))
+    console.log(localStorage.getItem('token'))
+    console.log(token)
+    if(token === null)
+        return undefined;
+    const exp = (jwt(token) as { exp: number }).exp;
+    console.log('llegue final')
+    console.log(token && exp <= Date.now())
+    return token && exp <= Date.now();
 }
 
 

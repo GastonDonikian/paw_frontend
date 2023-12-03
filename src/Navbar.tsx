@@ -53,7 +53,7 @@ function Navbar() {
 
     useEffect(() => {
         getUserFromToken().then((user) => {
-            // TODO CHANGE TO user.is_professor WHEN field is_professor is being sent
+            console.log(isAuthenticated())
             if (isAuthenticated()) {
                 setSettings(user ? settingsLoggedInProfessor : settingsLoggedInStudent);
                 setPages(user ? pagesLoggedInProfessor : pagesLoggedInStudent);
@@ -63,8 +63,6 @@ function Navbar() {
             }
         });
     }, []);
-
-
 
     const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorElNav(event.currentTarget);
