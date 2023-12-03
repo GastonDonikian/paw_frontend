@@ -53,7 +53,6 @@ function Navbar() {
 
     useEffect(() => {
         getUserFromToken().then((user) => {
-            console.log(isAuthenticated())
             if (isAuthenticated()) {
                 setSettings(user ? settingsLoggedInProfessor : settingsLoggedInStudent);
                 setPages(user ? pagesLoggedInProfessor : pagesLoggedInStudent);

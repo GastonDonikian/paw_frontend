@@ -26,7 +26,6 @@ import Error500 from './Pages/Errors/Error500';
 import Error404 from './Pages/Errors/Error404';
 import Error403 from './Pages/Errors/Error403';
 import ForgotPassword from "./Pages/Authentication/ForgotPassword";
-import ErrorBoundary from "./ErrorBoundary";
 
 
 function App() {

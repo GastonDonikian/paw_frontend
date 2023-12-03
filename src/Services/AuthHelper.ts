@@ -58,14 +58,9 @@ export function logout() {
 
 export function isAuthenticated(){
     let token = localStorage.getItem('token') === null ? sessionStorage.getItem('token') : localStorage.getItem('token');
-    console.log(localStorage.getItem('token') === null)
-    console.log(sessionStorage.getItem('token'))
-    console.log(localStorage.getItem('token'))
-    console.log(token)
     if(token === null)
         return undefined;
     const exp = (jwt(token) as { exp: number }).exp;
-    console.log('llegue final')
     console.log(token && exp <= Date.now())
     return token && exp <= Date.now();
 }
